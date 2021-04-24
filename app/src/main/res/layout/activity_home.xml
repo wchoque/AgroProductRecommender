@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <Button
+        android:id="@+id/buttonHorarioClases"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="106dp"
+        android:text="@string/optionHorarioClases"
+        tools:layout_editor_absoluteY="441dp" />
+
+    <Button
+        android:id="@+id/buttonServiciosAtencion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/optionServiciosAtencion"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_editor_absoluteY="243dp" />
+
+    <Button
+        android:id="@+id/buttonSedes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="124dp"
+        android:layout_marginBottom="71dp"
+        android:text="@string/optionSedes"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="149dp"
+        android:text="@string/optionChat"
+        app:layout_constraintTop_toBottomOf="@+id/buttonHorarioClases" />
+
+    <Button
+        android:id="@+id/buttonBoletas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/optionBoletas"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="344dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
