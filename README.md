@@ -5,7 +5,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 * Android
  > https://developer.android.com/studio
-* Git last version
+* Git
  > https://git-scm.com/downloads
-* GitHub desktop
+* GitHub Desktop
  > https://desktop.github.com/
