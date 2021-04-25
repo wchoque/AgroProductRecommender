@@ -11,10 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:menu="@menu/bottom_menu">
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_menu"></com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <fragment
         android:id="@+id/fragment"
@@ -25,15 +24,21 @@
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/my_nav"/>
+        app:layout_constraintVertical_bias="0.0"
+        app:navGraph="@navigation/my_nav" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Holaa"
-        tools:layout_editor_absoluteX="173dp"
-        tools:layout_editor_absoluteY="258dp" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnMapas"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginBottom="120dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_baseline_location_on_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
