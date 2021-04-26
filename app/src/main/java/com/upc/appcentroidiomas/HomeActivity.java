@@ -16,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeActivity extends AppCompatActivity {
 
-    FloatingActionButton btnMapas;
+    FloatingActionButton btnMapas, btnCursos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this,ActivityMapa.class);
+                startActivity(intent);
+            }
+        });
+        btnCursos = findViewById(R.id.btnCursos);
+        btnCursos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this,ActivityCursos.class);
                 startActivity(intent);
             }
         });
