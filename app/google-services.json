@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "842624245912",
+    "firebase_url": "https://appidiomasupc-default-rtdb.firebaseio.com",
+    "project_id": "appidiomasupc",
+    "storage_bucket": "appidiomasupc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842624245912:android:8031ceb07ce716a5a270ed",
+        "android_client_info": {
+          "package_name": "com.upc.appcentroidiomas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842624245912-h7hv7vs2illlbggdpp8vp2e0t4vuuvos.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.upc.appcentroidiomas",
+            "certificate_hash": "feb446086176bc7ee76141ea2220a0c19504a73f"
+          }
+        },
+        {
+          "client_id": "842624245912-6l6b7eugi099d1jvccu16ssknrta9f71.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN3CkWXUWzaQpC674dXn9cmaco9NekTEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842624245912-6l6b7eugi099d1jvccu16ssknrta9f71.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
