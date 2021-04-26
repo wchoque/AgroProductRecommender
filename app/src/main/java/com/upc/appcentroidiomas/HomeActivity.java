@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
-    FloatingActionButton btnMapas, btnCursos;
+    FloatingActionButton btnMapas, btnCursos, btnPerfil;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -39,29 +39,29 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        loadFragment(new DashboardFragment());
+        //loadFragment(new DashboardFragment());
         asignarReferencias();
         inicializarFirebase();
         listarDatos();
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.dashboardFragment:
-                    loadFragment(new DashboardFragment());
-                    break;
-                case R.id.chatFragment:
-                    loadFragment(new ChatFragment());
-                    break;
-                case R.id.profileFragment:
-                    loadFragment(new ProfileFragment());
-                    break;
-            }
-            return false;
-        });
+        //BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+//            switch (item.getItemId()){
+//                case R.id.dashboardFragment:
+//                    loadFragment(new DashboardFragment());
+//                    break;
+//                case R.id.chatFragment:
+//                    loadFragment(new ChatFragment());
+//                    break;
+//                case R.id.profileFragment:
+//                    loadFragment(new ProfileFragment());
+//                    break;
+//            }
+//            return false;
+//        });
     }
 
-    private void loadFragment(Fragment fragment){
+   /* private void loadFragment(Fragment fragment){
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment, fragment)
@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .addToBackStack(null)
                 .commit();
-    }
+    }*/
 
     private void asignarReferencias(){
         btnMapas = findViewById(R.id.btnMapas);
@@ -79,6 +79,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
         btnCursos = findViewById(R.id.btnCursos);
         btnCursos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +89,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        btnCursos = findViewById(R.id.btnPerfil);
+        btnCursos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void inicializarFirebase(){
