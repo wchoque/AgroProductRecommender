@@ -6,7 +6,7 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -17,8 +17,7 @@
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCentroIdiomas">
-        <activity
-            android:name=".ActivityCursos"
+        <activity android:name=".ActivityCursos"
             android:label="Registrar Cursos" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
