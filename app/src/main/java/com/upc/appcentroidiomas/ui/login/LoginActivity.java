@@ -41,9 +41,11 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         if (loginRepository.isLoggedIn()){
+            finish();
             Intent myIntent = new Intent(this, HomeActivity.class);
             myIntent.putExtra("name", "asdasd"); //Optional parameters
             startActivity(myIntent);
+            return;
         }
         setContentView(R.layout.activity_login);
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
