@@ -25,16 +25,26 @@ import android.widget.Toast;
 
 import com.upc.appcentroidiomas.HomeActivity;
 import com.upc.appcentroidiomas.R;
+import com.upc.appcentroidiomas.data.LoginDataSource;
+import com.upc.appcentroidiomas.data.LoginRepository;
 import com.upc.appcentroidiomas.ui.login.LoginViewModel;
 import com.upc.appcentroidiomas.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private LoginRepository loginRepository;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        loginRepository = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext());
+
         super.onCreate(savedInstanceState);
+        if (loginRepository.isLoggedIn()){
+            Intent myIntent = new Intent(this, HomeActivity.class);
+            myIntent.putExtra("name", "asdasd"); //Optional parameters
+            startActivity(myIntent);
+        }
         setContentView(R.layout.activity_login);
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);

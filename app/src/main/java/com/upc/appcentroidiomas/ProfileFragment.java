@@ -1,5 +1,6 @@
 package com.upc.appcentroidiomas;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.upc.appcentroidiomas.data.LoginDataSource;
+import com.upc.appcentroidiomas.data.LoginRepository;
+import com.upc.appcentroidiomas.data.model.LoggedInUser;
+import com.upc.appcentroidiomas.ui.login.LoginActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,7 +67,29 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        LoginRepository logingRepository = LoginRepository.getInstance(new LoginDataSource(), this.getContext());
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        TextView profileUserName = view.findViewById(R.id.profileUserName);
+        if (logingRepository.isLoggedIn()){
+            LoggedInUser user =  logingRepository.getLoggedUser();
+            //profileUserName.setText(user.getDisplayName());
+            profileUserName.setText("asdadasdasdasdas asd asd");
+        }
+
+        Button buttonLogout = view.findViewById(R.id.profileBtnLogout);
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logingRepository.logout();
+                onDestroy();
+                Intent myIntent = new Intent(getActivity(), LoginActivity.class);
+                myIntent.putExtra("name", "asdasd"); //Optional parameters
+                startActivity(myIntent);
+            }
+        });
+        //return inflater.inflate(R.layout.fragment_profile, container, false);
+        return view;
     }
 }
