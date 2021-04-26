@@ -31,9 +31,7 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
-    ListView lstCurso;
-    ArrayList<Curso> listaCursos = new ArrayList<>();
-    ArrayAdapter<Curso> cursoArrayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
         //loadFragment(new DashboardFragment());
         asignarReferencias();
         inicializarFirebase();
-        listarDatos();
+
 
         //BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 //        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -105,23 +103,5 @@ public class HomeActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference();
     }
 
-    private void listarDatos(){
-        databaseReference.child("Curso").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listaCursos.clear();
-                for (DataSnapshot item:snapshot.getChildren()){
-                    Curso c = item.getValue(Curso.class);
-                    listaCursos.add(c);
-                }
-                cursoArrayAdapter = new ArrayAdapter<>(HomeActivity.this, android.R.layout.simple_list_item_1,listaCursos);
-                lstCurso.setAdapter(cursoArrayAdapter);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 }
