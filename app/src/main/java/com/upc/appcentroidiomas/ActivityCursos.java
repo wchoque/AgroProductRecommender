@@ -1,5 +1,3 @@
-
-
 package com.upc.appcentroidiomas;
 
 import android.os.Bundle;
