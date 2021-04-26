@@ -2,6 +2,7 @@ package com.upc.appcentroidiomas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +22,7 @@ public class ActivityCursos extends AppCompatActivity {
         DatabaseReference databaseReference;
 
         EditText txtCurso, txtSeccion, txtHorario;
-        Button btnRegistrarCurso;
+        Button btnRegistrarCurso, btnListarCursos;
 
         String curso, seccion, horario;
 
@@ -42,6 +43,14 @@ public class ActivityCursos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                     registrar();
+            }
+        });
+        btnListarCursos = findViewById(R.id.btnListarCursos);
+        btnListarCursos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityCursos.this,ListaCursosActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -10,13 +10,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
     FloatingActionButton btnMapas, btnCursos;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
+    ListView lstCurso;
+    ArrayList<Curso> listaCursos = new ArrayList<>();
+    ArrayAdapter<Curso> cursoArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +41,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         loadFragment(new DashboardFragment());
         asignarReferencias();
+        inicializarFirebase();
+        listarDatos();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -70,5 +89,31 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void inicializarFirebase(){
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+    }
+
+    private void listarDatos(){
+        databaseReference.child("Curso").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaCursos.clear();
+                for (DataSnapshot item:snapshot.getChildren()){
+                    Curso c = item.getValue(Curso.class);
+                    listaCursos.add(c);
+                }
+                cursoArrayAdapter = new ArrayAdapter<>(HomeActivity.this, android.R.layout.simple_list_item_1,listaCursos);
+                lstCurso.setAdapter(cursoArrayAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
