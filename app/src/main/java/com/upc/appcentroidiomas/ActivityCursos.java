@@ -16,13 +16,13 @@ import java.util.UUID;
 
 public class ActivityCursos extends AppCompatActivity {
 
-        FirebaseDatabase firebaseDatabase;
-        DatabaseReference databaseReference;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
-        EditText txtCurso, txtSeccion, txtHorario;
-        Button btnRegistrarCurso;
+    EditText txtCurso, txtSeccion, txtHorario;
+    Button btnRegistrarCurso;
 
-        String curso, seccion, horario;
+    String curso, seccion, horario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class ActivityCursos extends AppCompatActivity {
         btnRegistrarCurso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    registrar();
+                registrar();
             }
         });
     }
@@ -82,3 +82,4 @@ public class ActivityCursos extends AppCompatActivity {
     }
 
 }
+>>>>>>> develop
