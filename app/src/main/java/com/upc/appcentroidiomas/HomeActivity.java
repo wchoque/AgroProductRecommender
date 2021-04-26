@@ -76,8 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         btnMapas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this,ActivityMapa.class);
-                startActivity(intent);
+               
             }
         });
         btnCursos = findViewById(R.id.btnCursos);
