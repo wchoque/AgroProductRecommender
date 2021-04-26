@@ -35,24 +35,24 @@ public class ActivityCursos extends AppCompatActivity {
     }
 
     private void asignarReferencias(){
-       // txtCurso = findViewById(R.id.txtCurso);
-      //  txtSeccion = findViewById(R.id.txtSeccion);
-      //  txtHorario = findViewById(R.id.txtHorario);
-     //   btnRegistrarCurso = findViewById(R.id.btnRegistrarCurso);
-      //  btnRegistrarCurso.setOnClickListener(new View.OnClickListener() {
-      //      @Override
-       //     public void onClick(View v) {
-      //              registrar();
-      //      }
-       // });
-      //  btnListarCursos = findViewById(R.id.btnListarCursos);
-       // btnListarCursos.setOnClickListener(new View.OnClickListener() {
-      //      @Override
-      //      public void onClick(View v) {
-       //         Intent intent = new Intent(ActivityCursos.this,ListaCursosActivity.class);
-      //          startActivity(intent);
-     //       }
-    //    });
+        txtCurso = findViewById(R.id.txtCurso);
+       txtSeccion = findViewById(R.id.txtSeccion);
+       txtHorario = findViewById(R.id.txtHorario);
+      btnRegistrarCurso = findViewById(R.id.btnRegistrarCurso);
+       btnRegistrarCurso.setOnClickListener(new View.OnClickListener() {
+          @Override
+           public void onClick(View v) {
+                   registrar();
+          }
+       });
+       btnListarCursos = findViewById(R.id.btnListarCursos);
+        btnListarCursos.setOnClickListener(new View.OnClickListener() {
+            @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(ActivityCursos.this,ListaCursosActivity.class);
+               startActivity(intent);
+           }
+       });
     }
 
     private void registrar(){
