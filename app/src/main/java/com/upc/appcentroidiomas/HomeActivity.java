@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         btnMapas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               
+
             }
         });
         btnCursos = findViewById(R.id.btnCursos);
