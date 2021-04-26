@@ -1,6 +1,6 @@
 package com.upc.appcentroidiomas;
 
-import androidx.appcompat.app.AppCompatActivity;
+
 
 
 import android.os.Bundle;
