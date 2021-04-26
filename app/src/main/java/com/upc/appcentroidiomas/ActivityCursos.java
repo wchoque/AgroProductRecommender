@@ -1,21 +1,26 @@
 package com.upc.appcentroidiomas;
 
-
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class ActivityCursos extends AppCompatActivity {
@@ -24,7 +29,7 @@ public class ActivityCursos extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     EditText txtCurso, txtSeccion, txtHorario;
-    Button btnRegistrarCurso, btnListarCursos;
+    Button btnRegistrarCurso;
 
     String curso, seccion, horario;
 
@@ -35,7 +40,6 @@ public class ActivityCursos extends AppCompatActivity {
         inicializarFirebase();
         asignarReferencias();
     }
-
     private void asignarReferencias(){
         txtCurso = findViewById(R.id.txtCurso);
         txtSeccion = findViewById(R.id.txtSeccion);
@@ -45,18 +49,10 @@ public class ActivityCursos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 registrar();
-            }
-        });
-        btnListarCursos = findViewById(R.id.btnListarCursos);
-        btnListarCursos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ActivityCursos.this,ListaCursosActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }
-
     private void registrar(){
         curso = txtCurso.getText().toString();
         seccion = txtSeccion.getText().toString();
@@ -74,7 +70,6 @@ public class ActivityCursos extends AppCompatActivity {
             Toast.makeText(this, "Curso Agregado", Toast.LENGTH_SHORT).show();
         }
     }
-
     private void mostrarErrores(){
         if (curso.equals("")){
             txtCurso.setError("Requerido");
