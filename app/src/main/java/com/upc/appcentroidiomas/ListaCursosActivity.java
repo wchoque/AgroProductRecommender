@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
@@ -29,11 +31,13 @@ public class ListaCursosActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
-    ListView lstCursos;
+   // ListView lstCursos;
+    RecyclerView recyclerCursos;
     FloatingActionButton btnAgregarCurso;
 
     ArrayList<Curso> listaCursos = new ArrayList<>();
-    ArrayAdapter<Curso> cursoArrayAdapter;
+    //ArrayAdapter<Curso> cursoArrayAdapter;
+    AdaptadorPersonalizadoCurso adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,8 @@ public class ListaCursosActivity extends AppCompatActivity {
 
     }
     private void asignarReferencias(){
-        lstCursos =findViewById(R.id.lstCursos);
+        //lstCursos =findViewById(R.id.lstCursos);
+        recyclerCursos = findViewById(R.id.recyclerCursos);
         btnAgregarCurso = findViewById(R.id.btnAgregarCurso);
         btnAgregarCurso.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +77,12 @@ public class ListaCursosActivity extends AppCompatActivity {
                     listaCursos.add(c);
                 }
 
-                cursoArrayAdapter = new ArrayAdapter<>(ListaCursosActivity.this, android.R.layout.simple_list_item_1,listaCursos);
-                lstCursos.setAdapter(cursoArrayAdapter);
+               // cursoArrayAdapter = new ArrayAdapter<>(ListaCursosActivity.this, android.R.layout.simple_list_item_1,listaCursos);
+              //  lstCursos.setAdapter(cursoArrayAdapter);
+
+                adaptador = new AdaptadorPersonalizadoCurso(ListaCursosActivity.this, listaCursos);
+                recyclerCursos.setAdapter(adaptador);
+                recyclerCursos.setLayoutManager(new LinearLayoutManager(ListaCursosActivity.this ));
             }
 
             @Override
