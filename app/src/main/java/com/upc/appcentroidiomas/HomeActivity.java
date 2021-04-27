@@ -74,7 +74,8 @@ public class HomeActivity extends AppCompatActivity {
         btnMapas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(HomeActivity.this,ActivityMapa.class);
+                startActivity(intent);
             }
         });
 
@@ -82,7 +83,7 @@ public class HomeActivity extends AppCompatActivity {
         btnCursos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this,ActivityCursos.class);
+                Intent intent = new Intent(HomeActivity.this,ListaCursosActivity.class);
                 startActivity(intent);
             }
         });
