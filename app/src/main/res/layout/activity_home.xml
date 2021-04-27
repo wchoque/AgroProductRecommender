@@ -32,79 +32,97 @@
         app:layout_constraintVertical_bias="0.0"
         app:navGraph="@navigation/my_nav" />-->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="63dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="236dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_home_24" />
+ <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/floatingActionButton6"
+     android:layout_width="63dp"
+     android:layout_height="60dp"
+     android:clickable="true"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.615"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.606"
+     app:srcCompat="@drawable/ic_baseline_home_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="63dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginBottom="236dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_baseline_chat_24" />
+ <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/floatingActionButton7"
+     android:layout_width="63dp"
+     android:layout_height="72dp"
+     android:clickable="true"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.275"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.604"
+     app:srcCompat="@drawable/ic_baseline_chat_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="63dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="360dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_insert_drive_file_24" />
+ <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/floatingActionButton5"
+     android:layout_width="63dp"
+     android:layout_height="60dp"
+     android:clickable="true"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.615"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.447"
+     app:srcCompat="@drawable/ic_baseline_insert_drive_file_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="63dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginBottom="360dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_baseline_schedule_24" />
+ <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/floatingActionButton4"
+     android:layout_width="63dp"
+     android:layout_height="72dp"
+     android:clickable="true"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.275"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.444"
+     app:srcCompat="@drawable/ic_baseline_schedule_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnMapas"
-        android:layout_width="63dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginBottom="476dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_baseline_location_on_24" />
+ <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/btnMapas"
+     android:layout_width="63dp"
+     android:layout_height="72dp"
+     android:clickable="true"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.275"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.287"
+     app:srcCompat="@drawable/ic_baseline_location_on_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnCursos"
-        android:layout_width="63dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginBottom="476dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_school_24" />
+ <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/btnCursos"
+     android:layout_width="63dp"
+     android:layout_height="60dp"
+     android:clickable="true"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.615"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.286"
+     app:srcCompat="@drawable/ic_baseline_school_24" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnPerfil"
-        android:layout_width="63dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="632dp"
-        android:clickable="true"
-        android:tooltipText="Mi perfil"
-        app:backgroundTint="#ffa500"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_person_24" />
+ <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/btnPerfil"
+     android:layout_width="63dp"
+     android:layout_height="60dp"
+     android:clickable="true"
+     android:tooltipText="Mi perfil"
+     app:backgroundTint="#ffa500"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.737"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.108"
+     app:srcCompat="@drawable/ic_baseline_person_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
