@@ -62,6 +62,8 @@ public class LoginRepository {
 
         //prefs = getSharedPreferences("logindetail", 0);
         SharedPreferences.Editor edit = Loginprefs.edit();
+        edit.putString("userId", Integer.toString(user.getUserId()));
+        edit.putString("displayName", user.getDisplayName());
         edit.putString("userLoginStatus", "yes");
         edit.commit();
         // If user credentials will be cached in local storage, it is recommended it be encrypted
@@ -69,6 +71,15 @@ public class LoginRepository {
     }
 
     public LoggedInUser getLoggedUser() {
+        String userId = Loginprefs.getString("userId", null);
+        String displayName = Loginprefs.getString("displayName", null);
+
+        if (userId == null){
+            this.user = new LoggedInUser(0, displayName);
+        }else{
+            this.user = new LoggedInUser(Integer.parseInt(userId), displayName);
+        }
+
         return this.user;
     }
 
