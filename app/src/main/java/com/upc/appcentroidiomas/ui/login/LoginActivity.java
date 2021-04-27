@@ -1,17 +1,8 @@
 package com.upc.appcentroidiomas.ui.login;
 
 import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -23,12 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.upc.appcentroidiomas.HomeActivity;
 import com.upc.appcentroidiomas.R;
 import com.upc.appcentroidiomas.data.LoginDataSource;
 import com.upc.appcentroidiomas.data.LoginRepository;
-import com.upc.appcentroidiomas.ui.login.LoginViewModel;
-import com.upc.appcentroidiomas.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,9 +36,11 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         if (loginRepository.isLoggedIn()){
+            finish();
             Intent myIntent = new Intent(this, HomeActivity.class);
             myIntent.putExtra("name", "asdasd"); //Optional parameters
             startActivity(myIntent);
+            return;
         }
         setContentView(R.layout.activity_login);
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())

@@ -88,8 +88,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        btnCursos = findViewById(R.id.btnPerfil);
-        btnCursos.setOnClickListener(new View.OnClickListener() {
+        btnPerfil = findViewById(R.id.btnPerfil);
+        btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
