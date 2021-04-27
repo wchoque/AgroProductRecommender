@@ -1,6 +1,7 @@
 package com.upc.appcentroidiomas.data;
 
-import com.upc.appcentroidiomas.LoginApi;
+import com.upc.appcentroidiomas.api.ApiContants;
+import com.upc.appcentroidiomas.api.LoginApi;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.data.model.LoginModel;
 import com.upc.appcentroidiomas.data.model.LoginResponse;
@@ -38,7 +39,7 @@ public class LoginDataSource {
            call.enqueue(new Callback<LoginResponse>() {
                 @ Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    LoggedInUser fakeUser = new LoggedInUser(randomUUID().toString(), response.body().displayName);
+                    LoggedInUser fakeUser = new LoggedInUser(0, response.body().displayName);
                     //return fakeUser;
                     //return new LoggedInUser(fakeUser);
                 }
@@ -50,7 +51,7 @@ public class LoginDataSource {
                     //Toast.makeText(this, "sssssssssssss", Toast.LENGTH_LONG);
                 }
             });
-            LoggedInUser fakeUser = new LoggedInUser(randomUUID().toString(), "asdasdas");
+            LoggedInUser fakeUser = new LoggedInUser(0, "asdasdas");
             return new Result.Success<>(fakeUser);
 
             //if (!username.equals("admin") && !password.equals("123456")){
