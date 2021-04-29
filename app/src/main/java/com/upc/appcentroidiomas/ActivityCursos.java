@@ -53,7 +53,7 @@ public class ActivityCursos extends AppCompatActivity {
             indregistrar = false;
             setTitle("Actualizar Curso");
             titulo.setText("Actualizar Curso");
-            id = getIntent().getStringExtra("id");
+            id= getIntent().getStringExtra("id");
             txtCurso.setText(getIntent().getStringExtra("curso"));
             txtSeccion.setText(getIntent().getStringExtra("seccion"));
             txtHorario.setText(getIntent().getStringExtra("horario"));

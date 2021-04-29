@@ -2,17 +2,17 @@ package com.upc.appcentroidiomas.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
-    @SerializedName("id")
-    public int id;
+public class UserInformationResponse {
     @SerializedName("firstName")
     public String firstName;
     @SerializedName("lastName")
     public String lastName;
+    @SerializedName("phoneNumber")
+    public String phoneNumber;
     @SerializedName("email")
     public String email;
-    @SerializedName("avatar")
-    public String avatar;
-    @SerializedName("displayName")
-    public String displayName;
+    @SerializedName("imageUrl")
+    public String imageUrl;
+    @SerializedName("dni")
+    public String dni;
 }

@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.upc.appcentroidiomas.LoginApi;
-import com.upc.appcentroidiomas.data.ApiContants;
+import com.upc.appcentroidiomas.api.LoginApi;
+import com.upc.appcentroidiomas.api.ApiContants;
 import com.upc.appcentroidiomas.data.LoginRepository;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.R;
@@ -59,7 +59,7 @@ public class LoginViewModel extends ViewModel {
             @ Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()){
-                    LoggedInUser loggedInUser = new LoggedInUser(randomUUID().toString(), response.body().displayName);
+                    LoggedInUser loggedInUser = new LoggedInUser(response.body().id, response.body().displayName);
                     loginRepository.forceLogin(loggedInUser);
                     loginResult.setValue(new LoginResult(new LoggedInUserView(loggedInUser.getDisplayName())));
                 } else {
@@ -72,8 +72,6 @@ public class LoginViewModel extends ViewModel {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 //return new Result.Error(new IOException("Error logging in"));
-                //  new Result.Error(new Exception("asdad"));
-                //Toast.makeText(this, "sssssssssssss", Toast.LENGTH_LONG)
                 loginResult.setValue(new LoginResult(R.string.login_failed));
             }
         });

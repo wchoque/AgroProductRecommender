@@ -1,4 +1,4 @@
-package com.upc.appcentroidiomas;
+package com.upc.appcentroidiomas.api;
 
 import com.upc.appcentroidiomas.data.model.LoginModel;
 import com.upc.appcentroidiomas.data.model.LoginResponse;
