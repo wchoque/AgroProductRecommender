@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.FirebaseApp;
@@ -102,10 +101,10 @@ public class AdaptadorPersonalizadoCurso extends RecyclerView.Adapter<AdaptadorP
 
         public vistaHolder(@NonNull View itemView) {
             super(itemView);
-            filaNombreCurso = itemView.findViewById(R.id.filaNombreCurso);
-            filaSeccion = itemView.findViewById(R.id.filaSeccion);
+            filaNombreCurso = itemView.findViewById(R.id.filaSecretaria);
+            filaSeccion = itemView.findViewById(R.id.filaHorarioAtencion);
             filaHorario = itemView.findViewById(R.id.filaHorario);
-            btnEditar = itemView.findViewById(R.id.btnEditar);
+            btnEditar = itemView.findViewById(R.id.btnllamar);
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
         }
     }

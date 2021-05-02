@@ -125,4 +125,15 @@
      app:layout_constraintVertical_bias="0.108"
      app:srcCompat="@drawable/ic_baseline_person_24" />
 
+ <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/btnAtencion"
+     android:layout_width="66dp"
+     android:layout_height="61dp"
+     android:layout_marginEnd="200dp"
+     android:layout_marginBottom="180dp"
+     android:clickable="true"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:srcCompat="@drawable/ic_baseline_info_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
