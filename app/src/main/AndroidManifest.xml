@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCentroIdiomas"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityAtencion"></activity>
+        <activity android:name=".ActivityAtencion"
+            android:label="Servicios de Atencion"></activity>
         <activity android:name=".ProfileActivity" />
         <activity
             android:name=".ActivityCursos"
