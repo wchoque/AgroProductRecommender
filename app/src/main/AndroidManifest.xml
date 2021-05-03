@@ -18,10 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCentroIdiomas"
         android:usesCleartextTraffic="true">
-
         <activity android:name=".ActivityHorario" />
         <activity
-            
             android:name=".ActivityAtencion"
             android:label="Servicios de Atencion" />
         <activity android:name=".ProfileActivity" />
