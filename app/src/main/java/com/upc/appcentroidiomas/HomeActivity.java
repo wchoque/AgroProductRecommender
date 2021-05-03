@@ -101,6 +101,14 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        btnHorario= findViewById(R.id.btnHorario);
+        btnHorario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ActivityHorario.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void inicializarFirebase(){
