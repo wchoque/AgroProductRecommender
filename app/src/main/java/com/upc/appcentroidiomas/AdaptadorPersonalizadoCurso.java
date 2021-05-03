@@ -95,7 +95,7 @@ public class AdaptadorPersonalizadoCurso extends RecyclerView.Adapter<AdaptadorP
         return listaCursos.size();
     }
 
-    public class vistaHolder extends RecyclerView.ViewHolder{
+    public static class vistaHolder extends RecyclerView.ViewHolder{
         TextView filaNombreCurso, filaSeccion, filaHorario;
         ImageButton btnEditar, btnEliminar;
 

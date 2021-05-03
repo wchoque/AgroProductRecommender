@@ -7,11 +7,10 @@ import java.sql.Date;
 public class Noticia {
     private String id;
     private String name;
+    private String publishedBy;
+    private Date publishedAt;
     private String description;
-     private Date datePublished;
     private Image imageUrl;
-    private String UuserName;
-    private String postedBy;
 
     public String getId() {
         return id;
@@ -29,6 +28,22 @@ public class Noticia {
         this.name = name;
     }
 
+    public String getPublishedBy() {
+        return publishedBy;
+    }
+
+    public void setPublishedBy(String publishedBy) {
+        this.publishedBy = publishedBy;
+    }
+
+    public Date getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(Date publishedAt) {
+        this.publishedAt = publishedAt;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -37,35 +52,11 @@ public class Noticia {
         this.description = description;
     }
 
-    public Date getDatePublished() {
-        return datePublished;
-    }
-
-    public void setDatePublished(Date datePublished) {
-        this.datePublished = datePublished;
-    }
-
     public Image getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(Image imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public String getUuserName() {
-        return UuserName;
-    }
-
-    public void setUuserName(String uuserName) {
-        UuserName = uuserName;
-    }
-
-    public String getPostedBy() {
-        return postedBy;
-    }
-
-    public void setPostedBy(String postedBy) {
-        this.postedBy = postedBy;
     }
 }

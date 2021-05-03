@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="30dp"
-    tools:context=".ActivityCursos">
+    tools:context=".RegNoticia">
 
     <TextView
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Registrar Curso"
+        android:text="Registrar Noticia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Ingrese Nombre del Curso"
+        android:hint="Ingrese Nombre de la noticia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titulo" />
@@ -36,7 +36,7 @@
         android:layout_marginTop="24dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Ingrese Seccion"
+        android:hint="Ingrese Descripción de la Noticia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtname" />
@@ -45,22 +45,47 @@
         android:id="@+id/txtpostedBy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="Ingrese Quién publico la Noticia"
         android:inputType="textPersonName"
-        android:hint="Ingrese el Horario"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtdescription" />
+        app:layout_constraintTop_toBottomOf="@+id/imageUrl" />
 
     <Button
         android:id="@+id/btnRegistrarNoticia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Registrar Curso"
+        android:layout_marginBottom="16dp"
+        android:text="Registrar Noticia"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtpostedBy"
+        app:layout_constraintVertical_bias="0.634" />
+
+    <EditText
+        android:id="@+id/txtpublishedAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Ingrese Fecha de la Noticia"
+        android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtpostedBy" />
+        app:layout_constraintTop_toBottomOf="@+id/txtdescription" />
+
+    <ImageView
+        android:id="@+id/imageUrl"
+        android:layout_width="match_parent"
+        android:layout_height="239dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtpublishedAt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

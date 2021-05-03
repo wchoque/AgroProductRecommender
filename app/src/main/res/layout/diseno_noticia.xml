@@ -14,23 +14,23 @@
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="516dp"
+            android:layout_width="376dp"
+            android:layout_height="489dp"
             android:layout_margin="10dp">
 
             <ImageView
-                android:id="@+id/image1"
-                android:layout_width="353dp"
-                android:layout_height="369dp"
-                android:layout_marginTop="40dp"
+                android:id="@+id/disenoimageUrl"
+                android:layout_width="328dp"
+                android:layout_height="323dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.484"
+                app:layout_constraintHorizontal_bias="0.515"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                app:layout_constraintTop_toBottomOf="@+id/disenopublishedAt" />
+
 
             <EditText
-                android:id="@+id/date"
+                android:id="@+id/disenopublishedAt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
@@ -41,7 +41,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/disenoname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Nombre de Post"
@@ -51,31 +51,26 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/publishedBy"
+                android:id="@+id/disenopublishedBy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
                 android:hint="Publicado por"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name" />
+                app:layout_constraintTop_toBottomOf="@+id/disenoname" />
 
             <TextView
-                android:id="@+id/userName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Usuario"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/publishedBy" />
-
-            <TextView
-                android:id="@+id/descripcion"
+                android:id="@+id/disenodescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="16dp"
                 android:hint="Descripción"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image1"
+                app:layout_constraintTop_toBottomOf="@+id/disenoimageUrl"
                 app:layout_constraintVertical_bias="0.208" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,28 +1,18 @@
 package com.upc.appcentroidiomas;
 
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -72,10 +62,10 @@ public class ActivityCursos extends AppCompatActivity {
 
     private void asignarReferencias(){
         titulo = findViewById(R.id.titulo);
-        txtCurso = findViewById(R.id.txtCurso);
-        txtSeccion = findViewById(R.id.txtSeccion);
-        txtHorario = findViewById(R.id.txtHorario);
-        btnRegistrarCurso = findViewById(R.id.btnRegistrarCurso);
+        txtCurso = findViewById(R.id.txtname);
+        txtSeccion = findViewById(R.id.txtdescription);
+        txtHorario = findViewById(R.id.txtpostedBy);
+        btnRegistrarCurso = findViewById(R.id.btnRegistrarNoticia);
         btnRegistrarCurso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

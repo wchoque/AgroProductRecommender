@@ -1,14 +1,8 @@
 package com.upc.appcentroidiomas;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class ListaCursosActivity extends AppCompatActivity {
 
@@ -50,8 +43,8 @@ public class ListaCursosActivity extends AppCompatActivity {
     }
     private void asignarReferencias(){
         //lstCursos =findViewById(R.id.lstCursos);
-        recyclerCursos = findViewById(R.id.recyclerCursos);
-        btnAgregarCurso = findViewById(R.id.btnAgregarCurso);
+        recyclerCursos = findViewById(R.id.recyclerNoticia);
+        btnAgregarCurso = findViewById(R.id.btnAgregarNoticia);
         btnAgregarCurso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
