@@ -44,7 +44,7 @@ public class InvoiceDetailActivity extends AppCompatActivity {
 
         detailInvoiceDescription.setText("DESCRIPCIÓN: " + description);
         detailInvoiceSemester.setText("CICLO: " + semester);
-        detailInvoiceAmount.setText("MONTO: " + String.valueOf(amount));
+        detailInvoiceAmount.setText("MONTO: " + String.valueOf(amount) + " soles.");
         detailInvoiceDeadline.setText("FECHA DE VENCIMIENTO: " + deadline);
         String isPaidMessage;
         if (isPaid){

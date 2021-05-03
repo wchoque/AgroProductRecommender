@@ -38,8 +38,8 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.MyViewHo
         String semester = invoice.semester;
         boolean isPaid = invoice.isPaid;
 
-        holder.description.setText(description);
-        holder.semester.setText(semester);
+        holder.description.setText("DESCRIPCIÓN: " + description);
+        holder.semester.setText("CICLO: " + semester);
         String isPaidMessage;
         if (isPaid){
             isPaidMessage = "Esta boleta ha sido cancelada.";
@@ -61,6 +61,7 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.MyViewHo
 
         MyViewHolder(View itemView) {
             super(itemView);
+
             this.description = itemView.findViewById(R.id.invoiceDescription);
             this.semester = itemView.findViewById(R.id.invoiceSemester);
             this.isPaid = itemView.findViewById(R.id.invoiceIsPaid);
