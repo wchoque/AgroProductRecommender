@@ -18,9 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCentroIdiomas"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RegNoticia"></activity>
+        <activity android:name=".InvoiceActivity"></activity>
+        <activity android:name=".InvoiceDetailActivity"></activity>
+        <activity android:name=".RegNoticia" />
         <activity android:name=".NoticiaActivity" />
-        <activity android:name=".NotaActivity"></activity>
+        <activity android:name=".NotaActivity" />
         <activity android:name=".ChatDetailActivity" />
         <activity android:name=".ChatActivity" />
         <activity

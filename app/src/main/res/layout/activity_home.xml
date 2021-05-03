@@ -129,11 +129,26 @@
      android:id="@+id/btnAtencion"
      android:layout_width="66dp"
      android:layout_height="61dp"
-     android:layout_marginEnd="200dp"
-     android:layout_marginBottom="180dp"
      android:clickable="true"
      app:layout_constraintBottom_toBottomOf="parent"
      app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.28"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.758"
      app:srcCompat="@drawable/ic_baseline_info_24" />
+
+ <com.google.android.material.floatingactionbutton.FloatingActionButton
+     android:id="@+id/btnBoleta"
+     android:layout_width="66dp"
+     android:layout_height="61dp"
+     android:clickable="true"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.617"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintVertical_bias="0.758"
+     app:srcCompat="@drawable/ic_baseline_attach_money_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
