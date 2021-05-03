@@ -54,7 +54,7 @@ public class LoginRepository {
         //prefs = getSharedPreferences("logindetail", 0);
         SharedPreferences.Editor edit = Loginprefs.edit();
         edit.clear();
-        edit.commit();
+        edit.apply();
     }
 
     private void setLoggedInUser(LoggedInUser user) {
@@ -65,7 +65,7 @@ public class LoginRepository {
         edit.putString("userId", Integer.toString(user.getUserId()));
         edit.putString("displayName", user.getDisplayName());
         edit.putString("userLoginStatus", "yes");
-        edit.commit();
+        edit.apply();
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
     }

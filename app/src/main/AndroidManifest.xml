@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCentroIdiomas"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityHorario"></activity>
+        <activity android:name=".NotaActivity"></activity>
+        <activity android:name=".ChatDetailActivity" />
+        <activity android:name=".ChatActivity" />
         <activity
             android:name=".ActivityAtencion"
             android:label="Servicios de Atencion" />
