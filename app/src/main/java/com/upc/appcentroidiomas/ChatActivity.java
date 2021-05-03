@@ -51,7 +51,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override // Un toque sencillo
             public void onClick(View view, int position) {
                 AvailableChatUserDetailResponse  availableChatUserDetailResponse  = availableUsers.get(position);
-                Intent intent = new Intent(ChatActivity.this, UserChatActivity.class);
+                Intent intent = new Intent(ChatActivity.this, ChatDetailActivity.class);
                 intent.putExtra("userIdTo", availableChatUserDetailResponse.userIdTo);
                 intent.putExtra("displayNameTo", availableChatUserDetailResponse.displayNameTo);
                 intent.putExtra("lastMessageContent", availableChatUserDetailResponse.lastMessageContent);
