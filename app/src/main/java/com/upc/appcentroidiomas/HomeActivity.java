@@ -13,12 +13,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeActivity extends AppCompatActivity {
 
-    FloatingActionButton btnMapas, btnCursos, btnPerfil,btnAtencion,btnNoticia;
+    FloatingActionButton btnMapas, btnCursos, btnPerfil,btnAtencion,btnNoticia, btnHorario;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
