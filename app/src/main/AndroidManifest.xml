@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCentroIdiomas"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".InvoiceActivity"></activity>
         <activity android:name=".InvoiceDetailActivity"></activity>
         <activity android:name=".RegNoticia" />
@@ -25,6 +26,8 @@
         <activity android:name=".NotaActivity" />
         <activity android:name=".ChatDetailActivity" />
         <activity android:name=".ChatActivity" />
+        <activity android:name=".ActivityHorario" />
+
         <activity
             android:name=".ActivityAtencion"
             android:label="Servicios de Atencion" />
@@ -43,7 +46,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key" ></meta-data>
 
         <activity
             android:name=".ActivityMapa"
@@ -60,6 +63,12 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".ListaCursosActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".ActivityUbicaciones">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
