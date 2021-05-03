@@ -65,7 +65,7 @@ public class ActivityHorario extends AppCompatActivity {
                     List<String> items = new ArrayList<>();
                     for (int i=0; i < jsonArray.length(); i++){
                         JSONObject objecto = jsonArray.getJSONObject(i);
-                        items.add(objecto.getString("startTime")+ "  "+objecto.getString("endTime") + "  "+ objecto.getString("name")+ "  "+objecto.getString("date"));
+                        items.add(objecto.getString("name")+"   --   "+"  --  "+objecto.getString("date")+ objecto.getString("startTime")+ "  --  "+objecto.getString("endTime"));
                     }
 
                     ArrayAdapter<String> adaptador = new ArrayAdapter<>(ActivityHorario.this, android.R.layout.simple_list_item_1,items);
