@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface ChatInteface {3
+public interface ChatInteface {
     @GET("userinformation/{userId}")
     Call<UserInformationResponse> get(@Path("userId") int userId);
 }
