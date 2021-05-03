@@ -25,7 +25,8 @@
         <activity android:name=".NoticiaActivity" />
         <activity android:name=".NotaActivity" />
         <activity android:name=".ChatDetailActivity" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".ChatActivity"
+            android:label="Lista de Mensajes"/>
         <activity android:name=".ActivityHorario"
             android:label="Horario del Ciclo"/>
         <activity
@@ -50,7 +51,7 @@
 
         <activity
             android:name=".ActivityMapa"
-            android:label="@string/title_activity_mapa" />
+            android:label="Ubicacion de Sede" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login">
@@ -64,7 +65,8 @@
         <activity android:name=".ListaCursosActivity"
             android:label="Lista de Cursos"/>
         <activity android:name=".MainActivity" />
-        <activity android:name=".ActivityUbicaciones">
+        <activity android:name=".ActivityUbicaciones"
+            android:label="Nuestras Sedes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.category.LAUNCHER" />
