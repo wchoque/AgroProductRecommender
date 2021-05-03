@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
-    FloatingActionButton btnMapas, btnCursos, btnPerfil,btnAtencion;
+    FloatingActionButton btnMapas, btnCursos, btnPerfil,btnAtencion, btnHorario;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -101,6 +101,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ActivityAtencion.class);
+                startActivity(intent);
+            }
+        });
+        btnHorario= findViewById(R.id.btnHorario);
+        btnHorario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ActivityHorario.class);
                 startActivity(intent);
             }
         });
