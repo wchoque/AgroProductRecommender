@@ -3,20 +3,21 @@ package com.upc.appcentroidiomas;
 import android.media.Image;
 
 import java.sql.Date;
+import java.time.OffsetDateTime;
 
 public class Noticia {
-    private String id;
+    private int id;
     private String name;
-    private String publishedBy;
-    private Date publishedAt;
+    private String postedBy;
+    private String publishedAt;
     private String description;
-    private Image imageUrl;
+    private String imageUrl;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -28,19 +29,19 @@ public class Noticia {
         this.name = name;
     }
 
-    public String getPublishedBy() {
-        return publishedBy;
+    public String getPostedBy() {
+        return postedBy;
     }
 
-    public void setPublishedBy(String publishedBy) {
-        this.publishedBy = publishedBy;
+    public void setPostedBy(String postedBy) {
+        this.postedBy = postedBy;
     }
 
-    public Date getPublishedAt() {
+    public String getPublishedAt() {
         return publishedAt;
     }
 
-    public void setPublishedAt(Date publishedAt) {
+    public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
     }
 
@@ -52,11 +53,11 @@ public class Noticia {
         this.description = description;
     }
 
-    public Image getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(Image imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 }

@@ -20,24 +20,23 @@
 
             <ImageView
                 android:id="@+id/disenoimageUrl"
-                android:layout_width="328dp"
-                android:layout_height="323dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="206dp"
+                android:layout_height="173dp"
+                android:layout_marginTop="76dp"
+                android:src="@drawable/ic_baseline_home_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.515"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/disenopublishedAt" />
 
-
-            <EditText
+            <TextView
                 android:id="@+id/disenopublishedAt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:layout_marginEnd="16dp"
-                android:ems="10"
-                android:inputType="date"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:hint="Fecha de publicación"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

@@ -1,14 +1,14 @@
 package com.upc.appcentroidiomas;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,15 +20,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.upc.appcentroidiomas.api.ApiContants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaNoticia extends AppCompatActivity {
+public class NoticiaActivity extends AppCompatActivity {
     EditText txtCriterio;
     Button btnBuscar;
     RecyclerView recyclerNoticia;
@@ -38,18 +40,18 @@ public class ListaNoticia extends AppCompatActivity {
     ArrayList<Noticia> listaNoticia = new ArrayList<>();
     AdaptadorPersonalizadoNoticia adaptador;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_noticia);
         asignarReferencias();
-
+        BuscarNoticia();
     }
 
     private void asignarReferencias(){
         txtCriterio = findViewById(R.id.txtCriterio);
         btnBuscar = findViewById(R.id.btnBuscar);
+
         recyclerNoticia = findViewById(R.id.recyclerNoticia);
         //btnAgregarNoticia = findViewById(R.id.btnAgregarNoticia);
         btnBuscar.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +64,7 @@ public class ListaNoticia extends AppCompatActivity {
         btnAgregarNoticia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListaNoticia.this,RegNoticia.class);
+                Intent intent = new Intent(NoticiaActivity.this,RegNoticia.class);
                 startActivity(intent);
             }
         });
@@ -73,35 +75,45 @@ public class ListaNoticia extends AppCompatActivity {
         String criterio = txtCriterio.getText().toString();
         String url;
         if (criterio.equals("")){
-            url = "https://appcentroidiomas.azurewebsites.net/api/Post";
+            url = ApiContants.BASE_URL + "Post";
         }else{
-            url = "https://appcentroidiomas.azurewebsites.net/api/Post" + criterio;
+            url = ApiContants.BASE_URL + "Post/GetPostsByName/" + criterio;
         }
 
         StringRequest peticion = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(String response) {
                 try{
+                    listaNoticia.clear();
                     JSONArray jsonArray= new JSONArray(response);
-                    List<String> items = new ArrayList<>();// también se conecta con un recycler para que se muestre
                     for (int i=0; i < jsonArray.length(); i++){
                         JSONObject objeto = jsonArray.getJSONObject(i);
-                        items.add(objeto.getString("name") + objeto.getString("description") + objeto.getString("publishedAt") + objeto.getJSONObject("imageUrl") + objeto.getString("postedBy"));
+
+                        Noticia _noticia = new Noticia();
+                        _noticia.setId(objeto.getInt("id"));
+                        _noticia.setName(objeto.getString("name"));
+                        _noticia.setDescription(objeto.getString("description"));
+                        _noticia.setPublishedAt(objeto.getString("publishedAt"));
+                        _noticia.setPostedBy(objeto.getString("postedBy"));
+                        _noticia.setImageUrl(objeto.getString("imageUrl"));
+
+                        listaNoticia.add(_noticia);
                     }
                     //ArrayAdapter<String> adaptador = new ArrayAdapter<>(ListaNoticia.this, android.R.layout.simple_list_item_1,items);
                     //recyclerNoticia.setAdapter(adaptador);
                    // aqui se agrega el diseño personalizado
-                    adaptador = new AdaptadorPersonalizadoNoticia(ListaNoticia.this, listaNoticia);
+                    adaptador = new AdaptadorPersonalizadoNoticia(NoticiaActivity.this, listaNoticia);
                     recyclerNoticia.setAdapter(adaptador);
-                    recyclerNoticia.setLayoutManager(new LinearLayoutManager(ListaNoticia.this ));
+                    recyclerNoticia.setLayoutManager(new LinearLayoutManager(NoticiaActivity.this ));
 
                 }catch (JSONException e){
-                    Toast.makeText(ListaNoticia.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NoticiaActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
              public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ListaNoticia.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(NoticiaActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
