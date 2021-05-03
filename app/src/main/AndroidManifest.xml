@@ -26,15 +26,16 @@
         <activity android:name=".NotaActivity" />
         <activity android:name=".ChatDetailActivity" />
         <activity android:name=".ChatActivity" />
-        <activity android:name=".ActivityHorario" />
+        <activity android:name=".ActivityHorario"
+            android:label="Horario del Ciclo"/>
         <activity
             android:name=".ActivityAtencion"
             android:label="Servicios de Atencion" />
         <activity android:name=".ProfileActivity" />
         <activity
             android:name=".ActivityCursos"
-            android:label="Registrar Cursos"
-            android:parentActivityName=".ListaCursosActivity" />
+            android:label="Registrar Cursos"/>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -60,7 +61,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" />
-        <activity android:name=".ListaCursosActivity" />
+        <activity android:name=".ListaCursosActivity"
+            android:label="Lista de Cursos"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".ActivityUbicaciones">
             <intent-filter>
