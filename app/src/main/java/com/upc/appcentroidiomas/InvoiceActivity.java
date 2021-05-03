@@ -18,7 +18,6 @@ import com.upc.appcentroidiomas.data.model.InvoiceResponse;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
