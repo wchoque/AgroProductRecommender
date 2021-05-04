@@ -40,8 +40,8 @@ public class AdaptadorPersonalizadoNoticia extends RecyclerView.Adapter<Adaptado
     public void onBindViewHolder(@NonNull AdaptadorPersonalizadoNoticia.vistaHolder holder, int position) {
         holder.disenoname.setText(listaNoticia.get(position).getName());
         holder.disenodescription.setText(listaNoticia.get(position).getDescription());
-        holder.disenopublishedAt.setText(listaNoticia.get(position).getPublishedAt());
-        holder.disenopublishedBy.setText(listaNoticia.get(position).getPostedBy());
+        holder.disenopublishedAt.setText("Fecha de publicación: "+listaNoticia.get(position).getPublishedAt());
+        holder.disenopublishedBy.setText("Publicado por:" + listaNoticia.get(position).getPostedBy());
 
         new AdaptadorPersonalizadoNoticia.DownloadImageTask(holder.disenoimageUrl)
                 .execute(listaNoticia.get(position).getImageUrl());
