@@ -19,10 +19,12 @@
         android:theme="@style/Theme.AppCentroIdiomas"
         android:usesCleartextTraffic="true">
         <activity android:name=".UserChatActivity"></activity>
-        <activity android:name=".InvoiceActivity" />
-        <activity android:name=".InvoiceDetailActivity" />
+        <activity android:name=".InvoiceActivity"
+            android:label="Boletas Pendientes"/>
+        <activity android:name=".InvoiceDetailActivity"/>
         <activity android:name=".RegNoticia" />
-        <activity android:name=".NoticiaActivity" />
+        <activity android:name=".NoticiaActivity"
+            android:label="Lista de Noticias"/>
         <activity android:name=".NotaActivity" />
         <activity android:name=".ChatDetailActivity" />
         <activity android:name=".ChatActivity"
@@ -32,7 +34,8 @@
         <activity
             android:name=".ActivityAtencion"
             android:label="Servicios de Atencion" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfileActivity"
+            android:label="Datos del Usuario"/>
         <activity
             android:name=".ActivityCursos"
             android:label="Registrar Cursos"/>
