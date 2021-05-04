@@ -3,6 +3,8 @@ package com.upc.appcentroidiomas.data.model;
 import com.google.gson.annotations.SerializedName;
 
 public class LoginResponse {
+    @SerializedName("id")
+    public int id;
     @SerializedName("firstName")
     public String firstName;
     @SerializedName("lastName")

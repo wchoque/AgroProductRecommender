@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/txtCurso"
+        android:id="@+id/txtname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/titulo" />
 
     <EditText
-        android:id="@+id/txtSeccion"
+        android:id="@+id/txtdescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -39,10 +39,10 @@
         android:hint="Ingrese Seccion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCurso" />
+        app:layout_constraintTop_toBottomOf="@+id/txtname" />
 
     <EditText
-        android:id="@+id/txtHorario"
+        android:id="@+id/txtpostedBy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -51,16 +51,16 @@
         android:hint="Ingrese el Horario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSeccion" />
+        app:layout_constraintTop_toBottomOf="@+id/txtdescription" />
 
     <Button
-        android:id="@+id/btnRegistrarCurso"
+        android:id="@+id/btnRegistrarNoticia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Registrar Curso"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtHorario" />
+        app:layout_constraintTop_toBottomOf="@+id/txtpostedBy" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

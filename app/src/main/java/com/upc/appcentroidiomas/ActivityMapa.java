@@ -14,7 +14,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ActivityMapa extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
+    float latitud, longitud;
+    String titulo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +40,17 @@ public class ActivityMapa extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
+        recuperarDato();
         // Add a marker in Sydney and move the camera
-        LatLng upc = new LatLng(-12.103456990065503, -76.9629827971311);
-        mMap.addMarker(new MarkerOptions().position(upc).title("Mapa Idiomas"));
+        LatLng ubicacion = new LatLng(latitud,longitud);
+        mMap.addMarker(new MarkerOptions().position(ubicacion).title(titulo));
        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(upc,18));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacion,16));
+    }
+
+    private void recuperarDato() {
+        latitud = Float.parseFloat(getIntent().getStringExtra("latitud").toString());
+        longitud = Float.parseFloat(getIntent().getStringExtra("longitud").toString());
+        titulo = getIntent().getStringExtra("titulo").toString();
     }
 }
