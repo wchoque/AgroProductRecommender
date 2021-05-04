@@ -33,19 +33,6 @@
         app:navGraph="@navigation/my_nav" />-->
 
  <com.google.android.material.floatingactionbutton.FloatingActionButton
-     android:id="@+id/floatingActionButton6"
-     android:layout_width="63dp"
-     android:layout_height="60dp"
-     android:clickable="true"
-     app:layout_constraintBottom_toBottomOf="parent"
-     app:layout_constraintEnd_toEndOf="parent"
-     app:layout_constraintHorizontal_bias="0.615"
-     app:layout_constraintStart_toStartOf="parent"
-     app:layout_constraintTop_toTopOf="parent"
-     app:layout_constraintVertical_bias="0.606"
-     app:srcCompat="@drawable/ic_baseline_home_24" />
-
- <com.google.android.material.floatingactionbutton.FloatingActionButton
      android:id="@+id/btnChat"
      android:layout_width="63dp"
      android:layout_height="72dp"
@@ -132,11 +119,11 @@
      android:clickable="true"
      app:layout_constraintBottom_toBottomOf="parent"
      app:layout_constraintEnd_toEndOf="parent"
-     app:layout_constraintHorizontal_bias="0.28"
+     app:layout_constraintHorizontal_bias="0.442"
      app:layout_constraintStart_toStartOf="parent"
      app:layout_constraintTop_toTopOf="parent"
-     app:layout_constraintVertical_bias="0.758"
-     app:srcCompat="@drawable/ic_baseline_info_24" />
+     app:layout_constraintVertical_bias="0.771"
+     app:srcCompat="@drawable/ic_baseline_call_24" />
 
  <com.google.android.material.floatingactionbutton.FloatingActionButton
      android:id="@+id/btnBoleta"
@@ -148,7 +135,7 @@
      app:layout_constraintHorizontal_bias="0.617"
      app:layout_constraintStart_toStartOf="parent"
      app:layout_constraintTop_toTopOf="parent"
-     app:layout_constraintVertical_bias="0.758"
+     app:layout_constraintVertical_bias="0.602"
      app:srcCompat="@drawable/ic_baseline_attach_money_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
