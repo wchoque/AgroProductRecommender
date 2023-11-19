@@ -26,9 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class NoticiaActivity extends AppCompatActivity {
     EditText txtCriterio;
@@ -60,7 +58,7 @@ public class NoticiaActivity extends AppCompatActivity {
                 BuscarNoticia();
             }
         });
-        btnAgregarNoticia = findViewById(R.id.btnAgregarNoticia);
+        btnAgregarNoticia = findViewById(R.id.btnAddProduct);
         btnAgregarNoticia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +66,6 @@ public class NoticiaActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void BuscarNoticia(){

@@ -7,6 +7,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface UserInformationApi {
-    @GET("userinformation/{userId}")
+    @GET("user-information/{userId}")
     Call<UserInformationResponse> get(@Path("userId") int userId);
 }

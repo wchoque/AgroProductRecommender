@@ -6,6 +6,10 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,28 +22,55 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCentroIdiomas"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UserChatActivity"></activity>
-        <activity android:name=".InvoiceActivity"
-            android:label="Boletas Pendientes"/>
-        <activity android:name=".InvoiceDetailActivity"/>
+        <activity android:name=".HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainScreen"
+            android:exported="true"
+            android:label="@string/title_activity_main_screen"
+            android:theme="@style/Theme.AppCentroIdiomas.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".UserChatActivity" />
+        <activity
+            android:name=".InvoiceActivity"
+            android:label="Boletas Pendientes" />
+        <activity android:name=".InvoiceDetailActivity" />
         <activity android:name=".RegNoticia" />
-        <activity android:name=".NoticiaActivity"
-            android:label="Lista de Noticias"/>
+        <activity
+            android:name=".NoticiaActivity"
+            android:label="Lista de Noticias" />
         <activity android:name=".NotaActivity" />
         <activity android:name=".ChatDetailActivity" />
-        <activity android:name=".ChatActivity"
-            android:label="Lista de Mensajes"/>
-        <activity android:name=".ActivityHorario"
-            android:label="Horario del Ciclo"/>
+        <activity
+            android:name=".ChatActivity"
+            android:label="Lista de Mensajes" />
+        <activity
+            android:name=".ActivityHorario"
+            android:label="Horario del Ciclo" />
         <activity
             android:name=".ActivityAtencion"
             android:label="Servicios de Atencion" />
-        <activity android:name=".ProfileActivity"
-            android:label="Datos del Usuario"/>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="Datos del Usuario" />
         <activity
             android:name=".ActivityCursos"
-            android:label="Registrar Cursos"/>
-
+            android:label="Registrar Cursos" />
+        <activity
+            android:name=".ActivityProduct"
+            android:label="Registrar productos" />
+        <activity
+            android:name=".ProductsListActivity"
+            android:label="Lista de productos" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -60,15 +91,15 @@
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".ListaCursosActivity"
-            android:label="Lista de Cursos"/>
+        <activity
+            android:name=".ListaCursosActivity"
+            android:label="Lista de Cursos" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".ActivityUbicaciones"
+        <activity
+            android:name=".ActivityUbicaciones"
             android:label="Nuestras Sedes">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

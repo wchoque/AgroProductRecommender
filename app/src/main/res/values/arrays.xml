@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="planets_array">
+        <item>Papa</item>
+        <item>Cebolla</item>
+        <item>Tomate</item>
+    </string-array>
+
+    <string-array name="units_array">
+        <item>Tonelada</item>
+        <item>Kilos</item>
+        <item>Gramos</item>
+    </string-array>
+</resources>
