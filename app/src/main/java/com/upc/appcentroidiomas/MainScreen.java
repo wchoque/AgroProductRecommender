@@ -1,5 +1,6 @@
 package com.upc.appcentroidiomas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.Menu;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -40,6 +42,52 @@ public class MainScreen extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_screen);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.action_logout) {
+                ProfileActivity profileFragment = new ProfileActivity();
+
+                // Realiza la transacción de fragmentos
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment_content_main_screen, profileFragment)
+                        .addToBackStack(null)  // Opcional, si quieres agregar esto al stack de navegación
+                        .commit();
+            }
+            // Manejar otros elementos del menú si es necesario
+            drawer.closeDrawer(GravityCompat.START);  // Cierra el drawer después de la selección
+            return true;
+        });
+
+
+
+/*
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_screen);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                // Crea una instancia del nuevo fragment
+                ProductsListActivity productsListFragment = new ProductsListActivity();
+
+                // Realiza la transacción de fragmentos
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment_content_main_screen, productsListFragment)
+                        .addToBackStack(null)  // Opcional, si quieres agregar esto al stack de navegación
+                        .commit();
+            }
+            // Manejar otros elementos del menú si es necesario
+            drawer.closeDrawer(GravityCompat.START);  // Cierra el drawer después de la selección
+            return true;
+        });
+*/
+
+        // Asegúrate de que nav_home sea el destino de inicio
+        navController.navigate(R.id.nav_home);
     }
 
     @Override

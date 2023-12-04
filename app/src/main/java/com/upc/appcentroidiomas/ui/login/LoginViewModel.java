@@ -20,8 +20,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static java.util.UUID.randomUUID;
-
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
@@ -59,7 +57,7 @@ public class LoginViewModel extends ViewModel {
             @ Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()){
-                    LoggedInUser loggedInUser = new LoggedInUser(response.body().id, response.body().displayName);
+                    LoggedInUser loggedInUser = new LoggedInUser(response.body().id, response.body().userName, response.body().displayName);
                     loginRepository.forceLogin(loggedInUser);
                     loginResult.setValue(new LoginResult(new LoggedInUserView(loggedInUser.getDisplayName())));
                 } else {

@@ -27,8 +27,26 @@
     <string name="nav_header_subtitle">w.choque.itusaca@testing.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="action_profile">Mi Perfil</string>
+    <string name="action_logout">Logout</string>
 
     <string name="menu_home">Mis Productos</string>
     <string name="menu_gallery">Buscar otros productos</string>
     <string name="menu_slideshow">Favoritos</string>
+
+
+    <string-array name="Tags">
+        <item>HTML</item>
+        <item>CSS</item>
+        <item>JavaScript</item>
+        <item>Angular JS</item>
+        <item>Python</item>
+        <item>Ruby on Rails</item>
+    </string-array>
+
+    <string name="drawer_open">Abrir navigation drawer</string>
+    <string name="drawer_close">Cerrar navigation drawer</string>
+    <string name="headlines">Encabezados de</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_activity_main3">MainActivity3</string>
 </resources>

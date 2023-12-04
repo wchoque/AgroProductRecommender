@@ -10,14 +10,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.upc.appcentroidiomas.api.ApiContants;
+import com.upc.appcentroidiomas.api.LoginApi;
+import com.upc.appcentroidiomas.api.UserApi;
 import com.upc.appcentroidiomas.api.UserInformationApi;
 import com.upc.appcentroidiomas.data.LoginDataSource;
 import com.upc.appcentroidiomas.data.LoginRepository;
+import com.upc.appcentroidiomas.data.model.ChangePasswordModel;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
+import com.upc.appcentroidiomas.data.model.LoginResponse;
+import com.upc.appcentroidiomas.data.model.UserInformationModel;
 import com.upc.appcentroidiomas.data.model.UserInformationResponse;
 import com.upc.appcentroidiomas.ui.login.LoginActivity;
 
@@ -33,9 +39,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileActivity extends AppCompatActivity {
-    TextView profileFirstName, profileLastName, profileEmail, profileDisplayName;
+    TextView profileFirstName, profileLastName, profileEmail, profileDisplayName, profilePhoneNumber, profileGender, profileBio, profileWebpageUrl, profileDni;
     ImageView profileAvatar;
-    Button btnUpdateAvatar, btnLogout;
+    TextView profileCurrentPassword, profileNewPassword;
+    Button btnUpdateProfile, btnChangePassword, btnLogout;
     private LoginRepository loginRepository;
 
     @Override
@@ -47,21 +54,149 @@ public class ProfileActivity extends AppCompatActivity {
         LoggedInUser loggedInUser = loginRepository.getLoggedUser();
 
         assignReferences();
-        updateProfileInformation(loggedInUser.getUserId(), loggedInUser.getDisplayName());
+        getProfileInformation(loggedInUser.getUserId(), loggedInUser.getDisplayName());
     }
 
     private void assignReferences(){
+        profileAvatar = findViewById(R.id.profileAvatar);
         profileFirstName = findViewById(R.id.profileFirstName);
         profileLastName = findViewById(R.id.profileLastName);
-        profileEmail = findViewById(R.id.profileEmail);
         profileDisplayName = findViewById(R.id.profileDisplayName);
-        profileAvatar = findViewById(R.id.profileAvatar);
+        profileEmail = findViewById(R.id.profileEmail);
+        profilePhoneNumber = findViewById(R.id.profilePhoneNumber);
+        profileGender = findViewById(R.id.profileGender);
+        profileBio = findViewById(R.id.profileBio);
+        profileWebpageUrl = findViewById(R.id.profileWebpageUrl);
+        profileDni = findViewById(R.id.profileDni);
 
-        btnUpdateAvatar = findViewById(R.id.btnUpdateAvatar);
-        btnUpdateAvatar.setOnClickListener(new View.OnClickListener() {
+        profileCurrentPassword = findViewById(R.id.profileCurrentPassword);
+        profileNewPassword = findViewById(R.id.profileNewPassword);
+
+        btnUpdateProfile = findViewById(R.id.btnUpdateProfile);
+        btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LoggedInUser loggedInUser = loginRepository.getLoggedUser();
+                UserInformationModel userInformationModel = new UserInformationModel();
+                userInformationModel.firstName = profileFirstName.getText().toString();
+                userInformationModel.lastName = profileLastName.getText().toString();
+                userInformationModel.email = profileEmail.getText().toString();
+                userInformationModel.phoneNumber = profilePhoneNumber.getText().toString();
 
+                String genderText = profileGender.getText().toString();
+                int gender;
+                if (genderText.equalsIgnoreCase("Masculino")){
+                    gender = 1;
+                }else{
+                    gender=0;
+                }
+
+                userInformationModel.gender = gender;
+                userInformationModel.bio = profileBio.getText().toString();
+                userInformationModel.webpageUrl = profileWebpageUrl.getText().toString();
+                userInformationModel.dni = profileDni.getText().toString();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(ApiContants.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                UserApi userApi = retrofit.create(UserApi.class);
+                Call<UserInformationResponse> call = userApi.updateProfile(loggedInUser.getUserId(), userInformationModel);
+
+                call.enqueue(new Callback<UserInformationResponse>() {
+                    @ Override
+                    public void onResponse(Call<UserInformationResponse> call, Response<UserInformationResponse> response) {
+                        if (response.isSuccessful()){
+                            new DownloadImageTask(profileAvatar)
+                                    .execute(response.body().imageUrl);
+
+                            /*profileFirstName.setText("Nombres: " + response.body().firstName);
+                            profileLastName.setText("Apellidos: " + response.body().lastName);
+                            profileEmail.setText("Email: " + response.body().email);
+                            profilePhoneNumber.setText("Telefono: " + response.body().phoneNumber);
+
+                            //TODO convert to masculino or dfemenio
+                            int gender = response.body().gender;
+                            String genderText= "";
+                            if (gender == 1){
+                                genderText = "Masculino";
+                            }else{
+                                genderText = "Femenino";
+                            }
+
+                            profileGender.setText("Genero: " + genderText);
+                            profileBio.setText("Bio: " + response.body().bio);
+                            profileWebpageUrl.setText("Pagina Web: " + response.body().webpageUrl);
+                            profileDni.setText("DNI: " + response.body().dni);*/
+
+                            profileFirstName.setText(response.body().firstName);
+                            profileLastName.setText(response.body().lastName);
+                            profileEmail.setText(response.body().email);
+                            profilePhoneNumber.setText(response.body().phoneNumber);
+
+                            int gender = response.body().gender;
+                            String genderText= "";
+                            if (gender == 1){
+                                genderText = "Masculino";
+                            }else{
+                                genderText = "Femenino";
+                            }
+
+                            profileGender.setText(genderText);
+                            profileBio.setText(response.body().bio);
+                            profileWebpageUrl.setText(response.body().webpageUrl);
+                            profileDni.setText(response.body().dni);
+                            Toast.makeText(ProfileActivity.this, "Sus datos se han actualizado correctamente", Toast.LENGTH_LONG).show();
+                        }else {
+                            Toast.makeText(ProfileActivity.this, "No se pudo actualizar la información del perfil", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserInformationResponse> call, Throwable t) {
+                        Toast.makeText(ProfileActivity.this, "No se pudo actualizar la información del perfil", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
+        btnChangePassword = findViewById(R.id.btnChangePassword);
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(ApiContants.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                LoggedInUser loggedInUser = loginRepository.getLoggedUser();
+                ChangePasswordModel changePasswordModel = new ChangePasswordModel();
+                changePasswordModel.setUserName(loggedInUser.getUserName());
+                changePasswordModel.setCurrentPassword(profileCurrentPassword.getText().toString());
+                changePasswordModel.setNewPassword(profileNewPassword.getText().toString());
+
+                LoginApi loginApi = retrofit.create(LoginApi.class);
+                Call<LoginResponse> call = loginApi.changePassword(changePasswordModel);
+
+                call.enqueue(new Callback<LoginResponse>() {
+                    @ Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.isSuccessful()){
+                            profileCurrentPassword.setText("");
+                            profileNewPassword.setText("");
+
+                            Toast.makeText(ProfileActivity.this, "Su contraseña fue actualizada correctamente.", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(ProfileActivity.this, "Hubo un error al intentar cambiar la contraseña, verifique que los datos sean correctos", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        Toast.makeText(ProfileActivity.this, "Hubo un error al intentar cambiar la contraseña, verifique que los datos sean correctos", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 
@@ -72,7 +207,7 @@ public class ProfileActivity extends AppCompatActivity {
                 //user logout
                 loginRepository.logout();
 
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);        // Specify any activity here e.g. home or splash or login etc
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -83,8 +218,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void updateProfileInformation(int userId, String displayName){
-        // can be launched in a separate asynchronous job
+    private void getProfileInformation(int userId, String displayName){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiContants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -97,20 +231,55 @@ public class ProfileActivity extends AppCompatActivity {
             @ Override
             public void onResponse(Call<UserInformationResponse> call, Response<UserInformationResponse> response) {
                 if (response.isSuccessful()){
-                    //Set info to text boxes
                     new DownloadImageTask(profileAvatar)
                             .execute(response.body().imageUrl);
 
-                    profileFirstName.setText("Nombres: " + response.body().firstName);
-                    profileLastName.setText("Apellidos: " +response.body().lastName);
-                    profileEmail.setText("Email: " +response.body().email);
+                    /*
+                      profileFirstName.setText("Nombres: " + response.body().firstName);
+                    profileLastName.setText("Apellidos: " + response.body().lastName);
                     profileDisplayName.setText("Apodo: " + displayName);
+                    profileEmail.setText("Email: " + response.body().email);
+                    profilePhoneNumber.setText("Telefono: " + response.body().phoneNumber);
+
+                    //TODO convert to masculino or dfemenio
+                    int gender = response.body().gender;
+                    String genderText= "";
+                    if (gender == 1){
+                        genderText = "Masculino";
+                    }else{
+                        genderText = "Femenino";
+                    }
+
+                    profileGender.setText("Genero: " + genderText);
+                    profileBio.setText("Bio: " + response.body().bio);
+                    profileWebpageUrl.setText("Pagina Web: " + response.body().webpageUrl);
+                    profileDni.setText("DNI: " + response.body().dni);
+                    */
+                    profileFirstName.setText(response.body().firstName);
+                    profileLastName.setText(response.body().lastName);
+                    profileDisplayName.setText(displayName);
+                    profileEmail.setText(response.body().email);
+                    profilePhoneNumber.setText(response.body().phoneNumber);
+
+                    // convert to masculino or dfemenio
+                    int gender = response.body().gender;
+                    String genderText= "";
+                    if (gender == 1){
+                        genderText = "Masculino";
+                    }else{
+                        genderText = "Femenino";
+                    }
+
+                    profileGender.setText(genderText);
+                    profileBio.setText(response.body().bio);
+                    profileWebpageUrl.setText(response.body().webpageUrl);
+                    profileDni.setText(response.body().dni);
                 }
             }
 
             @Override
             public void onFailure(Call<UserInformationResponse> call, Throwable t) {
-
+                Toast.makeText(ProfileActivity.this, "No se pudo obtener la información del perfil", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -5,10 +5,12 @@ package com.upc.appcentroidiomas.data.model;
  */
 public class LoggedInUser {
     private int userId;
+    private String userName;
     private String displayName;
 
-    public LoggedInUser(int userId, String displayName) {
+    public LoggedInUser(int userId, String userName, String displayName) {
         this.userId = userId;
+        this.userName = userName;
         this.displayName = displayName;
     }
 
@@ -18,5 +20,9 @@ public class LoggedInUser {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 }

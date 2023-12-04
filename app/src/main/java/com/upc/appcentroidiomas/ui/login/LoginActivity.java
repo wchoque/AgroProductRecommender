@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.upc.appcentroidiomas.HomeActivity;
+import com.upc.appcentroidiomas.MainScreen;
 import com.upc.appcentroidiomas.R;
 import com.upc.appcentroidiomas.data.LoginDataSource;
 import com.upc.appcentroidiomas.data.LoginRepository;
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         if (loginRepository.isLoggedIn()){
             finish();
-            Intent myIntent = new Intent(this, HomeActivity.class);
+            Intent myIntent = new Intent(this, MainScreen.class);
             myIntent.putExtra("name", "asdasd"); //Optional parameters
             startActivity(myIntent);
             return;

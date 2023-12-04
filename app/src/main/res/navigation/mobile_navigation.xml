@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.upc.appcentroidiomas.ui.home.HomeFragment"
+        android:name="com.upc.appcentroidiomas.ProductsListActivity"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/activity_login" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.upc.appcentroidiomas.ui.gallery.GalleryFragment"
+        android:name="com.upc.appcentroidiomas.ProductsListActivity"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/activity_list_products" />
 
     <fragment
         android:id="@+id/nav_slideshow"

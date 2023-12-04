@@ -3,13 +3,16 @@ package com.upc.appcentroidiomas;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ProductsListActivity extends AppCompatActivity {
+public class ProductsListActivity extends Fragment {
     EditText txtFilter;
     Button btnSearch;
     RecyclerView recyclerProducts;
@@ -40,6 +43,45 @@ public class ProductsListActivity extends AppCompatActivity {
     ProductsAdapter productsAdapter;
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_list_products, container, false);
+        // Configura tus vistas aquí usando view.findViewById(...)
+        super.onCreate(savedInstanceState);
+
+        txtFilter = view.findViewById(R.id.txtFilter);
+        btnSearch = view.findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Search();
+            }
+        });
+
+        recyclerProducts = view.findViewById(R.id.recyclerProducts);
+        //productsAdapter = new ProductsAdapter(ProductsListActivity.this, products);
+
+        //RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        //recyclerProducts.setLayoutManager(mLayoutManager);
+        //recyclerProducts.setItemAnimator(new DefaultItemAnimator());
+        //recyclerProducts.setAdapter(productsAdapter);
+
+        btnAddProduct = view.findViewById(R.id.btnAddProduct);
+        btnAddProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+                //Intent intent = new Intent(ProductsListActivity.this, ActivityProduct.class);
+                //startActivity(intent);
+            }
+        });
+
+        Search();
+
+        return view;
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_products);
@@ -72,10 +114,10 @@ public class ProductsListActivity extends AppCompatActivity {
 
         Search();
     }
-
+*/
     private void Search(){
         String criteria = txtFilter.getText().toString();
-        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
+        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getContext()).getLoggedUser();
 
         String url = ApiContants.BASE_URL + "products/filtered-by-user?userId=" + loggedInUser.getUserId();
 
@@ -154,30 +196,30 @@ public class ProductsListActivity extends AppCompatActivity {
                     }
 
                     if (products.size() == 0 ){
-                        Toast.makeText(ProductsListActivity.this, "No se encontraron productos con su filtro.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "No se encontraron productos con su filtro.", Toast.LENGTH_LONG).show();
                     }
 
-                    productsAdapter = new ProductsAdapter(ProductsListActivity.this, products);
+                    productsAdapter = new ProductsAdapter(getContext(), products);
                     recyclerProducts.setAdapter(productsAdapter);
-                    recyclerProducts.setLayoutManager(new LinearLayoutManager(ProductsListActivity.this ));
+                    recyclerProducts.setLayoutManager(new LinearLayoutManager(getContext()));
 
                 }catch (JSONException e){
-                    Toast.makeText(ProductsListActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ProductsListActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ProductsListActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(peticion);
     }
 
-    protected void onResume() {
+    /*protected void onResume() {
         super.onResume();
         //TODO refresh data?
         //refreshAvailableUsersList();
-    }
+    }*/
 }

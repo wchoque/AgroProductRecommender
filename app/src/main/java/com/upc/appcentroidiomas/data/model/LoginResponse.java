@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 public class LoginResponse {
     @SerializedName("id")
     public int id;
+    @SerializedName("userName")
+    public String userName;
     @SerializedName("firstName")
     public String firstName;
     @SerializedName("lastName")

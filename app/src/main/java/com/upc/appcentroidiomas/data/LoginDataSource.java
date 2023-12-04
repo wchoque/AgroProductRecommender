@@ -14,8 +14,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static java.util.UUID.randomUUID;
-
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
@@ -39,7 +37,7 @@ public class LoginDataSource {
            call.enqueue(new Callback<LoginResponse>() {
                 @ Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    LoggedInUser fakeUser = new LoggedInUser(0, response.body().displayName);
+                    LoggedInUser fakeUser = new LoggedInUser(0, response.body().userName, response.body().displayName);
                     //return fakeUser;
                     //return new LoggedInUser(fakeUser);
                 }
@@ -51,7 +49,7 @@ public class LoginDataSource {
                     //Toast.makeText(this, "sssssssssssss", Toast.LENGTH_LONG);
                 }
             });
-            LoggedInUser fakeUser = new LoggedInUser(0, "asdasdas");
+            LoggedInUser fakeUser = new LoggedInUser(0, "fake", "fake");
             return new Result.Success<>(fakeUser);
 
             //if (!username.equals("admin") && !password.equals("123456")){
