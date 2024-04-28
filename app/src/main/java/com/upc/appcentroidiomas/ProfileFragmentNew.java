@@ -6,13 +6,16 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.upc.appcentroidiomas.api.ApiContants;
 import com.upc.appcentroidiomas.api.LoginApi;
@@ -38,7 +41,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileFragmentNew extends Fragment {
     TextView profileFirstName, profileLastName, profileEmail, profileDisplayName, profilePhoneNumber, profileGender, profileBio, profileWebpageUrl, profileDni;
     ImageView profileAvatar;
     TextView profileCurrentPassword, profileNewPassword;
@@ -46,33 +49,40 @@ public class ProfileActivity extends AppCompatActivity {
     private LoginRepository loginRepository;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        loginRepository = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext());
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+
+        loginRepository = LoginRepository.getInstance(new LoginDataSource(), getContext());
         LoggedInUser loggedInUser = loginRepository.getLoggedUser();
 
-        assignReferences();
+        View view = inflater.inflate(R.layout.activity_profile, container, false);
+
+        assignReferences(view);
         getProfileInformation(loggedInUser.getUserId(), loggedInUser.getDisplayName());
+
+        // Configura tus vistas aquí usando view.findViewById(...)
+        super.onCreate(savedInstanceState);
+
+        return view;
     }
 
-    private void assignReferences(){
-        profileAvatar = findViewById(R.id.profileAvatar);
-        profileFirstName = findViewById(R.id.profileFirstName);
-        profileLastName = findViewById(R.id.profileLastName);
-        profileDisplayName = findViewById(R.id.profileDisplayName);
-        profileEmail = findViewById(R.id.profileEmail);
-        profilePhoneNumber = findViewById(R.id.profilePhoneNumber);
-        profileGender = findViewById(R.id.profileGender);
-        profileBio = findViewById(R.id.profileBio);
-        profileWebpageUrl = findViewById(R.id.profileWebpageUrl);
-        profileDni = findViewById(R.id.profileDni);
+    private void assignReferences(View view){
+        profileAvatar = view.findViewById(R.id.profileAvatar);
+        profileFirstName = view.findViewById(R.id.profileFirstName);
+        profileLastName = view.findViewById(R.id.profileLastName);
+        profileDisplayName = view.findViewById(R.id.profileDisplayName);
+        profileEmail = view.findViewById(R.id.profileEmail);
+        profilePhoneNumber = view.findViewById(R.id.profilePhoneNumber);
+        profileGender = view.findViewById(R.id.profileGender);
+        profileBio = view.findViewById(R.id.profileBio);
+        profileWebpageUrl = view.findViewById(R.id.profileWebpageUrl);
+        profileDni = view.findViewById(R.id.profileDni);
 
-        profileCurrentPassword = findViewById(R.id.profileCurrentPassword);
-        profileNewPassword = findViewById(R.id.profileNewPassword);
+        profileCurrentPassword = view.findViewById(R.id.profileCurrentPassword);
+        profileNewPassword = view.findViewById(R.id.profileNewPassword);
 
-        btnUpdateProfile = findViewById(R.id.btnUpdateProfile);
+        btnUpdateProfile = view.findViewById(R.id.btnUpdateProfile);
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,21 +157,21 @@ public class ProfileActivity extends AppCompatActivity {
                             profileBio.setText(response.body().bio);
                             profileWebpageUrl.setText(response.body().webpageUrl);
                             profileDni.setText(response.body().dni);
-                            Toast.makeText(ProfileActivity.this, "Sus datos se han actualizado correctamente", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Sus datos se han actualizado correctamente", Toast.LENGTH_LONG).show();
                         }else {
-                            Toast.makeText(ProfileActivity.this, "No se pudo actualizar la información del perfil", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "No se pudo actualizar la información del perfil", Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<UserInformationResponse> call, Throwable t) {
-                        Toast.makeText(ProfileActivity.this, "No se pudo actualizar la información del perfil", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "No se pudo actualizar la información del perfil", Toast.LENGTH_LONG).show();
                     }
                 });
             }
         });
 
-        btnChangePassword = findViewById(R.id.btnChangePassword);
+        btnChangePassword = view.findViewById(R.id.btnChangePassword);
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,34 +196,34 @@ public class ProfileActivity extends AppCompatActivity {
                             profileCurrentPassword.setText("");
                             profileNewPassword.setText("");
 
-                            Toast.makeText(ProfileActivity.this, "Su contraseña fue actualizada correctamente.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Su contraseña fue actualizada correctamente.", Toast.LENGTH_LONG).show();
                         }else{
-                            Toast.makeText(ProfileActivity.this, "Hubo un error al intentar cambiar la contraseña, verifique que los datos sean correctos", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Hubo un error al intentar cambiar la contraseña, verifique que los datos sean correctos", Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        Toast.makeText(ProfileActivity.this, "Hubo un error al intentar cambiar la contraseña, verifique que los datos sean correctos", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Hubo un error al intentar cambiar la contraseña, verifique que los datos sean correctos", Toast.LENGTH_LONG).show();
                     }
                 });
             }
         });
 
-        btnLogout = findViewById(R.id.btnLogout);
+        btnLogout = view.findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //user logout
                 loginRepository.logout();
 
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(getContext(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
     }
@@ -279,9 +289,14 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserInformationResponse> call, Throwable t) {
-                Toast.makeText(ProfileActivity.this, "No se pudo obtener la información del perfil", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No se pudo obtener la información del perfil", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
