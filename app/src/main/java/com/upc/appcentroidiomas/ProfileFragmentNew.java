@@ -2,29 +2,23 @@ package com.upc.appcentroidiomas;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.upc.appcentroidiomas.api.ApiContants;
 import com.upc.appcentroidiomas.api.LoginApi;
 import com.upc.appcentroidiomas.api.UserApi;
@@ -40,14 +34,11 @@ import com.upc.appcentroidiomas.ui.login.LoginActivity;
 import com.upc.appcentroidiomas.utils.AndroidUtil;
 
 import java.io.File;
-import java.io.InputStream;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,6 +52,7 @@ public class ProfileFragmentNew extends Fragment {
     TextView profileCurrentPassword, profileNewPassword;
     Button btnUpdateProfile, btnChangePassword, btnLogout;
 
+    ProgressBar btnUpdateProfileProgressBar, btnChangePasswordProgressBar;
 
     ActivityResultLauncher<Intent> imagePickLauncher;
     Uri selectedImageUri;
@@ -98,7 +90,6 @@ public class ProfileFragmentNew extends Fragment {
         assignReferences(view);
         getProfileInformation(loggedInUser.getUserId(), loggedInUser.getDisplayName());
 
-        // Configura tus vistas aquí usando view.findViewById(...)
         super.onCreate(savedInstanceState);
 
         return view;
@@ -134,6 +125,8 @@ public class ProfileFragmentNew extends Fragment {
         btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setInProgressUpdateProfile(true);
+
                 LoggedInUser loggedInUser = loginRepository.getLoggedUser();
                 UserInformationModel userInformationModel = new UserInformationModel();
                 userInformationModel.firstName = profileFirstName.getText().toString();
@@ -171,13 +164,16 @@ public class ProfileFragmentNew extends Fragment {
                 RequestBody requestBodyWebpageUrl = RequestBody.create(MediaType.parse("text/plain"), userInformationModel.webpageUrl);
                 RequestBody requestBodyDni = RequestBody.create(MediaType.parse("text/plain"), userInformationModel.dni);
 
-                // Preparar el archivo si existe
                 MultipartBody.Part filePart = null;
-                File file = new File(selectedImageUri.getPath());
-                if (file.exists()) {
-                    RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
-                    filePart = MultipartBody.Part.createFormData("profilePicture", file.getName(), fileBody);
+                // Preparar el archivo si existe
+                if (selectedImageUri != null){
+                    File file = new File(selectedImageUri.getPath());
+                    if (file.exists()) {
+                        RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
+                        filePart = MultipartBody.Part.createFormData("profilePicture", file.getName(), fileBody);
+                    }
                 }
+
                 Call<UserInformationResponse> call = userApi.updateProfile(
                         loggedInUser.getUserId(),
                         requestBodyFirstName,
@@ -195,27 +191,7 @@ public class ProfileFragmentNew extends Fragment {
                     @Override
                     public void onResponse(Call<UserInformationResponse> call, Response<UserInformationResponse> response) {
                         if (response.isSuccessful()) {
-                            new DownloadImageTask(profileAvatar)
-                                    .execute(response.body().imageUrl);
-
-                            /*profileFirstName.setText("Nombres: " + response.body().firstName);
-                            profileLastName.setText("Apellidos: " + response.body().lastName);
-                            profileEmail.setText("Email: " + response.body().email);
-                            profilePhoneNumber.setText("Telefono: " + response.body().phoneNumber);
-
-                            //TODO convert to masculino or dfemenio
-                            int gender = response.body().gender;
-                            String genderText= "";
-                            if (gender == 1){
-                                genderText = "Masculino";
-                            }else{
-                                genderText = "Femenino";
-                            }
-
-                            profileGender.setText("Genero: " + genderText);
-                            profileBio.setText("Bio: " + response.body().bio);
-                            profileWebpageUrl.setText("Pagina Web: " + response.body().webpageUrl);
-                            profileDni.setText("DNI: " + response.body().dni);*/
+                            AndroidUtil.setProfilePic(getContext(), Uri.parse(response.body().imageUrl), profileAvatar);
 
                             profileFirstName.setText(response.body().firstName);
                             profileLastName.setText(response.body().lastName);
@@ -238,6 +214,7 @@ public class ProfileFragmentNew extends Fragment {
                         } else {
                             Toast.makeText(getContext(), "No se pudo actualizar la información del perfil", Toast.LENGTH_LONG).show();
                         }
+                        setInProgressUpdateProfile(false);
                     }
 
                     @Override
@@ -248,10 +225,14 @@ public class ProfileFragmentNew extends Fragment {
             }
         });
 
+        btnUpdateProfileProgressBar = view.findViewById(R.id.btnUpdateProfileProgressBar);
+
         btnChangePassword = view.findViewById(R.id.btnChangePassword);
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setInProgressChangePassword(true);
+
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(ApiContants.BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
@@ -277,6 +258,7 @@ public class ProfileFragmentNew extends Fragment {
                         } else {
                             Toast.makeText(getContext(), "Hubo un error al intentar cambiar la contraseña, verifique que los datos sean correctos", Toast.LENGTH_LONG).show();
                         }
+                        setInProgressChangePassword(false);
                     }
 
                     @Override
@@ -286,6 +268,7 @@ public class ProfileFragmentNew extends Fragment {
                 });
             }
         });
+        btnChangePasswordProgressBar = view.findViewById(R.id.btnChangePasswordProgressBar);
 
         btnLogout = view.findViewById(R.id.btnLogout);
         btnLogout.setVisibility(View.GONE);
@@ -307,6 +290,9 @@ public class ProfileFragmentNew extends Fragment {
     }
 
     private void getProfileInformation(int userId, String displayName) {
+        setInProgressUpdateProfile(true);
+        setInProgressChangePassword(true);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiContants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -321,30 +307,6 @@ public class ProfileFragmentNew extends Fragment {
                 if (response.isSuccessful()) {
                     AndroidUtil.setProfilePic(getContext(), Uri.parse(response.body().imageUrl), profileAvatar);
 
-                    //new DownloadImageTask(profileAvatar)
-                      //      .execute(response.body().imageUrl);
-
-                    /*
-                      profileFirstName.setText("Nombres: " + response.body().firstName);
-                    profileLastName.setText("Apellidos: " + response.body().lastName);
-                    profileDisplayName.setText("Apodo: " + displayName);
-                    profileEmail.setText("Email: " + response.body().email);
-                    profilePhoneNumber.setText("Telefono: " + response.body().phoneNumber);
-
-                    //TODO convert to masculino or dfemenio
-                    int gender = response.body().gender;
-                    String genderText= "";
-                    if (gender == 1){
-                        genderText = "Masculino";
-                    }else{
-                        genderText = "Femenino";
-                    }
-
-                    profileGender.setText("Genero: " + genderText);
-                    profileBio.setText("Bio: " + response.body().bio);
-                    profileWebpageUrl.setText("Pagina Web: " + response.body().webpageUrl);
-                    profileDni.setText("DNI: " + response.body().dni);
-                    */
                     profileFirstName.setText(response.body().firstName);
                     profileLastName.setText(response.body().lastName);
                     profileDisplayName.setText(displayName);
@@ -365,6 +327,8 @@ public class ProfileFragmentNew extends Fragment {
                     profileWebpageUrl.setText(response.body().webpageUrl);
                     profileDni.setText(response.body().dni);
                 }
+                setInProgressUpdateProfile(false);
+                setInProgressChangePassword(false);
             }
 
             @Override
@@ -374,33 +338,28 @@ public class ProfileFragmentNew extends Fragment {
         });
     }
 
+    void setInProgressUpdateProfile(boolean inProgress){
+        if(inProgress){
+            btnUpdateProfileProgressBar.setVisibility(View.VISIBLE);
+            btnUpdateProfile.setVisibility(View.GONE);
+        }else{
+            btnUpdateProfileProgressBar.setVisibility(View.GONE);
+            btnUpdateProfile.setVisibility(View.VISIBLE);
+        }
+    }
+
+    void setInProgressChangePassword(boolean inProgress){
+        if(inProgress){
+            btnChangePasswordProgressBar.setVisibility(View.VISIBLE);
+            btnChangePassword.setVisibility(View.GONE);
+        }else{
+            btnChangePasswordProgressBar.setVisibility(View.GONE);
+            btnChangePassword.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageView;
-
-        public DownloadImageTask(ImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            imageView.setImageBitmap(result);
-        }
     }
 }

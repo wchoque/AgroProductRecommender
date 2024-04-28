@@ -28,39 +28,52 @@
 
         <EditText
             android:id="@+id/profileFirstName"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="First name"
+            android:inputType="text"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileAvatar" />
 
         <EditText
             android:id="@+id/profileLastName"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="Last name"
+            android:inputType="text"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileFirstName" />
 
         <EditText
             android:id="@+id/profileEmail"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="Email address"
+            android:inputType="text"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileLastName" />
 
         <TextView
             android:id="@+id/profileDisplayName"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:text="Display Name"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,106 +83,156 @@
 
         <EditText
             android:id="@+id/profilePhoneNumber"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="Phone number"
+            android:inputType="text"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileDisplayName" />
 
         <EditText
             android:id="@+id/profileGender"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="Gender"
+            android:inputType="text"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profilePhoneNumber" />
 
         <EditText
             android:id="@+id/profileBio"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="Biography"
+            android:inputType="text"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileGender" />
 
         <EditText
             android:id="@+id/profileWebpageUrl"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="Website URL"
+            android:inputType="text"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileBio" />
 
         <EditText
             android:id="@+id/profileDni"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="DNI"
+            android:inputType="text"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileWebpageUrl" />
 
-        <Button
-            android:id="@+id/btnUpdateProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Update Profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileDni" />
+        <LinearLayout
+            android:id="@+id/layoutBtnUpdateProfile"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/profileDni" >
+
+            <Button
+                android:id="@+id/btnUpdateProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_rounded_corner"
+                android:text="Update profile"/>
+            <ProgressBar
+                android:id="@+id/btnUpdateProfileProgressBar"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/my_primary"
+                android:layout_gravity="center"/>
+        </LinearLayout>
 
         <EditText
             android:id="@+id/profileCurrentPassword"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="Current Password"
             android:inputType="textPassword"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnUpdateProfile" />
+            app:layout_constraintTop_toBottomOf="@id/layoutBtnUpdateProfile" />
 
         <EditText
             android:id="@+id/profileNewPassword"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
             android:hint="New Password"
             android:inputType="textPassword"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileCurrentPassword" />
 
-        <Button
-            android:id="@+id/btnChangePassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Change Password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profileNewPassword" />
+        <LinearLayout
+            android:id="@+id/layoutBtnChangePassword"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/profileNewPassword" >
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Logout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
+            <Button
+                android:id="@+id/btnChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_rounded_corner"
+                android:text="Change Password"/>
+
+            <ProgressBar
+                android:id="@+id/btnChangePasswordProgressBar"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/my_primary"
+                android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_rounded_corner"
+                android:text="Logout"
+                app:layout_constraintTop_toBottomOf="@id/btnChangePasswordProgressBar"/>
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
