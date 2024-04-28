@@ -1,23 +1,55 @@
 package com.upc.appcentroidiomas;
 
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.upc.appcentroidiomas.adapter.ChatRecyclerAdapter;
 import com.upc.appcentroidiomas.api.ApiContants;
 import com.upc.appcentroidiomas.api.ChatApi;
 import com.upc.appcentroidiomas.api.ProductChatApi;
 import com.upc.appcentroidiomas.data.LoginDataSource;
 import com.upc.appcentroidiomas.data.LoginRepository;
+import com.upc.appcentroidiomas.data.model.ChatMessageResponse;
 import com.upc.appcentroidiomas.data.model.HistoryChatResponse;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.data.model.NewMessageModel;
 import com.upc.appcentroidiomas.data.model.NewMessageResponse;
+import com.upc.appcentroidiomas.data.model.UserInformationModel;
+import com.upc.appcentroidiomas.models.ChatMessageModel;
+import com.upc.appcentroidiomas.utils.AndroidUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,105 +58,211 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatDetailActivity extends AppCompatActivity {
-    private int userIdTo;
-    TextView userChatHistoryMessages;
+    UserInformationModel otherUser;
+    ChatRecyclerAdapter adapter;
+
+    ArrayList<ChatMessageModel> chatMessages = new ArrayList<>();
+
+    EditText messageInput;
+    ImageButton sendMessageBtn;
+    ImageButton backBtn;
+    TextView otherUsername;
+    RecyclerView recyclerView;
+    ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_detail);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            finish();
-            return;
+        //get UserModel
+        otherUser = AndroidUtil.getUserModelFromIntent(getIntent());
+
+        messageInput = findViewById(R.id.chat_message_input);
+        sendMessageBtn = findViewById(R.id.message_send_btn);
+        backBtn = findViewById(R.id.back_btn);
+        otherUsername = findViewById(R.id.other_username);
+        recyclerView = findViewById(R.id.chat_recycler_view);
+        imageView = findViewById(R.id.profile_pic_image_view);
+
+        if (otherUser.imageUrl != null) {
+            AndroidUtil.setProfilePic(this, Uri.parse(otherUser.imageUrl), imageView);
         }
-        userIdTo = extras.getInt("userIdTo",0);
-        //String historyMessages = extras.getString("historyMessages","");
 
-        TextView userChatDisplayName = findViewById(R.id.userChatDisplayName);
-        userChatHistoryMessages = findViewById(R.id.userChatHistoryMessages);
-        TextView userChatNewContentMessage = findViewById(R.id.userChatNewContentMessage);
-
-        userChatHistoryMessages.setMovementMethod(new ScrollingMovementMethod());
-
-
-        // can be launched in a separate asynchronous job
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiContants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
-
-        ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
-        Call<HistoryChatResponse> call = productChatApi.getHistoryChat(loggedInUser.getUserId(), userIdTo);
-
-        call.enqueue(new Callback<HistoryChatResponse>() {
-            @ Override
-            public void onResponse(Call<HistoryChatResponse> call, Response<HistoryChatResponse> response) {
-                if (response.isSuccessful()){
-                    userChatHistoryMessages.setText(response.body().historyMessages);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<HistoryChatResponse> call, Throwable t) {
-
-            }
+        backBtn.setOnClickListener((v) -> {
+            onBackPressed();
         });
+        otherUsername.setText(otherUser.displayName);
 
+        sendMessageBtn.setOnClickListener((v -> {
+            String message = messageInput.getText().toString().trim();
+            if (message.isEmpty())
+                return;
+            sendMessageToUser(message);
+        }));
 
-        Button btnSendNewMessage = findViewById(R.id.btnSendNewMessage);
-        btnSendNewMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(ApiContants.BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-                ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
-                LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), ChatDetailActivity.this).getLoggedUser();
-
-                NewMessageModel newMessage = new NewMessageModel();
-                newMessage.userIdFrom = loggedInUser.getUserId();
-                newMessage.userIdTo = userIdTo;
-                newMessage.messageContent = userChatNewContentMessage.getText().toString();
-
-                Call<NewMessageResponse> call = productChatApi.SendNewMessage(newMessage);
-                call.enqueue(new Callback<NewMessageResponse>() {
-                    @ Override
-                    public void onResponse(Call<NewMessageResponse> call, Response<NewMessageResponse> response) {
-                        if (response.isSuccessful()){
-                            userChatNewContentMessage.setText("");
-                            refreshHistoryChat();
-                            Toast.makeText(ChatDetailActivity.this, "Mensaje enviado", Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(ChatDetailActivity.this, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<NewMessageResponse> call, Throwable t) {
-                        Toast.makeText(ChatDetailActivity.this, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
-
-        Button btnUserChatBack = findViewById(R.id.btnUserChatBack);
-        btnUserChatBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        String displayNameTo = extras.getString("displayNameTo", "");
-        userChatDisplayName.setText("Usuario: " + displayNameTo);
+        //getOrCreateChatroomModel();
+        setupChatRecyclerView();
     }
 
-    public void refreshHistoryChat() {
+    void sendMessageToUser(String message) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiContants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
+        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), ChatDetailActivity.this).getLoggedUser();
+
+        NewMessageModel newMessage = new NewMessageModel();
+        newMessage.userIdFrom = loggedInUser.getUserId();
+        newMessage.userIdTo = otherUser.id;
+        newMessage.messageContent = message;
+
+        Call<NewMessageResponse> call = productChatApi.SendNewMessage(newMessage);
+        call.enqueue(new Callback<NewMessageResponse>() {
+            @Override
+            public void onResponse(Call<NewMessageResponse> call, Response<NewMessageResponse> response) {
+                if (response.isSuccessful()) {
+                    messageInput.setText("");
+                    //sendNotification(message);//TODO IMPLEMENT REALTIME NOTIFICATION
+                    refreshChat();
+                    Toast.makeText(ChatDetailActivity.this, "Mensaje enviado", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ChatDetailActivity.this, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewMessageResponse> call, Throwable t) {
+                Toast.makeText(ChatDetailActivity.this, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    void setupChatRecyclerView() {
+        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
+
+        String url = ApiContants.BASE_URL + "ProductChatMessage/GetMessages/" + loggedInUser.getUserId() + "/" + otherUser.id;
+
+        StringRequest peticion = new StringRequest(Request.Method.GET, url, new com.android.volley.Response.Listener<String>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(String response) {
+                try {
+                    chatMessages.clear();
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = jsonArray.getJSONObject(i);
+
+                        ChatMessageModel _chatMessage = new ChatMessageModel();
+                        _chatMessage.setSenderId(object.getInt("senderId"));
+                        _chatMessage.setMessage(object.getString("message"));
+
+                        try {
+                            SimpleDateFormat format = null;
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                                format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                            }
+                            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+                            Date date = format.parse(object.getString("timestamp"));
+                            _chatMessage.setTimestamp(date);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            // Maneja el error de parseo aquí
+                        }
+
+                        chatMessages.add(_chatMessage);
+                    }
+
+                    if (chatMessages.size() == 0) {
+                        Toast.makeText(getApplicationContext(), "No se encontraron mensajes", Toast.LENGTH_LONG).show();
+                    }
+
+                    adapter = new ChatRecyclerAdapter(getApplicationContext(), chatMessages);
+                    LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
+                    manager.setReverseLayout(true);
+                    recyclerView.setLayoutManager(manager);
+                    recyclerView.setAdapter(adapter);
+                    //adapter.startListening();
+                    adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                        @Override
+                        public void onItemRangeInserted(int positionStart, int itemCount) {
+                            super.onItemRangeInserted(positionStart, itemCount);
+                            recyclerView.smoothScrollToPosition(0);
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(peticion);
+    }
+
+
+    public void refreshChat(){
+        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
+        String url = ApiContants.BASE_URL + "ProductChatMessage/GetMessages/" + loggedInUser.getUserId() + "/" + otherUser.id;
+
+        StringRequest peticion = new StringRequest(Request.Method.GET, url, new com.android.volley.Response.Listener<String>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(String response) {
+                try {
+                    chatMessages.clear();
+                    JSONArray jsonArray = new JSONArray(response);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = jsonArray.getJSONObject(i);
+
+                        ChatMessageModel _chatMessage = new ChatMessageModel();
+                        _chatMessage.setSenderId(object.getInt("senderId"));
+                        _chatMessage.setMessage(object.getString("message"));
+
+                        try {
+                            SimpleDateFormat format = null;
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                                format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                            }
+                            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+                            Date date = format.parse(object.getString("timestamp"));
+                            _chatMessage.setTimestamp(date);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            // Maneja el error de parseo aquí
+                        }
+
+                        chatMessages.add(_chatMessage);
+                    }
+
+                    if (chatMessages.size() == 0) {
+                        Toast.makeText(getApplicationContext(), "No se encontraron mensajes", Toast.LENGTH_LONG).show();
+                    }
+
+                    adapter.setMessages(chatMessages);
+                    adapter.notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(peticion);
+    }
+    public void refreshChat2() {
         // can be launched in a separate asynchronous job
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiContants.BASE_URL)
@@ -134,18 +272,23 @@ public class ChatDetailActivity extends AppCompatActivity {
         LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
 
         ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
-        Call<HistoryChatResponse> call = productChatApi.getHistoryChat(loggedInUser.getUserId(), userIdTo);
+        Call<ChatMessageResponse> call = productChatApi.getMessages(loggedInUser.getUserId(), otherUser.id);
 
-        call.enqueue(new Callback<HistoryChatResponse>() {
-            @ Override
-            public void onResponse(Call<HistoryChatResponse> call, Response<HistoryChatResponse> response) {
-                if (response.isSuccessful()){
-                    userChatHistoryMessages.setText(response.body().historyMessages);
+        call.enqueue(new Callback<ChatMessageResponse>() {
+            @Override
+            public void onResponse(Call<ChatMessageResponse> call, Response<ChatMessageResponse> response) {
+                if (response.isSuccessful()) {
+
+                    chatMessages = response.body().messages;
+                    adapter.setMessages(chatMessages);
+                    adapter.notifyDataSetChanged();
+                    //TODO
+                    //userChatHistoryMessages.setText(response.body().historyMessages);
                 }
             }
 
             @Override
-            public void onFailure(Call<HistoryChatResponse> call, Throwable t) {
+            public void onFailure(Call<ChatMessageResponse> call, Throwable t) {
 
             }
         });

@@ -1,5 +1,6 @@
 package com.upc.appcentroidiomas.api;
 
+import com.upc.appcentroidiomas.data.model.ChatMessageResponse;
 import com.upc.appcentroidiomas.data.model.HistoryChatResponse;
 import com.upc.appcentroidiomas.data.model.NewMessageModel;
 import com.upc.appcentroidiomas.data.model.NewMessageResponse;
@@ -14,6 +15,6 @@ public interface ProductChatApi {
     @POST("ProductChatMessage")
     Call<NewMessageResponse> SendNewMessage(@Body NewMessageModel newMessageModel);
 
-    @GET("ProductChatMessage/GetHistoryChat/{userIdFrom}/{userIdTo}")
-    Call<HistoryChatResponse> getHistoryChat(@Path("userIdFrom") int userIdFrom, @Path("userIdTo") int userIdTo);
+    @GET("ProductChatMessage/GetMessages/{userIdFrom}/{userIdTo}")
+    Call<ChatMessageResponse> getMessages(@Path("userIdFrom") int userIdFrom, @Path("userIdTo") int userIdTo);
 }

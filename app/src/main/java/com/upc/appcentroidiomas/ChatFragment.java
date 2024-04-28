@@ -59,6 +59,7 @@ public class ChatFragment extends Fragment {
                 intent.putExtra("lastMessageContent", availableChatUserDetailResponse.lastMessageContent);
                 intent.putExtra("lastMessageSentAt", availableChatUserDetailResponse.lastMessageSentAt);
                 intent.putExtra("roleTo", availableChatUserDetailResponse.roleTo);
+                intent.putExtra("imageUrl", availableChatUserDetailResponse.imageUrl);
                 startActivity(intent);
             }
 
