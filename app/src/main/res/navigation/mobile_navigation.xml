@@ -4,22 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_home">
+    <!--Usuario comprador mayorista
+        * Productos recomendados
+    -->
+    <!--<fragment
+        android:id="@+id/nav_search_all_products"
+        android:name="com.upc.appcentroidiomas.ProductsListActivity"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_list_products" />-->
 
+    <!--Usuario Agricultor
+        * Mis productos
+    -->
     <fragment
         android:id="@+id/nav_home"
         android:name="com.upc.appcentroidiomas.ProductsListActivity"
         android:label="@string/menu_home"
-        tools:layout="@layout/activity_login" />
-
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.upc.appcentroidiomas.ProductsListActivity"
-        android:label="@string/menu_gallery"
         tools:layout="@layout/activity_list_products" />
 
+
+    <!--All users
+    * Buscar productos
+    * Favoritos
+    * Mensajes
+    -->
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.upc.appcentroidiomas.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_search_all_products"
+        android:name="com.upc.appcentroidiomas.AllProductsListFragment"
+        android:label="@string/menu_search_all_products"
+        tools:layout="@layout/activity_list_all_products" />
+    <fragment
+        android:id="@+id/nav_favoriteProduct"
+        android:name="com.upc.appcentroidiomas.ui.slideshow.FavoriteProductsFragment"
+        android:label="@string/menu_favoriteProduct"
+        tools:layout="@layout/fragment_favorite_products" />
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.upc.appcentroidiomas.ProfileFragmentNew"
+        android:label="@string/menu_profile"
+        tools:layout="@layout/activity_profile" />
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.upc.appcentroidiomas.ChatFragment"
+        android:label="@string/menu_chat"
+        tools:layout="@layout/activity_chat" />
+
 </navigation>

@@ -37,7 +37,7 @@ public class LoginDataSource {
            call.enqueue(new Callback<LoginResponse>() {
                 @ Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    LoggedInUser fakeUser = new LoggedInUser(0, response.body().userName, response.body().displayName);
+                    LoggedInUser fakeUser = new LoggedInUser(response.body().userId, response.body().userName, response.body().displayName, response.body().email, response.body().userType);
                     //return fakeUser;
                     //return new LoggedInUser(fakeUser);
                 }
@@ -49,7 +49,7 @@ public class LoginDataSource {
                     //Toast.makeText(this, "sssssssssssss", Toast.LENGTH_LONG);
                 }
             });
-            LoggedInUser fakeUser = new LoggedInUser(0, "fake", "fake");
+            LoggedInUser fakeUser = new LoggedInUser(0, "fake", "fake", "fake@fake.com", 0);
             return new Result.Success<>(fakeUser);
 
             //if (!username.equals("admin") && !password.equals("123456")){

@@ -64,6 +64,8 @@ public class LoginRepository {
         SharedPreferences.Editor edit = Loginprefs.edit();
         edit.putString("userId", Integer.toString(user.getUserId()));
         edit.putString("userName", user.getUserName());
+        edit.putString("email", user.getEmail());
+        edit.putString("userType", Integer.toString(user.getUserType()));
         edit.putString("displayName", user.getDisplayName());
         edit.putString("userLoginStatus", "yes");
         edit.apply();
@@ -74,12 +76,14 @@ public class LoginRepository {
     public LoggedInUser getLoggedUser() {
         String userId = Loginprefs.getString("userId", null);
         String userName = Loginprefs.getString("userName", null);
+        String email = Loginprefs.getString("email", null);
+        String userType = Loginprefs.getString("userType", null);
         String displayName = Loginprefs.getString("displayName", null);
 
         if (userId == null){
-            this.user = new LoggedInUser(0, userName, displayName);
+            this.user = new LoggedInUser(0, userName, displayName, email, 0);
         }else{
-            this.user = new LoggedInUser(Integer.parseInt(userId), userName, displayName);
+            this.user = new LoggedInUser(Integer.parseInt(userId), userName, displayName, email, Integer.parseInt(userType));
         }
 
         return this.user;

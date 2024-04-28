@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.upc.appcentroidiomas.HomeActivity;
 import com.upc.appcentroidiomas.MainScreen;
 import com.upc.appcentroidiomas.R;
 import com.upc.appcentroidiomas.data.LoginDataSource;
@@ -85,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             //Complete and destroy login activity once successful
             finish();
             //Start Home activity
-            Intent myIntent = new Intent(this, HomeActivity.class);
+            Intent myIntent = new Intent(this, MainScreen.class);
             myIntent.putExtra("name", "asdasd"); //Optional parameters
             startActivity(myIntent);
         });

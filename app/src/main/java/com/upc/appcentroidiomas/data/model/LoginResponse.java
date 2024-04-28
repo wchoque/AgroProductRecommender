@@ -7,6 +7,10 @@ public class LoginResponse {
     public int id;
     @SerializedName("userName")
     public String userName;
+    @SerializedName("userId")
+    public int userId;
+    @SerializedName("userType")
+    public int userType;
     @SerializedName("firstName")
     public String firstName;
     @SerializedName("lastName")
