@@ -3,7 +3,8 @@
     <string name="title_activity_login">INGRESAR</string>
     <string name="prompt_email">Usuario</string>
     <string name="prompt_password">Contraseña</string>
-    <string name="action_sign_in">INICIAR SESIÓN</string>
+    <string name="action_sign_in">Ingresar</string>
+    <string name="action_create_account">¿Necesita una cuenta?</string>
     <string name="action_sign_in_short">LOGIN</string>
     <string name="welcome">"Bienvenidos !"</string>
     <string name="invalid_username">Not a valid username</string>
@@ -32,8 +33,10 @@
 
     <string name="menu_home">Mis Productos</string>
     <string name="menu_gallery">Buscar otros productos</string>
-    <string name="menu_slideshow">Favoritos</string>
-
+    <string name="menu_search_all_products">Buscar productos</string>
+    <string name="menu_favoriteProduct">Favoritos</string>
+    <string name="menu_profile">Mi perfil</string>
+    <string name="menu_chat">Chat</string>
 
     <string-array name="Tags">
         <item>HTML</item>

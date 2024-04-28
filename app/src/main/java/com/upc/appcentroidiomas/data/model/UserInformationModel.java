@@ -10,4 +10,6 @@ public class UserInformationModel {
     public String bio;
     public String webpageUrl;
     public String dni;
+    public String imageUrl;
+    public String displayName;
 }

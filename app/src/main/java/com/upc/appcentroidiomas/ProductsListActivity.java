@@ -73,6 +73,8 @@ public class ProductsListActivity extends Fragment {
                 //TODO
                 //Intent intent = new Intent(ProductsListActivity.this, ActivityProduct.class);
                 //startActivity(intent);
+                Intent intent = new Intent(getActivity(), ActivityProduct.class);
+                startActivity(intent);
             }
         });
 
