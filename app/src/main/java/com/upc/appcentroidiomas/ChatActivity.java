@@ -41,7 +41,7 @@ public class ChatActivity extends AppCompatActivity {
 
         availableUsers = new ArrayList<>();
 
-        chatAdapter = new ChatAdapter(availableUsers);
+        chatAdapter = new ChatAdapter(availableUsers, getApplicationContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -66,32 +66,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         }));
 
-        // can be launched in a separate asynchronous job
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiContants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
-
-        AvailableChatUserApi availableChatUserApi = retrofit.create(AvailableChatUserApi.class);
-        Call<AvailableChatUserResponse> call = availableChatUserApi.get(loggedInUser.getUserId());
-
-        call.enqueue(new Callback<AvailableChatUserResponse>() {
-            @ Override
-            public void onResponse(Call<AvailableChatUserResponse> call, Response<AvailableChatUserResponse> response) {
-                if (response.isSuccessful()){
-                    availableUsers = response.body().availableUsers;
-                    chatAdapter.setAvailableUsers(availableUsers);
-                    chatAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AvailableChatUserResponse> call, Throwable t) {
-
-            }
-        });
+        refreshAvailableUsersList();
     }
     @Override
     protected void onResume() {

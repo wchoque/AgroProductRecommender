@@ -10,11 +10,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.upc.appcentroidiomas.api.ApiContants;
-import com.upc.appcentroidiomas.api.AvailableChatUserApi;
 import com.upc.appcentroidiomas.api.ChatApi;
+import com.upc.appcentroidiomas.api.ProductChatApi;
 import com.upc.appcentroidiomas.data.LoginDataSource;
 import com.upc.appcentroidiomas.data.LoginRepository;
-import com.upc.appcentroidiomas.data.model.AvailableChatUserResponse;
 import com.upc.appcentroidiomas.data.model.HistoryChatResponse;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.data.model.NewMessageModel;
@@ -57,8 +56,8 @@ public class ChatDetailActivity extends AppCompatActivity {
 
         LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
 
-        ChatApi chatApi = retrofit.create(ChatApi.class);
-        Call<HistoryChatResponse> call = chatApi.getHistoryChat(loggedInUser.getUserId(), userIdTo);
+        ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
+        Call<HistoryChatResponse> call = productChatApi.getHistoryChat(loggedInUser.getUserId(), userIdTo);
 
         call.enqueue(new Callback<HistoryChatResponse>() {
             @ Override
@@ -84,7 +83,7 @@ public class ChatDetailActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
-                ChatApi chatApi = retrofit.create(ChatApi.class);
+                ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
                 LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), ChatDetailActivity.this).getLoggedUser();
 
                 NewMessageModel newMessage = new NewMessageModel();
@@ -92,22 +91,24 @@ public class ChatDetailActivity extends AppCompatActivity {
                 newMessage.userIdTo = userIdTo;
                 newMessage.messageContent = userChatNewContentMessage.getText().toString();
 
-                Call<NewMessageResponse> call = chatApi.SendNewMessage(newMessage);
+                Call<NewMessageResponse> call = productChatApi.SendNewMessage(newMessage);
                 call.enqueue(new Callback<NewMessageResponse>() {
                     @ Override
                     public void onResponse(Call<NewMessageResponse> call, Response<NewMessageResponse> response) {
                         if (response.isSuccessful()){
                             userChatNewContentMessage.setText("");
                             refreshHistoryChat();
+                            Toast.makeText(ChatDetailActivity.this, "Mensaje enviado", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(ChatDetailActivity.this, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<NewMessageResponse> call, Throwable t) {
+                        Toast.makeText(ChatDetailActivity.this, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
                     }
                 });
-
-                Toast.makeText(ChatDetailActivity.this, "Mensaje enviado", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -132,8 +133,8 @@ public class ChatDetailActivity extends AppCompatActivity {
 
         LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
 
-        ChatApi chatApi = retrofit.create(ChatApi.class);
-        Call<HistoryChatResponse> call = chatApi.getHistoryChat(loggedInUser.getUserId(), userIdTo);
+        ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
+        Call<HistoryChatResponse> call = productChatApi.getHistoryChat(loggedInUser.getUserId(), userIdTo);
 
         call.enqueue(new Callback<HistoryChatResponse>() {
             @ Override

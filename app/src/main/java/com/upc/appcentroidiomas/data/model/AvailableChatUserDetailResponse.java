@@ -13,4 +13,6 @@ public class AvailableChatUserDetailResponse {
     public String lastMessageSentAt;
     @SerializedName("roleTo")
     public String roleTo;
+    @SerializedName("imageUrl")
+    public String imageUrl;
 }

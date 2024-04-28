@@ -1,26 +1,36 @@
 package com.upc.appcentroidiomas;
 
-import android.graphics.Color;
+import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.upc.appcentroidiomas.data.model.AvailableChatUserDetailResponse;
+import com.upc.appcentroidiomas.utils.AndroidUtil;
 
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
     private List<AvailableChatUserDetailResponse> availableUsers;
+    Context context;
+
+    public ChatAdapter(Context context) {
+        this.context = context;
+    }
+
     public void setAvailableUsers(List<AvailableChatUserDetailResponse> availableUsers) {
         this.availableUsers = availableUsers;
     }
 
-    public ChatAdapter(List<AvailableChatUserDetailResponse> availableUsers) {
+    public ChatAdapter(List<AvailableChatUserDetailResponse> availableUsers, Context context) {
         this.availableUsers = availableUsers;
+        this.context = context;
     }
 
     @NonNull
@@ -43,16 +53,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         holder.chatUserAvailableRoleTo.setText("Rol: " + roleTo);
         holder.chatUserAvailableLastMessageContent.setText("Ultimo mensaje: "+ lastMessageContent);
         holder.chatUserAvailableLastMessageSentAt.setText("Hora de ultimo mensaje: " + lastMessageSentAt);
-
-/*        String isPaidMessage;
-        if (isPaid){
-            isPaidMessage = "Esta boleta ha sido cancelada.";
-            holder.isPaid.setTextColor(Color.parseColor("#00FF00"));
-        }else {
-            isPaidMessage = "Esta boleta no ha sido cancelada aún.";
-            holder.isPaid.setTextColor(Color.parseColor("#FF0000"));
+        if (availableChatUserDetailResponse.imageUrl != null){
+            AndroidUtil.setProfilePic(context, Uri.parse(availableChatUserDetailResponse.imageUrl), holder.profilePic);
         }
-        holder.isPaid.setText(isPaidMessage);*/
     }
 
     @Override
@@ -62,6 +65,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView chatUserAvailableDisplayNameTo, chatUserAvailableRoleTo, chatUserAvailableLastMessageContent, chatUserAvailableLastMessageSentAt;
+        ImageView profilePic;
 
         MyViewHolder(View itemView) {
             super(itemView);
@@ -69,6 +73,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             this.chatUserAvailableRoleTo = itemView.findViewById(R.id.chatUserAvailableRoleTo);
             this.chatUserAvailableLastMessageContent = itemView.findViewById(R.id.chatUserAvailableLastMessageContent);
             this.chatUserAvailableLastMessageSentAt = itemView.findViewById(R.id.chatUserAvailableLastMessageSentAt);
+            this.profilePic = itemView.findViewById(R.id.profile_pic_image_view);
         }
     }
 }

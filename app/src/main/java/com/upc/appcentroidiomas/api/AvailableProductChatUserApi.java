@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface AvailableChatUserApi {
-    @GET("ChatMessage/GetMessagesByUserId/{userId}")
+public interface AvailableProductChatUserApi {
+    @GET("ProductChatMessage/GetMessagesByUserId/{userId}")
     Call<AvailableChatUserResponse> get(@Path("userId") int userId);
 }

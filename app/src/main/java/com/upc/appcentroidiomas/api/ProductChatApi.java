@@ -10,10 +10,10 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface ChatApi {
-    @POST("ChatMessage")
-    Call<NewMessageResponse> SendNewMessage(@Body NewMessageModel loginModel);
+public interface ProductChatApi {
+    @POST("ProductChatMessage")
+    Call<NewMessageResponse> SendNewMessage(@Body NewMessageModel newMessageModel);
 
-    @GET("ChatMessage/GetHistoryChat/{userIdFrom}/{userIdTo}")
+    @GET("ProductChatMessage/GetHistoryChat/{userIdFrom}/{userIdTo}")
     Call<HistoryChatResponse> getHistoryChat(@Path("userIdFrom") int userIdFrom, @Path("userIdTo") int userIdTo);
 }
