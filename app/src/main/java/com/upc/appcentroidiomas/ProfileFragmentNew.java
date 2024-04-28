@@ -39,10 +39,16 @@ import com.upc.appcentroidiomas.data.model.UserInformationResponse;
 import com.upc.appcentroidiomas.ui.login.LoginActivity;
 import com.upc.appcentroidiomas.utils.AndroidUtil;
 
+import java.io.File;
 import java.io.InputStream;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,9 +74,9 @@ public class ProfileFragmentNew extends Fragment {
 
         imagePickLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if(result.getResultCode() == Activity.RESULT_OK){
+                    if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        if(data!=null && data.getData()!=null){
+                        if (data != null && data.getData() != null) {
                             selectedImageUri = data.getData();
                             AndroidUtil.setProfilePic(getContext(), selectedImageUri, profileAvatar);
                         }
@@ -100,8 +106,8 @@ public class ProfileFragmentNew extends Fragment {
 
     private void assignReferences(View view) {
         profileAvatar = view.findViewById(R.id.profileAvatar);
-        profileAvatar.setOnClickListener((v)->{
-            ImagePicker.with(this).cropSquare().compress(512).maxResultSize(512,512)
+        profileAvatar.setOnClickListener((v) -> {
+            ImagePicker.with(this).cropSquare().compress(512).maxResultSize(512, 512)
                     .createIntent(new Function1<Intent, Unit>() {
                         @Override
                         public Unit invoke(Intent intent) {
@@ -153,8 +159,37 @@ public class ProfileFragmentNew extends Fragment {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
+
                 UserApi userApi = retrofit.create(UserApi.class);
-                Call<UserInformationResponse> call = userApi.updateProfile(loggedInUser.getUserId(), userInformationModel);
+
+                RequestBody requestBodyFirstName = RequestBody.create(MediaType.parse("text/plain"), userInformationModel.firstName);
+                RequestBody requestBodyLastName = RequestBody.create(MediaType.parse("text/plain"), userInformationModel.lastName);
+                RequestBody requestBodyEmail = RequestBody.create(MediaType.parse("text/plain"), userInformationModel.email);
+                RequestBody requestBodyPhoneNumber = RequestBody.create(MediaType.parse("text/plain"), userInformationModel.phoneNumber);
+                RequestBody requestBodyGender = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userInformationModel.gender));
+                RequestBody requestBodyBio = RequestBody.create(MediaType.parse("text/plain"), userInformationModel.bio);
+                RequestBody requestBodyWebpageUrl = RequestBody.create(MediaType.parse("text/plain"), userInformationModel.webpageUrl);
+                RequestBody requestBodyDni = RequestBody.create(MediaType.parse("text/plain"), userInformationModel.dni);
+
+                // Preparar el archivo si existe
+                MultipartBody.Part filePart = null;
+                File file = new File(selectedImageUri.getPath());
+                if (file.exists()) {
+                    RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
+                    filePart = MultipartBody.Part.createFormData("profilePicture", file.getName(), fileBody);
+                }
+                Call<UserInformationResponse> call = userApi.updateProfile(
+                        loggedInUser.getUserId(),
+                        requestBodyFirstName,
+                        requestBodyLastName,
+                        requestBodyEmail,
+                        requestBodyPhoneNumber,
+                        requestBodyGender,
+                        requestBodyBio,
+                        requestBodyWebpageUrl,
+                        requestBodyDni,
+                        filePart
+                );
 
                 call.enqueue(new Callback<UserInformationResponse>() {
                     @Override
@@ -284,8 +319,10 @@ public class ProfileFragmentNew extends Fragment {
             @Override
             public void onResponse(Call<UserInformationResponse> call, Response<UserInformationResponse> response) {
                 if (response.isSuccessful()) {
-                    new DownloadImageTask(profileAvatar)
-                            .execute(response.body().imageUrl);
+                    AndroidUtil.setProfilePic(getContext(), Uri.parse(response.body().imageUrl), profileAvatar);
+
+                    //new DownloadImageTask(profileAvatar)
+                      //      .execute(response.body().imageUrl);
 
                     /*
                       profileFirstName.setText("Nombres: " + response.body().firstName);
@@ -343,10 +380,10 @@ public class ProfileFragmentNew extends Fragment {
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
+        ImageView imageView;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
+        public DownloadImageTask(ImageView imageView) {
+            this.imageView = imageView;
         }
 
         protected Bitmap doInBackground(String... urls) {
@@ -363,7 +400,7 @@ public class ProfileFragmentNew extends Fragment {
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            imageView.setImageBitmap(result);
         }
     }
 }
