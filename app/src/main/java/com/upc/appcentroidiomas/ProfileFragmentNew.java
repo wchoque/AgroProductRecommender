@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.upc.appcentroidiomas.api.ApiContants;
@@ -30,10 +29,7 @@ import com.upc.appcentroidiomas.data.model.UserInformationModel;
 import com.upc.appcentroidiomas.data.model.UserInformationResponse;
 import com.upc.appcentroidiomas.ui.login.LoginActivity;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -211,6 +207,7 @@ public class ProfileFragmentNew extends Fragment {
         });
 
         btnLogout = view.findViewById(R.id.btnLogout);
+        btnLogout.setVisibility(View.GONE);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
