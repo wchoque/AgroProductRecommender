@@ -9,10 +9,16 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +34,15 @@
             android:label="@string/title_activity_main3"
             android:theme="@style/Theme.AppCentroIdiomas">
         </activity>
-
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".HomeActivity"
             android:exported="true"
@@ -80,18 +94,18 @@
         <activity
             android:name=".ActivityAtencion"
             android:label="Servicios de Atencion" />
-        <activity
+        <!--<activity
             android:name=".ProfileActivity"
-            android:label="Datos del Usuario" />
+            android:label="Datos del Usuario" />-->
         <activity
             android:name=".ActivityCursos"
             android:label="Registrar Cursos" />
         <activity
             android:name=".ActivityProduct"
             android:label="Registrar productos" />
-        <activity
+        <!--<activity
             android:name=".ProductsListActivity"
-            android:label="Lista de productos" />
+            android:label="Lista de productos" />-->
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -107,17 +121,7 @@
         <activity
             android:name=".ActivityMapa"
             android:label="Ubicacion de Sede" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login">
 
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
         <activity
             android:name=".ListaCursosActivity"
             android:label="Lista de Cursos" />
