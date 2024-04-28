@@ -1,8 +1,10 @@
 package com.upc.appcentroidiomas;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,8 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.upc.appcentroidiomas.api.ApiContants;
 import com.upc.appcentroidiomas.api.LoginApi;
 import com.upc.appcentroidiomas.api.UserApi;
@@ -28,9 +37,12 @@ import com.upc.appcentroidiomas.data.model.LoginResponse;
 import com.upc.appcentroidiomas.data.model.UserInformationModel;
 import com.upc.appcentroidiomas.data.model.UserInformationResponse;
 import com.upc.appcentroidiomas.ui.login.LoginActivity;
+import com.upc.appcentroidiomas.utils.AndroidUtil;
 
 import java.io.InputStream;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +54,30 @@ public class ProfileFragmentNew extends Fragment {
     ImageView profileAvatar;
     TextView profileCurrentPassword, profileNewPassword;
     Button btnUpdateProfile, btnChangePassword, btnLogout;
+
+
+    ActivityResultLauncher<Intent> imagePickLauncher;
+    Uri selectedImageUri;
+
     private LoginRepository loginRepository;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        imagePickLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == Activity.RESULT_OK){
+                        Intent data = result.getData();
+                        if(data!=null && data.getData()!=null){
+                            selectedImageUri = data.getData();
+                            AndroidUtil.setProfilePic(getContext(), selectedImageUri, profileAvatar);
+                        }
+                    }
+                }
+        );
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,8 +98,19 @@ public class ProfileFragmentNew extends Fragment {
         return view;
     }
 
-    private void assignReferences(View view){
+    private void assignReferences(View view) {
         profileAvatar = view.findViewById(R.id.profileAvatar);
+        profileAvatar.setOnClickListener((v)->{
+            ImagePicker.with(this).cropSquare().compress(512).maxResultSize(512,512)
+                    .createIntent(new Function1<Intent, Unit>() {
+                        @Override
+                        public Unit invoke(Intent intent) {
+                            imagePickLauncher.launch(intent);
+                            return null;
+                        }
+                    });
+        });
+
         profileFirstName = view.findViewById(R.id.profileFirstName);
         profileLastName = view.findViewById(R.id.profileLastName);
         profileDisplayName = view.findViewById(R.id.profileDisplayName);
@@ -91,10 +137,10 @@ public class ProfileFragmentNew extends Fragment {
 
                 String genderText = profileGender.getText().toString();
                 int gender;
-                if (genderText.equalsIgnoreCase("Masculino")){
+                if (genderText.equalsIgnoreCase("Masculino")) {
                     gender = 1;
-                }else{
-                    gender=0;
+                } else {
+                    gender = 0;
                 }
 
                 userInformationModel.gender = gender;
@@ -111,9 +157,9 @@ public class ProfileFragmentNew extends Fragment {
                 Call<UserInformationResponse> call = userApi.updateProfile(loggedInUser.getUserId(), userInformationModel);
 
                 call.enqueue(new Callback<UserInformationResponse>() {
-                    @ Override
+                    @Override
                     public void onResponse(Call<UserInformationResponse> call, Response<UserInformationResponse> response) {
-                        if (response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             new DownloadImageTask(profileAvatar)
                                     .execute(response.body().imageUrl);
 
@@ -142,10 +188,10 @@ public class ProfileFragmentNew extends Fragment {
                             profilePhoneNumber.setText(response.body().phoneNumber);
 
                             int gender = response.body().gender;
-                            String genderText= "";
-                            if (gender == 1){
+                            String genderText = "";
+                            if (gender == 1) {
                                 genderText = "Masculino";
-                            }else{
+                            } else {
                                 genderText = "Femenino";
                             }
 
@@ -154,7 +200,7 @@ public class ProfileFragmentNew extends Fragment {
                             profileWebpageUrl.setText(response.body().webpageUrl);
                             profileDni.setText(response.body().dni);
                             Toast.makeText(getContext(), "Sus datos se han actualizado correctamente", Toast.LENGTH_LONG).show();
-                        }else {
+                        } else {
                             Toast.makeText(getContext(), "No se pudo actualizar la información del perfil", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -186,14 +232,14 @@ public class ProfileFragmentNew extends Fragment {
                 Call<LoginResponse> call = loginApi.changePassword(changePasswordModel);
 
                 call.enqueue(new Callback<LoginResponse>() {
-                    @ Override
+                    @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             profileCurrentPassword.setText("");
                             profileNewPassword.setText("");
 
                             Toast.makeText(getContext(), "Su contraseña fue actualizada correctamente.", Toast.LENGTH_LONG).show();
-                        }else{
+                        } else {
                             Toast.makeText(getContext(), "Hubo un error al intentar cambiar la contraseña, verifique que los datos sean correctos", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -225,7 +271,7 @@ public class ProfileFragmentNew extends Fragment {
         });
     }
 
-    private void getProfileInformation(int userId, String displayName){
+    private void getProfileInformation(int userId, String displayName) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiContants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -235,9 +281,9 @@ public class ProfileFragmentNew extends Fragment {
         Call<UserInformationResponse> call = userInformationApi.get(userId);
 
         call.enqueue(new Callback<UserInformationResponse>() {
-            @ Override
+            @Override
             public void onResponse(Call<UserInformationResponse> call, Response<UserInformationResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     new DownloadImageTask(profileAvatar)
                             .execute(response.body().imageUrl);
 
@@ -270,10 +316,10 @@ public class ProfileFragmentNew extends Fragment {
 
                     // convert to masculino or dfemenio
                     int gender = response.body().gender;
-                    String genderText= "";
-                    if (gender == 1){
+                    String genderText = "";
+                    if (gender == 1) {
                         genderText = "Masculino";
-                    }else{
+                    } else {
                         genderText = "Femenino";
                     }
 
