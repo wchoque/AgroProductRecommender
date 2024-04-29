@@ -48,5 +48,10 @@
         android:name="com.upc.appcentroidiomas.ChatFragment"
         android:label="@string/menu_chat"
         tools:layout="@layout/activity_chat" />
+    <fragment
+        android:id="@+id/nav_bank_account"
+        android:name="com.upc.appcentroidiomas.BankAccountFragment"
+        android:label="@string/menu_bank_accounts"
+        tools:layout="@layout/activity_chat" />
 
 </navigation>

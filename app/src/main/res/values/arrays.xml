@@ -6,6 +6,18 @@
         <item>Tomate</item>
     </string-array>
 
+    <string-array name="banks_array">
+        <item>BCP</item>
+        <item>BBVA</item>
+        <item>Interbank</item>
+        <item>Scotiabank</item>
+    </string-array>
+
+    <string-array name="account_types_array">
+        <item>Ahorros</item>
+        <item>Corriente</item>
+    </string-array>
+
     <string-array name="units_array">
         <item>Tonelada</item>
         <item>Kilos</item>

@@ -103,6 +103,11 @@
         <activity
             android:name=".ActivityProduct"
             android:label="Registrar productos" />
+        <activity
+            android:name=".ActivityBankAccount"
+            android:label="Cuentas Bancarias" />
+
+
         <!--<activity
             android:name=".ProductsListActivity"
             android:label="Lista de productos" />-->

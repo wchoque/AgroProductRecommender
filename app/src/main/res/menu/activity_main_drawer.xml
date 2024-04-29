@@ -29,4 +29,10 @@
             android:icon="@drawable/ic_baseline_chat_24"
             android:title="@string/menu_chat" />
     </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_bank_account"
+            android:icon="@drawable/ic_bank_account_foreground"
+            android:title="@string/menu_bank_accounts" />
+    </group>
 </menu>
