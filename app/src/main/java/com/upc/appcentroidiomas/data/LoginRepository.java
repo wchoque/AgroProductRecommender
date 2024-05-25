@@ -67,6 +67,7 @@ public class LoginRepository {
         edit.putString("email", user.getEmail());
         edit.putString("userType", Integer.toString(user.getUserType()));
         edit.putString("displayName", user.getDisplayName());
+        edit.putString("profileImageUrl", user.getProfileImageUrl());
         edit.putString("userLoginStatus", "yes");
         edit.apply();
         // If user credentials will be cached in local storage, it is recommended it be encrypted
@@ -79,11 +80,12 @@ public class LoginRepository {
         String email = Loginprefs.getString("email", null);
         String userType = Loginprefs.getString("userType", null);
         String displayName = Loginprefs.getString("displayName", null);
+        String profileImageUrl = Loginprefs.getString("profileImageUrl", null);
 
         if (userId == null){
-            this.user = new LoggedInUser(0, userName, displayName, email, 0);
+            this.user = new LoggedInUser(0, userName, displayName, email, 0, profileImageUrl);
         }else{
-            this.user = new LoggedInUser(Integer.parseInt(userId), userName, displayName, email, Integer.parseInt(userType));
+            this.user = new LoggedInUser(Integer.parseInt(userId), userName, displayName, email, Integer.parseInt(userType), profileImageUrl);
         }
 
         return this.user;

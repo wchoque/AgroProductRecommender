@@ -151,21 +151,34 @@
                 app:layout_constraintVertical_bias="0.008" />
 
             <ImageButton
-                android:id="@+id/btnUpdateProduct"
+                android:id="@+id/btnChatToUser"
                 android:layout_width="51dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="175dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginStart="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.113"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.812"
+                app:layout_constraintVertical_bias="0.816"
+                app:srcCompat="@drawable/ic_chat_foreground" />
+
+            <ImageButton
+                android:id="@+id/btnUpdateProduct"
+                android:layout_width="67dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="104dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/btnChatToUser"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.81"
                 app:srcCompat="@drawable/ic_baseline_edit_24" />
 
             <ImageButton
                 android:id="@+id/btnDeleteProduct"
-                android:layout_width="51dp"
-                android:layout_height="50dp"
+                android:layout_width="66dp"
+                android:layout_height="51dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"

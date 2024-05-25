@@ -26,12 +26,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.upc.appcentroidiomas.api.ApiContants;
 import com.upc.appcentroidiomas.api.ChatApi;
 import com.upc.appcentroidiomas.api.ProductApi;
+import com.upc.appcentroidiomas.api.ProductChatApi;
 import com.upc.appcentroidiomas.data.LoginDataSource;
 import com.upc.appcentroidiomas.data.LoginRepository;
 import com.upc.appcentroidiomas.data.model.AvailableChatUserDetailResponse;
 import com.upc.appcentroidiomas.data.model.HistoryChatResponse;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
+import com.upc.appcentroidiomas.data.model.NewMessageModel;
+import com.upc.appcentroidiomas.data.model.NewMessageResponse;
 import com.upc.appcentroidiomas.data.model.ProductResponse;
+import com.upc.appcentroidiomas.data.model.UserInformationModel;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -95,6 +99,58 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.vistaH
                 context.startActivity(intent);
             }
         });
+
+        holder.btnChatToUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(ApiContants.BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
+                LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), context).getLoggedUser();
+
+                NewMessageModel newMessage = new NewMessageModel();
+                newMessage.userIdFrom = loggedInUser.getUserId();
+                newMessage.userIdTo = product.getUserId();
+                newMessage.messageContent = "Quisiera mas informacion del producto " + product.getDescription();
+
+                Call<NewMessageResponse> call = productChatApi.SendNewMessage(newMessage);
+                call.enqueue(new Callback<NewMessageResponse>() {
+                    @Override
+                    public void onResponse(Call<NewMessageResponse> call, Response<NewMessageResponse> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(context, "Mensaje enviado", Toast.LENGTH_LONG).show();
+
+
+                            Intent intent= new Intent(context, ChatDetailActivity.class);
+                            intent.putExtra("id", products.get(position).getId() + "");
+                            intent.putExtra("userIdTo", newMessage.userIdTo);
+                            intent.putExtra("displayNameTo", "Wilber Choque");
+                            intent.putExtra("imageUrl", products.get(position).getDefaultImageUrl());
+
+                            //llamr a api
+                            //obtener chat
+
+                            //intent.putExtra("curso", products.get(position).getCurso()+"");
+                            //intent.putExtra("seccion", products.get(position).getSeccion()+"");
+                            //intent.putExtra("horario", products.get(position).getHorario()+"");
+                            context.startActivity(intent);
+                        } else {
+                            Toast.makeText(context, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<NewMessageResponse> call, Throwable t) {
+                        Toast.makeText(context, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +216,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.vistaH
     public static class vistaHolder extends RecyclerView.ViewHolder{
         TextView rowDetail, rowPublishedAt, rowPublishedBy, rowLocation, rowType, rowQuantity, rowPrice, rowDescription;
         ImageView rowDefaultImageUrl;
-        ImageButton btnUpdate, btnDelete;
+        ImageButton btnUpdate, btnDelete, btnChatToUser;
 
         public vistaHolder(@NonNull View itemView) {
             super(itemView);
@@ -176,6 +232,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.vistaH
 
             btnUpdate = itemView.findViewById(R.id.btnUpdateProduct);
             btnDelete = itemView.findViewById(R.id.btnDeleteProduct);
+            btnChatToUser = itemView.findViewById(R.id.btnChatToUser);
         }
     }
 

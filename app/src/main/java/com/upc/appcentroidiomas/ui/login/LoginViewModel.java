@@ -57,7 +57,7 @@ public class LoginViewModel extends ViewModel {
             @ Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()){
-                    LoggedInUser loggedInUser = new LoggedInUser(response.body().id, response.body().userName, response.body().displayName, response.body().email, response.body().userType);
+                    LoggedInUser loggedInUser = new LoggedInUser(response.body().id, response.body().userName, response.body().displayName, response.body().email, response.body().userType, response.body().profileImageUrl);
                     loginRepository.forceLogin(loggedInUser);
                     loginResult.setValue(new LoginResult(new LoggedInUserView(loggedInUser.getDisplayName())));
                 } else {

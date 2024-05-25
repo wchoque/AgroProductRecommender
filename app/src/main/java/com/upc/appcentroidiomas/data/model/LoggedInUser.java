@@ -9,13 +9,15 @@ public class LoggedInUser {
     private String displayName;
     private String email;
     private int userType;
+    private String profileImageUrl;
 
-    public LoggedInUser(int userId, String userName, String displayName, String email, int userType) {
+    public LoggedInUser(int userId, String userName, String displayName, String email, int userType, String profileImageUrl) {
         this.userId = userId;
         this.userName = userName;
         this.displayName = displayName;
         this.email = email;
         this.userType = userType;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public int getUserId() {
@@ -36,5 +38,13 @@ public class LoggedInUser {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

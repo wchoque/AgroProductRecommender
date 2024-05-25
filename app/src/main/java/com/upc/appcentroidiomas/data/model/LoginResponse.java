@@ -21,4 +21,6 @@ public class LoginResponse {
     public String avatar;
     @SerializedName("displayName")
     public String displayName;
+    @SerializedName("profileImageUrl")
+    public String profileImageUrl;
 }

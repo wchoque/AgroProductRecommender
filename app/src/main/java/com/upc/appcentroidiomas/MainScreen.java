@@ -1,13 +1,18 @@
 package com.upc.appcentroidiomas;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -26,12 +31,14 @@ import com.upc.appcentroidiomas.data.LoginRepository;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.databinding.ActivityMainScreenBinding;
 import com.upc.appcentroidiomas.ui.login.LoginActivity;
+import com.upc.appcentroidiomas.utils.AndroidUtil;
 
 public class MainScreen extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainScreenBinding binding;
     TextView txtMainProfileDisplayName, txtMainProfileEmail;
+    ImageView mainProfileAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,29 +51,51 @@ public class MainScreen extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
-
-
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_favoriteProduct, R.id.nav_profile, R.id.nav_search_all_products)
+                R.id.nav_home,
+                R.id.nav_gallery,
+                R.id.nav_favoriteProduct,
+                R.id.nav_profile,
+                R.id.nav_chat,
+                R.id.nav_bank_account,
+                R.id.nav_search_all_products,
+                R.id.nav_update_request)
                 .setOpenableLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_screen);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
-        //txtMainProfileDisplayName = (R.id.txtMainProfileDisplayName);
-        //txtMainProfileEmail = findViewById(R.id.txtMainProfileEmail);
+        // Access the header view and set the user details
+        View headerView = navigationView.getHeaderView(0);
+        txtMainProfileDisplayName = headerView.findViewById(R.id.txtMainProfileDisplayName);
+        txtMainProfileEmail = headerView.findViewById(R.id.txtMainProfileEmail);
+        mainProfileAvatar = headerView.findViewById(R.id.mainProfileAvatar);
 
 
         //TODO OCULTAR EN BASE AL TIPO DE USUARIO
         // Encuentra el ítem del menú que quieres ocultar
         LoginRepository loginRepository = LoginRepository.getInstance(new LoginDataSource(), getApplicationContext());
         LoggedInUser loggedUser = loginRepository.getLoggedUser();
-        //txtMainProfileDisplayName.setText(loggedUser.getDisplayName());
-        //tMainProfileEmail.setText("asd");
+        txtMainProfileDisplayName.setText(loggedUser.getDisplayName());
+        txtMainProfileEmail.setText(loggedUser.getEmail());
+        // Load the profile image
+        String imageUrl = loggedUser.getProfileImageUrl();
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            //AndroidUtil.setProfilePic(getApplicationContext(), Uri.parse(imageUrl), mainProfileAvatar);
+
+            Glide.with(this)
+                    .load(imageUrl)
+                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+                    .apply(new RequestOptions().skipMemoryCache(true))
+                    .apply(RequestOptions.circleCropTransform())
+                    //.placeholder(R.drawable.placeholder_image) // Optional placeholder image
+                    //.error(R.drawable.error_image) // Optional error image
+                    .into(mainProfileAvatar);
+        }
 
         int userType = loggedUser.getUserType();
         //1	Comprador Mayorista
@@ -80,6 +109,40 @@ public class MainScreen extends AppCompatActivity {
         //2	Productor Agricola
         if (userType == 2) {
 
+        }
+
+        //3	Admin
+        if (userType == 3) {
+            MenuItem navHome = navigationView.getMenu().findItem(R.id.nav_home);
+            navHome.setVisible(false);
+
+            MenuItem navGallery = navigationView.getMenu().findItem(R.id.nav_gallery);
+            navGallery.setVisible(false);
+
+            MenuItem navFavoriteProduct = navigationView.getMenu().findItem(R.id.nav_favoriteProduct);
+            navFavoriteProduct.setVisible(false);
+
+            MenuItem navProfile = navigationView.getMenu().findItem(R.id.nav_profile);
+            navProfile.setVisible(false);
+
+            //MenuItem navSearchAllProducts = navigationView.getMenu().findItem(R.id.nav_search_all_products);
+            //navSearchAllProducts.setVisible(false);
+
+            MenuItem navChat = navigationView.getMenu().findItem(R.id.nav_chat);
+            navChat.setVisible(false);
+
+            MenuItem navBankAccount = navigationView.getMenu().findItem(R.id.nav_bank_account);
+            navBankAccount.setVisible(true);
+
+            MenuItem navUpdateRequest = navigationView.getMenu().findItem(R.id.nav_update_request);
+            navUpdateRequest.setVisible(true);
+        }
+
+        // Navegar al fragmento de chat si el usuario es admin
+        if (userType == 3) {
+            navController.navigate(R.id.nav_chat);
+        } else {
+            navController.navigate(R.id.nav_home);
         }
 
 
@@ -162,8 +225,9 @@ public class MainScreen extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_screen);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_screen);
+            return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                    || super.onSupportNavigateUp();
+
     }
 }
