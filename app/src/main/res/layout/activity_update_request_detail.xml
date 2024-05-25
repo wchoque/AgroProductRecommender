@@ -1,95 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
-    android:fillViewport="true">
+    android:padding="16dp"
+    tools:context=".ActivityProduct">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="30dp"
-        tools:context=".ActivityProduct">
+    <!-- Title and static info -->
+    <TextView
+        android:id="@+id/txt_request_response_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Validación de datos"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txt_request_response_detail_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Validación de datos"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/txt_request_response_detail_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Usuario: Wilber Choque"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_request_response_detail_title" />
 
-        <TextView
-            android:id="@+id/txt_request_response_detail_username"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:ems="10"
-            android:hint="Nombre de usuario"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_request_response_detail_title" />
+    <TextView
+        android:id="@+id/txt_request_response_detail_usertype"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Tipo de Usuario: Agricultor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_request_response_detail_username" />
 
-        <TextView
-            android:id="@+id/txt_request_response_detail_usertype"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:ems="10"
-            android:hint="Tipo de Usuario:"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_request_response_detail_username" />
+    <TextView
+        android:id="@+id/txt_request_response_detail_request_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Fecha de solicitud: 25/05/2024"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_request_response_detail_usertype" />
 
-        <TextView
-            android:id="@+id/txt_request_response_detail_request_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Fecha de solicitud: 12/12/2024"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_request_response_detail_usertype" />
+    <!-- Scrollable area for changes -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_request_response_detail_request_date"
+        app:layout_constraintBottom_toTopOf="@id/btn_update_request_approve">
 
         <LinearLayout
             android:id="@+id/linear_layout_changes"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_request_response_detail_request_date">
+            android:padding="8dp">
             <!-- Dynamic content will be added here programmatically -->
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_update_request_approve"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Aprobar"
-            android:background="@drawable/btn_rounded_corner"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/btn_reject"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear_layout_changes" />
+    </ScrollView>
 
-        <Button
-            android:id="@+id/btn_reject"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Rechazar"
-            android:background="@drawable/btn_rounded_corner"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_update_request_approve"
-            app:layout_constraintTop_toBottomOf="@id/linear_layout_changes" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Buttons at the bottom -->
+    <Button
+        android:id="@+id/btn_update_request_approve"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Aprobar"
+        android:background="@drawable/btn_rounded_corner"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_reject"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
+    <Button
+        android:id="@+id/btn_reject"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Rechazar"
+        android:background="@drawable/btn_rounded_corner"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_update_request_approve"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

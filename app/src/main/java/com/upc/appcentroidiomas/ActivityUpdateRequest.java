@@ -86,9 +86,9 @@ public class ActivityUpdateRequest extends AppCompatActivity implements AdapterV
                         TextView oldValueTextView = changeView.findViewById(R.id.txt_old_value);
                         TextView newValueTextView = changeView.findViewById(R.id.txt_new_value);
 
-                        fieldTextView.setText("Field: " + change.field);
-                        oldValueTextView.setText("Old Value: " + change.oldValue);
-                        newValueTextView.setText("New Value: " + change.newValue);
+                        fieldTextView.setText("Campo modificado: " + change.field);
+                        oldValueTextView.setText("Valor anterior: " + change.oldValue);
+                        newValueTextView.setText("Valor nuevo: " + change.newValue);
 
                         changesLayout.addView(changeView);
                     }
