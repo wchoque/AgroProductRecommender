@@ -61,7 +61,9 @@ public class MainScreen extends AppCompatActivity {
                 R.id.nav_chat,
                 R.id.nav_bank_account,
                 R.id.nav_search_all_products,
-                R.id.nav_update_request)
+                R.id.nav_update_request,
+                R.id.nav_order
+        )
                 .setOpenableLayout(drawer)
                 .build();
 
@@ -218,6 +220,7 @@ public class MainScreen extends AppCompatActivity {
             menu.findItem(R.id.nav_favoriteProduct).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_chat).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_bank_account).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_order).setVisible(loggedInUser.isAccountEnabled());
         }
     }
 

@@ -23,4 +23,11 @@
         <item>Kilos</item>
         <item>Gramos</item>
     </string-array>
+
+    <string-array name="order_status_array">
+        <item>BCP</item>
+        <item>BBVA</item>
+        <item>Interbank</item>
+        <item>Scotiabank</item>
+    </string-array>
 </resources>

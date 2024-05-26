@@ -111,6 +111,9 @@
             android:name=".ActivityUpdateRequest"
             android:label="Solicitudes de actualización" />
 
+        <activity
+            android:name=".ActivityOrder"
+            android:label="Ordenes de compra" />
 
         <!--<activity
             android:name=".ProductsListActivity"

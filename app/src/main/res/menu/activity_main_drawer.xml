@@ -32,13 +32,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_bank_account"
-            android:icon="@drawable/ic_bank_account_foreground"
+            android:icon="@drawable/baseline_account_balance_24"
             android:title="@string/menu_bank_account" />
     </group>
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_update_request"
-            android:icon="@drawable/ic_update_request_foreground"
+            android:icon="@drawable/baseline_checklist_rtl_24"
             android:title="@string/menu_update_request" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_order"
+            android:icon="@drawable/baseline_shopping_cart_24"
+            android:title="@string/menu_order" />
     </group>
 </menu>

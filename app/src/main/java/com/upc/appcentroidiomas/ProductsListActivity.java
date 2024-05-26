@@ -83,40 +83,7 @@ public class ProductsListActivity extends Fragment {
         return view;
     }
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_products);
 
-        txtFilter = findViewById(R.id.txtFilter);
-        btnSearch = findViewById(R.id.btnSearch);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Search();
-            }
-        });
-
-        recyclerProducts = findViewById(R.id.recyclerProducts);
-        //productsAdapter = new ProductsAdapter(ProductsListActivity.this, products);
-
-        //RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        //recyclerProducts.setLayoutManager(mLayoutManager);
-        //recyclerProducts.setItemAnimator(new DefaultItemAnimator());
-        //recyclerProducts.setAdapter(productsAdapter);
-
-        btnAddProduct = findViewById(R.id.btnAddProduct);
-        btnAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProductsListActivity.this, ActivityProduct.class);
-                startActivity(intent);
-            }
-        });
-
-        Search();
-    }
-*/
     private void Search(){
         String criteria = txtFilter.getText().toString();
         LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getContext()).getLoggedUser();
@@ -126,47 +93,6 @@ public class ProductsListActivity extends Fragment {
         if (!criteria.equals("")){
             url = url + "&description=" + criteria;
         }
-
-            /* TODO I NEED TO UPDATE TO THIS
-        // TODO can be launched in a separate asynchronous job
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiContants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
-
-        ProductApi productApi = retrofit.create(ProductApi.class);
-        Call<ArrayList<ProductResponse>> call = productApi.getFilteredProducts(loggedInUser.getUserId(), criteria);
-
-        call.enqueue(new Callback<ArrayList<ProductResponse>>() {
-            @ Override
-            public void onResponse(Call<ArrayList<ProductResponse>> call, retrofit2.Response<ArrayList<ProductResponse>> response) {
-                if (response.isSuccessful()){
-
-                    //productsAdapter = new ProductsAdapter(ProductsListActivity.this, products);
-                    //recyclerProducts.setAdapter(productsAdapter);
-                    //recyclerProducts.setLayoutManager(new LinearLayoutManager(ProductsListActivity.this ));
-                    products = response.body().forEach(){
-
-                    };
-                    productsAdapter.setProducts(products);
-                    productsAdapter.notifyDataSetChanged();
-
-                    //availableUsers = response.body().availableUsers;
-                    //chatAdapter.setAvailableUsers(availableUsers);
-                    //chatAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<ProductResponse>> call, Throwable t) {
-
-            }
-        });
-        */
-
-
 
         StringRequest peticion = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
