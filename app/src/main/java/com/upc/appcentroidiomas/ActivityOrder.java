@@ -1,5 +1,6 @@
 package com.upc.appcentroidiomas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.upc.appcentroidiomas.api.ApiContants;
 import com.upc.appcentroidiomas.api.OrderApi;
+import com.upc.appcentroidiomas.api.ProductChatApi;
+import com.upc.appcentroidiomas.data.LoginDataSource;
+import com.upc.appcentroidiomas.data.LoginRepository;
+import com.upc.appcentroidiomas.data.model.AvailableChatUserDetailResponse;
+import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.data.model.OrderResponse;
 import com.upc.appcentroidiomas.data.model.UpdateOrderModel;
 
@@ -151,6 +157,34 @@ public class ActivityOrder extends AppCompatActivity {
     }
 
     private void goToChat() {
-        // Implement the logic to navigate to the chat activity
+        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), ActivityOrder.this).getLoggedUser();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiContants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
+        Call<AvailableChatUserDetailResponse> call = productChatApi.getMessageByUser(loggedInUser.getUserId(), productChatMessageId);
+        call.enqueue(new Callback<AvailableChatUserDetailResponse>() {
+            @Override
+            public void onResponse(Call<AvailableChatUserDetailResponse> call, Response<AvailableChatUserDetailResponse> response) {
+                if (response.isSuccessful()) {
+                    Intent intent = new Intent(getApplicationContext(), ChatDetailActivity.class);
+                    intent.putExtra("userIdTo", response.body().userIdTo);
+                    intent.putExtra("displayNameTo", response.body().displayNameTo);
+                    intent.putExtra("imageUrl", response.body().imageUrl);
+
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ActivityOrder.this, "Ha ocurrido un error.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AvailableChatUserDetailResponse> call, Throwable t) {
+                Toast.makeText(ActivityOrder.this, "Ha ocurrido un error.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

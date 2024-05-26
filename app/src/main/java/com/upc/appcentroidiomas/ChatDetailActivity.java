@@ -262,37 +262,6 @@ public class ChatDetailActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(peticion);
     }
-    public void refreshChat2() {
-        // can be launched in a separate asynchronous job
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiContants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), this.getApplicationContext()).getLoggedUser();
-
-        ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
-        Call<ChatMessageResponse> call = productChatApi.getMessages(loggedInUser.getUserId(), otherUser.id);
-
-        call.enqueue(new Callback<ChatMessageResponse>() {
-            @Override
-            public void onResponse(Call<ChatMessageResponse> call, Response<ChatMessageResponse> response) {
-                if (response.isSuccessful()) {
-
-                    chatMessages = response.body().messages;
-                    adapter.setMessages(chatMessages);
-                    adapter.notifyDataSetChanged();
-                    //TODO
-                    //userChatHistoryMessages.setText(response.body().historyMessages);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ChatMessageResponse> call, Throwable t) {
-
-            }
-        });
-    }
 
     private void showOrderConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
