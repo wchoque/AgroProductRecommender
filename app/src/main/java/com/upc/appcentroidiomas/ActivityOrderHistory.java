@@ -1,11 +1,13 @@
 package com.upc.appcentroidiomas;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -63,7 +65,7 @@ public class ActivityOrderHistory extends AppCompatActivity {
         btnRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rate();
+                showRatingDialog();
             }
         });
 
@@ -91,10 +93,34 @@ public class ActivityOrderHistory extends AppCompatActivity {
         int position = adapter.getPosition(orderStatus);
         spinnerOrderStatus.setSelection(position);
     }
-    private void rate() {
+
+    private void showRatingDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_rate_order);
+
+        final RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
+        Button btnSubmit = dialog.findViewById(R.id.btn_submit_rating);
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int rating = (int) ratingBar.getRating();
+
+                Toast.makeText(ActivityOrderHistory.this, "Calificación enviada correctamente.", Toast.LENGTH_LONG).show();
+                //submitRating(rating);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void submitRating(int rating) {
+        ;
         UpdateOrderModel order = new UpdateOrderModel();
         order.orderId = orderId;
         order.status = ((OrderStatus) spinnerOrderStatus.getSelectedItem()).ordinal();
+        //order.rating = rating;  // Add the rating to the order model TODO
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiContants.BASE_URL)
@@ -116,38 +142,6 @@ public class ActivityOrderHistory extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<OrderResponse> call, Throwable t) {
-                Toast.makeText(ActivityOrderHistory.this, "Ha ocurrido un error.", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    private void rate2() {
-        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), ActivityOrderHistory.this).getLoggedUser();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiContants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ProductChatApi productChatApi = retrofit.create(ProductChatApi.class);
-        Call<AvailableChatUserDetailResponse> call = productChatApi.getMessageByUser(loggedInUser.getUserId(), productChatMessageId);
-        call.enqueue(new Callback<AvailableChatUserDetailResponse>() {
-            @Override
-            public void onResponse(Call<AvailableChatUserDetailResponse> call, Response<AvailableChatUserDetailResponse> response) {
-                if (response.isSuccessful()) {
-                    Intent intent = new Intent(getApplicationContext(), ChatDetailActivity.class);
-                    intent.putExtra("userIdTo", response.body().userIdTo);
-                    intent.putExtra("displayNameTo", response.body().displayNameTo);
-                    intent.putExtra("imageUrl", response.body().imageUrl);
-
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(ActivityOrderHistory.this, "Ha ocurrido un error.", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AvailableChatUserDetailResponse> call, Throwable t) {
                 Toast.makeText(ActivityOrderHistory.this, "Ha ocurrido un error.", Toast.LENGTH_LONG).show();
             }
         });

@@ -55,4 +55,16 @@
         android:textSize="16sp"
         android:layout_marginBottom="4dp" />
 
+    <RatingBar
+        android:id="@+id/row_order_history_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="1"
+        android:isIndicator="true"
+        android:layout_marginTop="8dp"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:progressTint="@android:color/holo_orange_light"/>
+
 </LinearLayout>

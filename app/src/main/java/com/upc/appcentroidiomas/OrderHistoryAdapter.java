@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.rowOrderHistoryProductTypeName.setText("Producto: " + orderHistory.productTypeName);
         holder.rowOrderHistoryQuantity.setText("Cantidad: " + orderHistory.quantity);
         holder.rowOrderHistoryTotalAmount.setText("Total a pagar: " + orderHistory.totalAmount);
+        holder.rowOrderHistoryRatingBar.setRating(4f);
     }
 
     @Override
@@ -54,6 +56,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView rowOrderHistoryCreationDate, rowOrderHistoryBuyerName, rowOrderHistoryProductTypeName, rowOrderHistoryQuantity, rowOrderHistoryTotalAmount;
+        RatingBar rowOrderHistoryRatingBar;
 
         MyViewHolder(View itemView) {
             super(itemView);
@@ -62,6 +65,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             this.rowOrderHistoryProductTypeName = itemView.findViewById(R.id.row_order_history_product_type_name);
             this.rowOrderHistoryQuantity = itemView.findViewById(R.id.row_order_history_quantity);
             this.rowOrderHistoryTotalAmount = itemView.findViewById(R.id.row_order_history_total_amount);
+            this.rowOrderHistoryRatingBar = itemView.findViewById(R.id.row_order_history_rating);
         }
     }
 }
