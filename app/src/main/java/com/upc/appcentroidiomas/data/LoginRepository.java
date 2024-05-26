@@ -3,7 +3,17 @@ package com.upc.appcentroidiomas.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.upc.appcentroidiomas.api.ApiContants;
+import com.upc.appcentroidiomas.api.LoginApi;
+import com.upc.appcentroidiomas.api.UserApi;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
+import com.upc.appcentroidiomas.data.model.LoginResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -65,9 +75,10 @@ public class LoginRepository {
         edit.putString("userId", Integer.toString(user.getUserId()));
         edit.putString("userName", user.getUserName());
         edit.putString("email", user.getEmail());
-        edit.putString("userType", Integer.toString(user.getUserType()));
+        edit.putInt("userType", user.getUserType());
         edit.putString("displayName", user.getDisplayName());
         edit.putString("profileImageUrl", user.getProfileImageUrl());
+        edit.putInt("userAccountStatus", user.getUserAccountStatus());
         edit.putString("userLoginStatus", "yes");
         edit.apply();
         // If user credentials will be cached in local storage, it is recommended it be encrypted
@@ -78,14 +89,15 @@ public class LoginRepository {
         String userId = Loginprefs.getString("userId", null);
         String userName = Loginprefs.getString("userName", null);
         String email = Loginprefs.getString("email", null);
-        String userType = Loginprefs.getString("userType", null);
+        int userType = Loginprefs.getInt("userType", 0);
         String displayName = Loginprefs.getString("displayName", null);
         String profileImageUrl = Loginprefs.getString("profileImageUrl", null);
+        int userAccountStatus = Loginprefs.getInt("userAccountStatus", 0);
 
         if (userId == null){
-            this.user = new LoggedInUser(0, userName, displayName, email, 0, profileImageUrl);
+            this.user = new LoggedInUser(0, userName, displayName, email, 0, profileImageUrl, 0);
         }else{
-            this.user = new LoggedInUser(Integer.parseInt(userId), userName, displayName, email, Integer.parseInt(userType), profileImageUrl);
+            this.user = new LoggedInUser(Integer.parseInt(userId), userName, displayName, email, userType, profileImageUrl, userAccountStatus);
         }
 
         return this.user;
@@ -103,4 +115,38 @@ public class LoginRepository {
     public void forceLogin(LoggedInUser loggedInUser) {
         setLoggedInUser(loggedInUser);
     }
+
+    public interface RefreshUserCallback {
+        void onRefresh(LoggedInUser updatedUser);
+        void onFailure(Exception e);
+    }
+
+    public void refreshLoggedUser(RefreshUserCallback callback) {
+        // Call the API to get the updated user data
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiContants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        LoginApi loginApi = retrofit.create(LoginApi.class);
+        Call<LoginResponse> call = loginApi.getLoggedUser(user.getUserId());
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoggedInUser loggedInUser = new LoggedInUser(response.body().id, response.body().userName, response.body().displayName, response.body().email, response.body().userType, response.body().profileImageUrl, response.body().userAccountStatus);
+                    setLoggedInUser(loggedInUser);
+                    callback.onRefresh(loggedInUser);
+                } else {
+                    callback.onFailure(new Exception("Failed to refresh user data"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                callback.onFailure(new Exception(t));
+            }
+        });
+    }
+
 }

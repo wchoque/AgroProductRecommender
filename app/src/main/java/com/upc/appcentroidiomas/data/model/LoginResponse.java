@@ -23,4 +23,6 @@ public class LoginResponse {
     public String displayName;
     @SerializedName("profileImageUrl")
     public String profileImageUrl;
+    @SerializedName("userAccountStatus")
+    public int userAccountStatus;
 }

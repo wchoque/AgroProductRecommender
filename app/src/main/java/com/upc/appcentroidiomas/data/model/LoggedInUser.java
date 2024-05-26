@@ -10,14 +10,16 @@ public class LoggedInUser {
     private String email;
     private int userType;
     private String profileImageUrl;
+    private int userAccountStatus;
 
-    public LoggedInUser(int userId, String userName, String displayName, String email, int userType, String profileImageUrl) {
+    public LoggedInUser(int userId, String userName, String displayName, String email, int userType, String profileImageUrl, int userAccountStatus) {
         this.userId = userId;
         this.userName = userName;
         this.displayName = displayName;
         this.email = email;
         this.userType = userType;
         this.profileImageUrl = profileImageUrl;
+        this.userAccountStatus = userAccountStatus;
     }
 
     public int getUserId() {
@@ -44,7 +46,11 @@ public class LoggedInUser {
         return profileImageUrl;
     }
 
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+    public int getUserAccountStatus() {
+        return userAccountStatus;
+    }
+
+    public boolean isAccountEnabled() {
+        return userAccountStatus == 3;
     }
 }

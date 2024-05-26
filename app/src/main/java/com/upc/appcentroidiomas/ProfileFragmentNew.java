@@ -210,7 +210,10 @@ public class ProfileFragmentNew extends Fragment {
                             profileBio.setText(response.body().bio);
                             profileWebpageUrl.setText(response.body().webpageUrl);
                             profileDni.setText(response.body().dni);
-                            Toast.makeText(getContext(), "Sus datos se han actualizado correctamente", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Sus ha creado la solicitud de actualización de datos", Toast.LENGTH_LONG).show();
+
+                            // Refresh the logged user data and reset options
+                            ((MainScreen) getActivity()).refreshLoggedUserAndOptions();
                         } else {
                             Toast.makeText(getContext(), "No se pudo actualizar la información del perfil", Toast.LENGTH_LONG).show();
                         }
@@ -357,6 +360,8 @@ public class ProfileFragmentNew extends Fragment {
             btnChangePassword.setVisibility(View.VISIBLE);
         }
     }
+
+
 
     @Override
     public void onDestroyView() {

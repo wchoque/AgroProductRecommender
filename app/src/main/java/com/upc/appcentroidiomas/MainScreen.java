@@ -75,76 +75,31 @@ public class MainScreen extends AppCompatActivity {
         txtMainProfileEmail = headerView.findViewById(R.id.txtMainProfileEmail);
         mainProfileAvatar = headerView.findViewById(R.id.mainProfileAvatar);
 
-
-        //TODO OCULTAR EN BASE AL TIPO DE USUARIO
-        // Encuentra el ítem del menú que quieres ocultar
         LoginRepository loginRepository = LoginRepository.getInstance(new LoginDataSource(), getApplicationContext());
         LoggedInUser loggedUser = loginRepository.getLoggedUser();
         txtMainProfileDisplayName.setText(loggedUser.getDisplayName());
         txtMainProfileEmail.setText(loggedUser.getEmail());
-        // Load the profile image
+
         String imageUrl = loggedUser.getProfileImageUrl();
         if (imageUrl != null && !imageUrl.isEmpty()) {
-            //AndroidUtil.setProfilePic(getApplicationContext(), Uri.parse(imageUrl), mainProfileAvatar);
-
-            Glide.with(this)
-                    .load(imageUrl)
-                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
-                    .apply(new RequestOptions().skipMemoryCache(true))
-                    .apply(RequestOptions.circleCropTransform())
-                    //.placeholder(R.drawable.placeholder_image) // Optional placeholder image
-                    //.error(R.drawable.error_image) // Optional error image
-                    .into(mainProfileAvatar);
+            AndroidUtil.setProfilePic(getApplicationContext(), Uri.parse(imageUrl), mainProfileAvatar);
         }
 
         int userType = loggedUser.getUserType();
-        //1	Comprador Mayorista
-        if (userType == 1) {
-            // Establece la visibilidad del ítem (ocultar o mostrar)
-            // Usa 'false' para ocultar, 'true' para mostrar
-            MenuItem navHome = navigationView.getMenu().findItem(R.id.nav_home);
-            navHome.setVisible(false);
-        }
+        boolean isAccountEnabled = loggedUser.isAccountEnabled();
 
-        //2	Productor Agricola
-        if (userType == 2) {
+        // Hide all menu items by default
+        hideAllMenuItems(navigationView);
 
-        }
+        // Enable menu items based on user type
+        enableMenuItemsForUserType(navigationView, userType, isAccountEnabled);
 
-        //3	Admin
+        // Navigate to the appropriate fragment
         if (userType == 3) {
-            MenuItem navHome = navigationView.getMenu().findItem(R.id.nav_home);
-            navHome.setVisible(false);
-
-            MenuItem navGallery = navigationView.getMenu().findItem(R.id.nav_gallery);
-            navGallery.setVisible(false);
-
-            MenuItem navFavoriteProduct = navigationView.getMenu().findItem(R.id.nav_favoriteProduct);
-            navFavoriteProduct.setVisible(false);
-
-            MenuItem navProfile = navigationView.getMenu().findItem(R.id.nav_profile);
-            navProfile.setVisible(false);
-
-            //MenuItem navSearchAllProducts = navigationView.getMenu().findItem(R.id.nav_search_all_products);
-            //navSearchAllProducts.setVisible(false);
-
-            MenuItem navChat = navigationView.getMenu().findItem(R.id.nav_chat);
-            navChat.setVisible(false);
-
-            MenuItem navBankAccount = navigationView.getMenu().findItem(R.id.nav_bank_account);
-            navBankAccount.setVisible(true);
-
-            MenuItem navUpdateRequest = navigationView.getMenu().findItem(R.id.nav_update_request);
-            navUpdateRequest.setVisible(true);
-        }
-
-        // Navegar al fragmento de chat si el usuario es admin
-        if (userType == 3) {
-            navController.navigate(R.id.nav_chat);
+            navController.navigate(R.id.nav_update_request);
         } else {
             navController.navigate(R.id.nav_home);
         }
-
 
 /*
 
@@ -230,4 +185,74 @@ public class MainScreen extends AppCompatActivity {
                     || super.onSupportNavigateUp();
 
     }
+
+    private void hideAllMenuItems(NavigationView navigationView) {
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            item.setVisible(false);
+        }
+    }
+
+    private void enableMenuItemsForUserType(NavigationView navigationView, int userType, boolean isAccountEnabled) {
+        Menu menu = navigationView.getMenu();
+
+        switch (userType) {
+            case 1: // Comprador Mayorista
+                // always enabled
+                menu.findItem(R.id.nav_profile).setVisible(true);
+
+                // Show other menu items based on account enabled status
+                menu.findItem(R.id.nav_home).setVisible(isAccountEnabled);
+                menu.findItem(R.id.nav_gallery).setVisible(isAccountEnabled);
+                menu.findItem(R.id.nav_favoriteProduct).setVisible(isAccountEnabled);
+                menu.findItem(R.id.nav_chat).setVisible(isAccountEnabled);
+                break;
+
+            case 2: // Productor Agricola
+                // always enabled
+                menu.findItem(R.id.nav_profile).setVisible(true);
+
+                // Show other menu items based on account enabled status
+                menu.findItem(R.id.nav_home).setVisible(isAccountEnabled);
+                menu.findItem(R.id.nav_gallery).setVisible(isAccountEnabled);
+                menu.findItem(R.id.nav_favoriteProduct).setVisible(isAccountEnabled);
+                menu.findItem(R.id.nav_chat).setVisible(isAccountEnabled);
+                menu.findItem(R.id.nav_bank_account).setVisible(isAccountEnabled);
+                break;
+
+            case 3: // Admin
+                // Show only the update request menu item for admin
+                menu.findItem(R.id.nav_update_request).setVisible(true);
+                break;
+        }
+    }
+
+    public void refreshLoggedUserAndOptions() {
+        // Assuming you have a method in LoginRepository to refresh user data
+        LoginRepository loginRepository = LoginRepository.getInstance(new LoginDataSource(), getApplicationContext());
+        loginRepository.refreshLoggedUser(new LoginRepository.RefreshUserCallback() {
+            @Override
+            public void onRefresh(LoggedInUser updatedUser) {
+                // Update the navigation header with new user details
+                txtMainProfileDisplayName.setText(updatedUser.getDisplayName());
+                txtMainProfileEmail.setText(updatedUser.getEmail());
+
+                String imageUrl = updatedUser.getProfileImageUrl();
+                if (imageUrl != null && !imageUrl.isEmpty()) {
+                    AndroidUtil.setProfilePic(getApplicationContext(), Uri.parse(imageUrl), mainProfileAvatar);
+                }
+
+                // Reset the menu options
+                hideAllMenuItems(binding.navView);
+                enableMenuItemsForUserType(binding.navView, updatedUser.getUserType(), updatedUser.isAccountEnabled());
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(MainScreen.this, "Failed to refresh user data", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }
