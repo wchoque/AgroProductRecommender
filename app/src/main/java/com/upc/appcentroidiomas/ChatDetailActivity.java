@@ -1,19 +1,17 @@
 package com.upc.appcentroidiomas;
 
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,16 +21,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.upc.appcentroidiomas.adapter.ChatRecyclerAdapter;
 import com.upc.appcentroidiomas.api.ApiContants;
-import com.upc.appcentroidiomas.api.ChatApi;
 import com.upc.appcentroidiomas.api.ProductChatApi;
 import com.upc.appcentroidiomas.data.LoginDataSource;
 import com.upc.appcentroidiomas.data.LoginRepository;
 import com.upc.appcentroidiomas.data.model.ChatMessageResponse;
-import com.upc.appcentroidiomas.data.model.HistoryChatResponse;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.data.model.NewMessageModel;
 import com.upc.appcentroidiomas.data.model.NewMessageResponse;
@@ -47,7 +41,6 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -69,6 +62,8 @@ public class ChatDetailActivity extends AppCompatActivity {
     TextView otherUsername;
     RecyclerView recyclerView;
     ImageView imageView;
+    ImageButton orderCreateBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +75,7 @@ public class ChatDetailActivity extends AppCompatActivity {
 
         messageInput = findViewById(R.id.chat_message_input);
         sendMessageBtn = findViewById(R.id.message_send_btn);
+        orderCreateBtn = findViewById(R.id.order_create_btn);
         backBtn = findViewById(R.id.back_btn);
         otherUsername = findViewById(R.id.other_username);
         recyclerView = findViewById(R.id.chat_recycler_view);
@@ -99,6 +95,10 @@ public class ChatDetailActivity extends AppCompatActivity {
             if (message.isEmpty())
                 return;
             sendMessageToUser(message);
+        }));
+
+        orderCreateBtn.setOnClickListener((v -> {
+            showOrderConfirmationDialog();
         }));
 
         //getOrCreateChatroomModel();
@@ -292,5 +292,33 @@ public class ChatDetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void showOrderConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirmar");
+        builder.setMessage("¿Estás seguro de generar la orden de compra?");
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Call method to create order
+                createOrder();
+                //after send the message go to orders created main list
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void createOrder() {
+        // Implement order creation logic here
+        Toast.makeText(ChatDetailActivity.this, "La orden de compra fue creada satisfactoriamente!.", Toast.LENGTH_SHORT).show();
     }
 }

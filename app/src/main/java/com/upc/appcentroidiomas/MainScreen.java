@@ -85,17 +85,14 @@ public class MainScreen extends AppCompatActivity {
             AndroidUtil.setProfilePic(getApplicationContext(), Uri.parse(imageUrl), mainProfileAvatar);
         }
 
-        int userType = loggedUser.getUserType();
-        boolean isAccountEnabled = loggedUser.isAccountEnabled();
-
         // Hide all menu items by default
         hideAllMenuItems(navigationView);
 
         // Enable menu items based on user type
-        enableMenuItemsForUserType(navigationView, userType, isAccountEnabled);
+        enableMenuItemsForUserType(navigationView, loggedUser);
 
         // Navigate to the appropriate fragment
-        if (userType == 3) {
+        if (loggedUser.isAdmin()) {
             navController.navigate(R.id.nav_update_request);
         } else {
             navController.navigate(R.id.nav_home);
@@ -194,37 +191,33 @@ public class MainScreen extends AppCompatActivity {
         }
     }
 
-    private void enableMenuItemsForUserType(NavigationView navigationView, int userType, boolean isAccountEnabled) {
+    private void enableMenuItemsForUserType(NavigationView navigationView, LoggedInUser loggedInUser) {
         Menu menu = navigationView.getMenu();
+        if (loggedInUser.isAdmin()){
+            // Show only the update request menu item for admin
+            menu.findItem(R.id.nav_update_request).setVisible(true);
+        }
 
-        switch (userType) {
-            case 1: // Comprador Mayorista
-                // always enabled
-                menu.findItem(R.id.nav_profile).setVisible(true);
+        if (loggedInUser.isCompradorMayorista()){
+            // always enabled
+            menu.findItem(R.id.nav_profile).setVisible(true);
 
-                // Show other menu items based on account enabled status
-                menu.findItem(R.id.nav_home).setVisible(isAccountEnabled);
-                menu.findItem(R.id.nav_gallery).setVisible(isAccountEnabled);
-                menu.findItem(R.id.nav_favoriteProduct).setVisible(isAccountEnabled);
-                menu.findItem(R.id.nav_chat).setVisible(isAccountEnabled);
-                break;
+            // Show other menu items based on account enabled status
+            menu.findItem(R.id.nav_home).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_favoriteProduct).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_chat).setVisible(loggedInUser.isAccountEnabled());
+        }
 
-            case 2: // Productor Agricola
-                // always enabled
-                menu.findItem(R.id.nav_profile).setVisible(true);
+        if (loggedInUser.isProductorAgricola()){
+            // always enabled
+            menu.findItem(R.id.nav_profile).setVisible(true);
 
-                // Show other menu items based on account enabled status
-                menu.findItem(R.id.nav_home).setVisible(isAccountEnabled);
-                menu.findItem(R.id.nav_gallery).setVisible(isAccountEnabled);
-                menu.findItem(R.id.nav_favoriteProduct).setVisible(isAccountEnabled);
-                menu.findItem(R.id.nav_chat).setVisible(isAccountEnabled);
-                menu.findItem(R.id.nav_bank_account).setVisible(isAccountEnabled);
-                break;
-
-            case 3: // Admin
-                // Show only the update request menu item for admin
-                menu.findItem(R.id.nav_update_request).setVisible(true);
-                break;
+            // Show other menu items based on account enabled status
+            menu.findItem(R.id.nav_home).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_gallery).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_favoriteProduct).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_chat).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_bank_account).setVisible(loggedInUser.isAccountEnabled());
         }
     }
 
@@ -245,7 +238,7 @@ public class MainScreen extends AppCompatActivity {
 
                 // Reset the menu options
                 hideAllMenuItems(binding.navView);
-                enableMenuItemsForUserType(binding.navView, updatedUser.getUserType(), updatedUser.isAccountEnabled());
+                enableMenuItemsForUserType(binding.navView, updatedUser);
             }
 
             @Override

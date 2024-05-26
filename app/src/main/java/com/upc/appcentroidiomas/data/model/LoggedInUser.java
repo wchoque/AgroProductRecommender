@@ -53,4 +53,16 @@ public class LoggedInUser {
     public boolean isAccountEnabled() {
         return userAccountStatus == 3;
     }
+
+    public boolean isAdmin() {
+        return userType == 1;
+    }
+
+    public boolean isProductorAgricola() {
+        return userType == 3;
+    }
+
+    public boolean isCompradorMayorista() {
+        return userType == 2;
+    }
 }
