@@ -1,0 +1,119 @@
+package com.upc.appcentroidiomas;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.upc.appcentroidiomas.api.ApiContants;
+import com.upc.appcentroidiomas.api.OrderApi;
+import com.upc.appcentroidiomas.data.LoginDataSource;
+import com.upc.appcentroidiomas.data.LoginRepository;
+import com.upc.appcentroidiomas.data.model.OrderHistoryResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class OrderHistoryFragment extends Fragment {
+    private List<OrderHistoryResponse> ordersHistory;
+    private OrderHistoryAdapter orderHistoryAdapter;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_order_history, container, false);
+        super.onCreate(savedInstanceState);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewOrdersHistory);
+
+        ordersHistory = new ArrayList<>();
+
+        orderHistoryAdapter = new OrderHistoryAdapter(ordersHistory, getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(orderHistoryAdapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override // Un toque sencillo
+            public void onClick(View view, int position) {
+                OrderHistoryResponse orderHistoryResponse  = ordersHistory.get(position);
+                Intent intent = new Intent(getContext(), ActivityOrderHistory.class);
+
+                intent.putExtra("orderId", orderHistoryResponse.orderId);
+                intent.putExtra("productChatMessageId", orderHistoryResponse.productChatMessageId);
+                intent.putExtra("status", orderHistoryResponse.status);
+                intent.putExtra("buyerName", orderHistoryResponse.buyerName);
+                intent.putExtra("productTypeName", orderHistoryResponse.productTypeName);
+                intent.putExtra("productDescription", orderHistoryResponse.productDescription);
+                intent.putExtra("quantity", orderHistoryResponse.quantity);
+                intent.putExtra("orderDate", orderHistoryResponse.orderDate);
+                intent.putExtra("harvestDate", orderHistoryResponse.harvestDate);
+                intent.putExtra("totalAmount", orderHistoryResponse.totalAmount);
+                startActivity(intent);
+            }
+
+            @Override // Un toque largo
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+        refreshOrdersHistoryList();
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshOrdersHistoryList();
+    }
+
+    public void refreshOrdersHistoryList() {
+        if (orderHistoryAdapter == null) return;
+
+        // can be launched in a separate asynchronous job
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiContants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        LoginRepository loginRepository = LoginRepository.getInstance(new LoginDataSource(), getContext());
+
+        OrderApi orderApi = retrofit.create(OrderApi.class);
+        Call<ArrayList<OrderHistoryResponse>> call = orderApi.getOrdersHistory(loginRepository.getLoggedUser().getUserId());
+
+        call.enqueue(new Callback<ArrayList<OrderHistoryResponse>>() {
+            @ Override
+            public void onResponse(Call<ArrayList<OrderHistoryResponse>> call, Response<ArrayList<OrderHistoryResponse>> response) {
+                if (response.isSuccessful()){
+                    ordersHistory = response.body();
+                    orderHistoryAdapter.setOrdersHistory(ordersHistory);
+                    orderHistoryAdapter.notifyDataSetChanged();
+
+                    if (ordersHistory.size() == 0){
+                        Toast.makeText(getContext(), "No se encontraron ordenes de compra", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<OrderHistoryResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+}

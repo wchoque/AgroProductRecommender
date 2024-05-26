@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,8 @@ public class MainScreen extends AppCompatActivity {
                 R.id.nav_bank_account,
                 R.id.nav_search_all_products,
                 R.id.nav_update_request,
-                R.id.nav_order
+                R.id.nav_order,
+                R.id.nav_order_history
         )
                 .setOpenableLayout(drawer)
                 .build();
@@ -76,6 +78,8 @@ public class MainScreen extends AppCompatActivity {
         txtMainProfileDisplayName = headerView.findViewById(R.id.txtMainProfileDisplayName);
         txtMainProfileEmail = headerView.findViewById(R.id.txtMainProfileEmail);
         mainProfileAvatar = headerView.findViewById(R.id.mainProfileAvatar);
+        RatingBar ratingBar = headerView.findViewById(R.id.ratingBar);
+        ratingBar.setRating(3.85f);
 
         LoginRepository loginRepository = LoginRepository.getInstance(new LoginDataSource(), getApplicationContext());
         LoggedInUser loggedUser = loginRepository.getLoggedUser();
@@ -208,6 +212,7 @@ public class MainScreen extends AppCompatActivity {
             menu.findItem(R.id.nav_home).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_favoriteProduct).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_chat).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_order_history).setVisible(loggedInUser.isAccountEnabled());
         }
 
         if (loggedInUser.isProductorAgricola()){
@@ -221,6 +226,7 @@ public class MainScreen extends AppCompatActivity {
             menu.findItem(R.id.nav_chat).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_bank_account).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_order).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_order_history).setVisible(loggedInUser.isAccountEnabled());
         }
     }
 

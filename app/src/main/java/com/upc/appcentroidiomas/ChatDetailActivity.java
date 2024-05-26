@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.upc.appcentroidiomas.adapter.ChatRecyclerAdapter;
 import com.upc.appcentroidiomas.api.ApiContants;
+import com.upc.appcentroidiomas.api.OrderApi;
 import com.upc.appcentroidiomas.api.ProductChatApi;
 import com.upc.appcentroidiomas.data.LoginDataSource;
 import com.upc.appcentroidiomas.data.LoginRepository;
@@ -30,6 +32,7 @@ import com.upc.appcentroidiomas.data.model.ChatMessageResponse;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.data.model.NewMessageModel;
 import com.upc.appcentroidiomas.data.model.NewMessageResponse;
+import com.upc.appcentroidiomas.data.model.OrderResponse;
 import com.upc.appcentroidiomas.data.model.UserInformationModel;
 import com.upc.appcentroidiomas.models.ChatMessageModel;
 import com.upc.appcentroidiomas.utils.AndroidUtil;
@@ -287,7 +290,37 @@ public class ChatDetailActivity extends AppCompatActivity {
     }
 
     private void createOrder() {
-        // Implement order creation logic here
-        Toast.makeText(ChatDetailActivity.this, "La orden de compra fue creada satisfactoriamente!.", Toast.LENGTH_SHORT).show();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiContants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        OrderApi orderApi = retrofit.create(OrderApi.class);
+
+        int productChatMessageId = 1;
+        Call<OrderResponse> call = orderApi.create(productChatMessageId);
+        call.enqueue(new Callback<OrderResponse>() {
+            @Override
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(ChatDetailActivity.this, "La orden de compra fue creada satisfactoriamente!.", Toast.LENGTH_SHORT).show();
+                    // Navigate to OrderFragment
+                    OrderFragment orderFragment = new OrderFragment();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.nav_host_fragment_content_main_screen, orderFragment)
+                            .addToBackStack(null)
+                            .commit();
+
+                } else {
+                    Toast.makeText(ChatDetailActivity.this, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
+                Toast.makeText(ChatDetailActivity.this, "Ha sucedido un error, intente nuevamente mas tarde.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

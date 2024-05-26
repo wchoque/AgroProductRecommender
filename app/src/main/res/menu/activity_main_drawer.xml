@@ -47,4 +47,10 @@
             android:icon="@drawable/baseline_shopping_cart_24"
             android:title="@string/menu_order" />
     </group>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_order_history"
+            android:icon="@drawable/baseline_shopping_cart_24"
+            android:title="@string/menu_order_history" />
+    </group>
 </menu>

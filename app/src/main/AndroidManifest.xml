@@ -115,6 +115,10 @@
             android:name=".ActivityOrder"
             android:label="Ordenes de compra" />
 
+        <activity
+            android:name=".ActivityOrderHistory"
+            android:label="Historial Ordenes de compra" />
+
         <!--<activity
             android:name=".ProductsListActivity"
             android:label="Lista de productos" />-->

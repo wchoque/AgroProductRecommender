@@ -57,16 +57,20 @@
         android:id="@+id/nav_bank_account"
         android:name="com.upc.appcentroidiomas.BankAccountFragment"
         android:label="@string/menu_bank_account"
-        tools:layout="@layout/activity_chat" />
+        tools:layout="@layout/activity_bank_account" />
     <fragment
         android:id="@+id/nav_update_request"
         android:name="com.upc.appcentroidiomas.UpdateRequestFragment"
         android:label="@string/menu_update_request"
-        tools:layout="@layout/activity_chat" />
+        tools:layout="@layout/activity_update_request" />
     <fragment
         android:id="@+id/nav_order"
         android:name="com.upc.appcentroidiomas.OrderFragment"
         android:label="@string/menu_order"
-        tools:layout="@layout/activity_chat" />
-
+        tools:layout="@layout/activity_order" />
+    <fragment
+        android:id="@+id/nav_order_history"
+        android:name="com.upc.appcentroidiomas.OrderHistoryFragment"
+        android:label="@string/menu_order_history"
+        tools:layout="@layout/activity_order_history" />
 </navigation>
