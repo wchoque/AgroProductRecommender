@@ -7,8 +7,10 @@ public class OrderResponse {
     public int orderId;
     @SerializedName("productChatMessageId")
     public int productChatMessageId;
-    @SerializedName("buyerName")
-    public String buyerName;
+    @SerializedName("otherUserName")
+    public String otherUserName;
+    @SerializedName("otherUserId")
+    public String otherUserId;
     @SerializedName("productTypeName")
     public String productTypeName;
     @SerializedName("productDescription")

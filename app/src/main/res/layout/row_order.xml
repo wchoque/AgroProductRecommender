@@ -20,7 +20,7 @@
         android:layout_marginBottom="4dp" />
 
     <TextView
-        android:id="@+id/row_order_buyer_name"
+        android:id="@+id/row_order_other_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Comprador:"

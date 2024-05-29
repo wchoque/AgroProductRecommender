@@ -56,7 +56,7 @@ public class OrderFragment extends Fragment {
                 intent.putExtra("orderId", orderResponse.orderId);
                 intent.putExtra("productChatMessageId", orderResponse.productChatMessageId);
                 intent.putExtra("status", orderResponse.status);
-                intent.putExtra("buyerName", orderResponse.buyerName);
+                intent.putExtra("otherUserName", orderResponse.otherUserName);
                 intent.putExtra("productTypeName", orderResponse.productTypeName);
                 intent.putExtra("productDescription", orderResponse.productDescription);
                 intent.putExtra("quantity", orderResponse.quantity);

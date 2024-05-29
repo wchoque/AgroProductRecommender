@@ -59,6 +59,7 @@ public class MainScreen extends AppCompatActivity {
                 R.id.nav_gallery,
                 R.id.nav_favoriteProduct,
                 R.id.nav_profile,
+                R.id.nav_manage_offer,
                 R.id.nav_chat,
                 R.id.nav_bank_account,
                 R.id.nav_search_all_products,
@@ -102,6 +103,9 @@ public class MainScreen extends AppCompatActivity {
             navController.navigate(R.id.nav_update_request);
         } else {
             navController.navigate(R.id.nav_home);
+        }
+        if (!loggedUser.isAccountEnabled()) {
+            navController.navigate(R.id.nav_profile);
         }
 
 /*
@@ -224,6 +228,7 @@ public class MainScreen extends AppCompatActivity {
             menu.findItem(R.id.nav_gallery).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_favoriteProduct).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_chat).setVisible(loggedInUser.isAccountEnabled());
+            menu.findItem(R.id.nav_manage_offer).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_bank_account).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_order).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_order_history).setVisible(loggedInUser.isAccountEnabled());

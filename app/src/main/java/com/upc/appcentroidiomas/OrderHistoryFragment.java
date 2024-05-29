@@ -56,13 +56,15 @@ public class OrderHistoryFragment extends Fragment {
                 intent.putExtra("orderId", orderHistoryResponse.orderId);
                 intent.putExtra("productChatMessageId", orderHistoryResponse.productChatMessageId);
                 intent.putExtra("status", orderHistoryResponse.status);
-                intent.putExtra("buyerName", orderHistoryResponse.buyerName);
+                intent.putExtra("otherUserName", orderHistoryResponse.otherUserName);
+                intent.putExtra("otherUserId", orderHistoryResponse.otherUserId);
                 intent.putExtra("productTypeName", orderHistoryResponse.productTypeName);
                 intent.putExtra("productDescription", orderHistoryResponse.productDescription);
                 intent.putExtra("quantity", orderHistoryResponse.quantity);
                 intent.putExtra("orderDate", orderHistoryResponse.orderDate);
                 intent.putExtra("harvestDate", orderHistoryResponse.harvestDate);
                 intent.putExtra("totalAmount", orderHistoryResponse.totalAmount);
+                intent.putExtra("rating", orderHistoryResponse.rating);
                 startActivity(intent);
             }
 

@@ -31,6 +31,12 @@
     </group>
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_manage_offer"
+            android:icon="@drawable/baseline_local_offer_24"
+            android:title="@string/menu_manage_offer" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item
             android:id="@+id/nav_bank_account"
             android:icon="@drawable/baseline_account_balance_24"
             android:title="@string/menu_bank_account" />

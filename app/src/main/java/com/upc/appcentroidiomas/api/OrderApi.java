@@ -1,6 +1,7 @@
 package com.upc.appcentroidiomas.api;
 
 import com.upc.appcentroidiomas.data.model.OrderHistoryResponse;
+import com.upc.appcentroidiomas.data.model.OrderRatingModel;
 import com.upc.appcentroidiomas.data.model.OrderResponse;
 import com.upc.appcentroidiomas.data.model.UpdateOrderModel;
 
@@ -21,6 +22,8 @@ public interface OrderApi {
     Call<OrderResponse> update(@Path("id") int orderId, @Body UpdateOrderModel updateOrderModel);
     @POST("orders")
     Call<OrderResponse> create(@Query("chatMessageId") int chatMessageId);
-    @GET("orders/users/{userId}")
+    @GET("orders-history/users/{userId}")
     Call<ArrayList<OrderHistoryResponse>> getOrdersHistory(@Path("userId") int userId);
+    @POST("orders/{id}/rate")
+    Call<Void> rate(@Path("id") int id, @Body OrderRatingModel ratingModel);
 }

@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.upc.appcentroidiomas.data.LoginDataSource;
+import com.upc.appcentroidiomas.data.LoginRepository;
+import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.data.model.OrderHistoryResponse;
 
 import java.util.List;
@@ -42,11 +45,25 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     public void onBindViewHolder(@NonNull OrderHistoryAdapter.MyViewHolder holder, int position) {
         OrderHistoryResponse orderHistory = ordersHistory.get(position);
         holder.rowOrderHistoryCreationDate.setText("Fecha de creación: " + orderHistory.orderDate);
-        holder.rowOrderHistoryBuyerName.setText("Comprador: " + orderHistory.buyerName);
+
+        LoginRepository loginRepository = LoginRepository.getInstance(new LoginDataSource(), context);
+        LoggedInUser loggedUser = loginRepository.getLoggedUser();
+        if (loggedUser.isProductorAgricola()){
+            holder.rowOrderHistoryOtherUserName.setText("Comprador: " + orderHistory.otherUserName);
+        }else{
+            holder.rowOrderHistoryOtherUserName.setText("Vendedor: " + orderHistory.otherUserName);
+        }
+
         holder.rowOrderHistoryProductTypeName.setText("Producto: " + orderHistory.productTypeName);
         holder.rowOrderHistoryQuantity.setText("Cantidad: " + orderHistory.quantity);
         holder.rowOrderHistoryTotalAmount.setText("Total a pagar: " + orderHistory.totalAmount);
-        holder.rowOrderHistoryRatingBar.setRating(4f);
+
+        if (orderHistory.rating == 0) {
+            holder.rowOrderHistoryRatingBar.setVisibility(View.GONE);
+        } else {
+            holder.rowOrderHistoryRatingBar.setVisibility(View.VISIBLE);
+            holder.rowOrderHistoryRatingBar.setRating(orderHistory.rating);
+        }
     }
 
     @Override
@@ -55,13 +72,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView rowOrderHistoryCreationDate, rowOrderHistoryBuyerName, rowOrderHistoryProductTypeName, rowOrderHistoryQuantity, rowOrderHistoryTotalAmount;
+        TextView rowOrderHistoryCreationDate, rowOrderHistoryOtherUserName, rowOrderHistoryProductTypeName, rowOrderHistoryQuantity, rowOrderHistoryTotalAmount;
         RatingBar rowOrderHistoryRatingBar;
 
         MyViewHolder(View itemView) {
             super(itemView);
             this.rowOrderHistoryCreationDate = itemView.findViewById(R.id.row_order_history_creation_date);
-            this.rowOrderHistoryBuyerName = itemView.findViewById(R.id.row_order_history_buyer_name);
+            this.rowOrderHistoryOtherUserName = itemView.findViewById(R.id.row_order_history_other_user_name);
             this.rowOrderHistoryProductTypeName = itemView.findViewById(R.id.row_order_history_product_type_name);
             this.rowOrderHistoryQuantity = itemView.findViewById(R.id.row_order_history_quantity);
             this.rowOrderHistoryTotalAmount = itemView.findViewById(R.id.row_order_history_total_amount);

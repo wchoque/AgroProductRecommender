@@ -20,6 +20,7 @@ import com.upc.appcentroidiomas.data.LoginDataSource;
 import com.upc.appcentroidiomas.data.LoginRepository;
 import com.upc.appcentroidiomas.data.model.AvailableChatUserDetailResponse;
 import com.upc.appcentroidiomas.data.model.LoggedInUser;
+import com.upc.appcentroidiomas.data.model.OrderRatingModel;
 import com.upc.appcentroidiomas.data.model.OrderResponse;
 import com.upc.appcentroidiomas.data.model.UpdateOrderModel;
 
@@ -31,11 +32,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ActivityOrderHistory extends AppCompatActivity {
 
-    EditText txtOrderHistoryCreationDate, txtOrderHistoryBuyer, txtOrderHistoryProductType, txtOrderHistoryProductDescription, txtOrderHistoryQuantity, txtOrderHistoryHarvestDate, txtOrderHistoryTotalAmount;
+    EditText txtOrderHistoryCreationDate, txtOrderHistoryOtherUser, txtOrderHistoryProductType, txtOrderHistoryProductDescription, txtOrderHistoryQuantity, txtOrderHistoryHarvestDate, txtOrderHistoryTotalAmount;
     Spinner spinnerOrderStatus;
+    RatingBar orderHistoryRatingBar;
     Button btnRate;
 
     int orderId;
+    int otherUserId;
     int productChatMessageId;
 
     @Override
@@ -44,14 +47,14 @@ public class ActivityOrderHistory extends AppCompatActivity {
         setContentView(R.layout.activity_order_history_detail);
 
         txtOrderHistoryCreationDate = findViewById(R.id.txt_order_history_creation_date);
-        txtOrderHistoryBuyer = findViewById(R.id.txt_order_history_buyer);
+        txtOrderHistoryOtherUser = findViewById(R.id.txt_order_history_other_user);
         txtOrderHistoryProductType = findViewById(R.id.txt_order_history_product_type);
         txtOrderHistoryProductDescription = findViewById(R.id.txt_order_history_product_description);
         txtOrderHistoryQuantity = findViewById(R.id.txt_order_history_quantity);
         txtOrderHistoryHarvestDate = findViewById(R.id.txt_order_history_harvest_date);
         txtOrderHistoryTotalAmount = findViewById(R.id.txt_order_history_total_amount);
         spinnerOrderStatus = findViewById(R.id.spinner_order_status);
-
+        orderHistoryRatingBar = findViewById(R.id.order_history_rating_bar);
 
         ArrayAdapter<OrderStatus> statusAdapter = new ArrayAdapter<>(
                 this,
@@ -75,12 +78,14 @@ public class ActivityOrderHistory extends AppCompatActivity {
     private void setInitialValues() {
         // Actualizar
         orderId = getIntent().getIntExtra("orderId", 0);
+        otherUserId = getIntent().getIntExtra("otherUserId", 0);
+
         productChatMessageId = getIntent().getIntExtra("productChatMessageId", 0);
 
         // Load order details from the intent or make an API call to get the order details
         // For demonstration, setting the intent data
         txtOrderHistoryCreationDate.setText(getIntent().getStringExtra("orderDate"));
-        txtOrderHistoryBuyer.setText(getIntent().getStringExtra("buyerName"));
+        txtOrderHistoryOtherUser.setText(getIntent().getStringExtra("otherUserName"));
         txtOrderHistoryProductType.setText(getIntent().getStringExtra("productTypeName"));
         txtOrderHistoryProductDescription.setText(getIntent().getStringExtra("productDescription"));
         txtOrderHistoryQuantity.setText(getIntent().getIntExtra("quantity",0) + "");
@@ -92,6 +97,17 @@ public class ActivityOrderHistory extends AppCompatActivity {
         ArrayAdapter<OrderStatus> adapter = (ArrayAdapter<OrderStatus>) spinnerOrderStatus.getAdapter();
         int position = adapter.getPosition(orderStatus);
         spinnerOrderStatus.setSelection(position);
+
+        // Check the rating value and set the visibility of the button
+        int rating = getIntent().getIntExtra("rating", 0);
+        orderHistoryRatingBar.setRating(rating);
+        if (rating > 0) {
+            orderHistoryRatingBar.setVisibility(View.VISIBLE);
+            btnRate.setVisibility(View.GONE);
+        } else {
+            orderHistoryRatingBar.setVisibility(View.GONE);
+            btnRate.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showRatingDialog() {
@@ -105,9 +121,7 @@ public class ActivityOrderHistory extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int rating = (int) ratingBar.getRating();
-
-                Toast.makeText(ActivityOrderHistory.this, "Calificación enviada correctamente.", Toast.LENGTH_LONG).show();
-                //submitRating(rating);
+                submitRating(rating);
                 dialog.dismiss();
             }
         });
@@ -116,11 +130,14 @@ public class ActivityOrderHistory extends AppCompatActivity {
     }
 
     private void submitRating(int rating) {
-        ;
-        UpdateOrderModel order = new UpdateOrderModel();
-        order.orderId = orderId;
-        order.status = ((OrderStatus) spinnerOrderStatus.getSelectedItem()).ordinal();
-        //order.rating = rating;  // Add the rating to the order model TODO
+        LoginRepository loginRepository = LoginRepository.getInstance(new LoginDataSource(), getApplicationContext());
+        LoggedInUser loggedUser = loginRepository.getLoggedUser();
+
+        OrderRatingModel orderRating = new OrderRatingModel();
+        orderRating.raterUserId = loggedUser.getUserId();
+        orderRating.ratedUserId = otherUserId;
+        orderRating.rating = rating;
+        orderRating.comment = "";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiContants.BASE_URL)
@@ -128,10 +145,10 @@ public class ActivityOrderHistory extends AppCompatActivity {
                 .build();
 
         OrderApi orderApi = retrofit.create(OrderApi.class);
-        Call<OrderResponse> call = orderApi.update(orderId, order);
-        call.enqueue(new Callback<OrderResponse>() {
+        Call<Void> call = orderApi.rate(orderId, orderRating);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(ActivityOrderHistory.this, "Orden actualizada correctamente.", Toast.LENGTH_LONG).show();
                     finish();
@@ -141,7 +158,7 @@ public class ActivityOrderHistory extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<OrderResponse> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(ActivityOrderHistory.this, "Ha ocurrido un error.", Toast.LENGTH_LONG).show();
             }
         });

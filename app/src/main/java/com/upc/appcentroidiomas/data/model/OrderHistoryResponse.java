@@ -7,8 +7,10 @@ public class OrderHistoryResponse {
     public int orderId;
     @SerializedName("productChatMessageId")
     public int productChatMessageId;
-    @SerializedName("buyerName")
-    public String buyerName;
+    @SerializedName("otherUserName")
+    public String otherUserName;
+    @SerializedName("otherUserId")
+    public int otherUserId;
     @SerializedName("productTypeName")
     public String productTypeName;
     @SerializedName("productDescription")
@@ -23,4 +25,6 @@ public class OrderHistoryResponse {
     public int totalAmount;
     @SerializedName("status")
     public int status;
+    @SerializedName("rating")
+    public int rating;
 }

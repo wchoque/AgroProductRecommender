@@ -4,7 +4,7 @@ public enum OrderStatus {
     NEW(0, "Nueva orden"),
     PAYMENT_COMPLETED(1, "Pago completado"),
     CANCELLED(2, "Anulada"),
-    RECEIVED(3, "Recibida");
+    COMPLETED(3, "Completada");
 
     private int value;
     private String displayName;

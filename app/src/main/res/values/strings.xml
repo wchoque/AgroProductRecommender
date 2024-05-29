@@ -37,6 +37,7 @@
     <string name="menu_favoriteProduct">Favoritos</string>
     <string name="menu_profile">Mi perfil</string>
     <string name="menu_chat">Chat</string>
+    <string name="menu_manage_offer">Gestionar ofertas</string>
     <string name="menu_bank_account">Cuentas Bancarias</string>
     <string name="menu_update_request">Solicitudes de actualización</string>
     <string name="menu_order">Ordenes de compra</string>

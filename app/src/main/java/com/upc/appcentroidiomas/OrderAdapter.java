@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.upc.appcentroidiomas.data.LoginDataSource;
+import com.upc.appcentroidiomas.data.LoginRepository;
+import com.upc.appcentroidiomas.data.model.LoggedInUser;
 import com.upc.appcentroidiomas.data.model.OrderResponse;
 
 import java.util.List;
@@ -41,7 +44,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull OrderAdapter.MyViewHolder holder, int position) {
         OrderResponse order = orders.get(position);
         holder.rowOrderCreationDate.setText("Fecha de creación: " + order.orderDate);
-        holder.rowOrderBuyerName.setText("Comprador: " + order.buyerName);
+
+        LoginRepository loginRepository = LoginRepository.getInstance(new LoginDataSource(), context);
+        LoggedInUser loggedUser = loginRepository.getLoggedUser();
+        if (loggedUser.isProductorAgricola()){
+            holder.rowOrderOtherUserName.setText("Comprador: " + order.otherUserName);
+        }else{
+            holder.rowOrderOtherUserName.setText("Vendedor: " + order.otherUserName);
+        }
+
         holder.rowOrderProductTypeName.setText("Producto: " + order.productTypeName);
         holder.rowOrderQuantity.setText("Cantidad: " + order.quantity);
         holder.rowOrderTotalAmount.setText("Total a pagar: " + order.totalAmount);
@@ -53,12 +64,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView rowOrderCreationDate, rowOrderBuyerName, rowOrderProductTypeName, rowOrderQuantity, rowOrderTotalAmount;
+        TextView rowOrderCreationDate, rowOrderOtherUserName, rowOrderProductTypeName, rowOrderQuantity, rowOrderTotalAmount;
 
         MyViewHolder(View itemView) {
             super(itemView);
             this.rowOrderCreationDate = itemView.findViewById(R.id.row_order_creation_date);
-            this.rowOrderBuyerName = itemView.findViewById(R.id.row_order_buyer_name);
+            this.rowOrderOtherUserName = itemView.findViewById(R.id.row_order_other_user_name);
             this.rowOrderProductTypeName = itemView.findViewById(R.id.row_order_product_type_name);
             this.rowOrderQuantity = itemView.findViewById(R.id.row_order_quantity);
             this.rowOrderTotalAmount = itemView.findViewById(R.id.row_order_total_amount);

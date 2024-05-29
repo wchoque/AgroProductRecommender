@@ -29,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ActivityOrder extends AppCompatActivity {
 
-    EditText txtOrderCreationDate, txtOrderBuyer, txtOrderProductType, txtOrderProductDescription, txtOrderQuantity, txtOrderHarvestDate, txtOrderTotalAmount;
+    EditText txtOrderCreationDate, txtOrderOtherUser, txtOrderProductType, txtOrderProductDescription, txtOrderQuantity, txtOrderHarvestDate, txtOrderTotalAmount;
     Spinner spinnerOrderStatus;
     Button btnUpdateOrder, btnGotoChat;
 
@@ -42,7 +42,7 @@ public class ActivityOrder extends AppCompatActivity {
         setContentView(R.layout.activity_order_detail);
 
         txtOrderCreationDate = findViewById(R.id.txt_order_creation_date);
-        txtOrderBuyer = findViewById(R.id.txt_order_buyer);
+        txtOrderOtherUser = findViewById(R.id.txt_order_other_user);
         txtOrderProductType = findViewById(R.id.txt_order_product_type);
         txtOrderProductDescription = findViewById(R.id.txt_order_product_description);
         txtOrderQuantity = findViewById(R.id.txt_order_quantity);
@@ -86,7 +86,7 @@ public class ActivityOrder extends AppCompatActivity {
         // Load order details from the intent or make an API call to get the order details
         // For demonstration, setting the intent data
         txtOrderCreationDate.setText(getIntent().getStringExtra("orderDate"));
-        txtOrderBuyer.setText(getIntent().getStringExtra("buyerName"));
+        txtOrderOtherUser.setText(getIntent().getStringExtra("otherUserName"));
         txtOrderProductType.setText(getIntent().getStringExtra("productTypeName"));
         txtOrderProductDescription.setText(getIntent().getStringExtra("productDescription"));
         txtOrderQuantity.setText(getIntent().getIntExtra("quantity",0) + "");

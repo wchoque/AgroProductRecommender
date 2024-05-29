@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@id/txt_order_history_creation_date" />
 
         <EditText
-            android:id="@+id/txt_order_history_buyer"
+            android:id="@+id/txt_order_history_other_user"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -67,7 +67,7 @@
             android:enabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_order_history_buyer" />
+            app:layout_constraintTop_toBottomOf="@id/txt_order_history_other_user" />
 
         <EditText
             android:id="@+id/txt_order_history_product_description"
@@ -121,6 +121,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_order_history_harvest_date" />
 
+        <RatingBar
+            android:id="@+id/order_history_rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_order_history_total_amount"
+            android:numStars="5"
+            android:stepSize="1.0"
+            android:isIndicator="true" />
+
         <Button
             android:id="@+id/btn_rate"
             android:layout_width="wrap_content"
@@ -131,7 +143,7 @@
             android:background="@drawable/btn_rounded_corner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_order_history_total_amount" />
+            app:layout_constraintTop_toBottomOf="@id/order_history_rating_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
