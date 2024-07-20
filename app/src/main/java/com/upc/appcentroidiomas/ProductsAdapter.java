@@ -157,6 +157,14 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.vistaH
                 delete(products.get(position).getId());
             }
         });
+        holder.btnDelete.setVisibility(View.INVISIBLE);
+        holder.btnUpdate.setVisibility(View.INVISIBLE);
+
+        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), context).getLoggedUser();
+        if (loggedInUser.isProductorAgricola()){
+            holder.btnDelete.setVisibility(View.VISIBLE);
+            holder.btnUpdate.setVisibility(View.VISIBLE);
+        }
 
         new DownloadImageTask(holder.rowDefaultImageUrl)
                 .execute(products.get(position).getDefaultImageUrl());

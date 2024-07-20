@@ -49,6 +49,7 @@ public class ProductsListActivity extends Fragment {
         // Configura tus vistas aquí usando view.findViewById(...)
         super.onCreate(savedInstanceState);
 
+
         txtFilter = view.findViewById(R.id.txtFilter);
         btnSearch = view.findViewById(R.id.btnSearch);
         btnSearch.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +68,7 @@ public class ProductsListActivity extends Fragment {
         //recyclerProducts.setAdapter(productsAdapter);
 
         btnAddProduct = view.findViewById(R.id.btnAddProduct);
+        btnAddProduct.setVisibility(View.INVISIBLE);
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +79,12 @@ public class ProductsListActivity extends Fragment {
                 startActivity(intent);
             }
         });
+
+        LoggedInUser loggedInUser = LoginRepository.getInstance(new LoginDataSource(), getContext()).getLoggedUser();
+        if (loggedInUser.isProductorAgricola()){
+            btnAddProduct.setVisibility(View.VISIBLE);
+        }
+
 
         Search();
 

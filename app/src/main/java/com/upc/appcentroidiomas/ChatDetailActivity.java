@@ -297,7 +297,7 @@ public class ChatDetailActivity extends AppCompatActivity {
 
         OrderApi orderApi = retrofit.create(OrderApi.class);
 
-        int productChatMessageId = 1;
+        int productChatMessageId = 18;
         Call<OrderResponse> call = orderApi.create(productChatMessageId);
         call.enqueue(new Callback<OrderResponse>() {
             @Override

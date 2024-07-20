@@ -85,6 +85,8 @@ public class ActivityProduct extends AppCompatActivity implements AdapterView.On
 
         txtPrice = findViewById(R.id.txt_product_price);
 
+
+
         btnConfirmAddProduct = findViewById(R.id.btnConfirmAddProduct);
         btnConfirmAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override

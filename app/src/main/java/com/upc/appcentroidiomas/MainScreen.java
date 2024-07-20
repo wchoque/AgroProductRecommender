@@ -217,6 +217,9 @@ public class MainScreen extends AppCompatActivity {
             menu.findItem(R.id.nav_favoriteProduct).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_chat).setVisible(loggedInUser.isAccountEnabled());
             menu.findItem(R.id.nav_order_history).setVisible(loggedInUser.isAccountEnabled());
+
+             menu.findItem(R.id.nav_home).setTitle("Productos Recomendados");
+
         }
 
         if (loggedInUser.isProductorAgricola()){
